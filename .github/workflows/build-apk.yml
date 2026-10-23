@@ -32,7 +32,14 @@ jobs:
           keyAlias=ascend
           keyPassword=ascend-sideload
           PROPS
-      - run: flutter build apk --release --build-number=${{ github.run_number }}
+      - name: flutter build apk
+        run: |
+          set -o pipefail
+          flutter build apk --release --build-number=${{ github.run_number }} 2>&1 | tee build.log || {
+            # Surface the Gradle error as annotations, readable without the raw logs.
+            grep -E -A12 'What went wrong|error:|e: |FAILURE' build.log | head -60 | while IFS= read -r line; do echo "::error::$line"; done
+            exit 1
+          }
       - run: mv build/app/outputs/flutter-apk/app-release.apk ascend.apk
       - uses: softprops/action-gh-release@v2
         with:
