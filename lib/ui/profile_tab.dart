@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../game/data.dart';
 import '../game/state.dart';
+import 'awaken_screen.dart' show DomainGrid;
 import 'theme.dart';
 import 'widgets.dart';
 
@@ -13,7 +14,7 @@ class ProfileTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final g = game, d = g.d, ri = g.rankIndex;
     final settings = [
-      ('remind', 'Rappels de pénalité', 'Alerte à 20:00 et 23:00', d.remind),
+      ('remind', 'Rappels de pénalité', 'Notification à 20:00 et 23:00 si la quête n\'est pas finie', d.remind),
       ('vibe', 'Vibrations', 'À chaque objectif accompli', d.vibe),
       ('hard', 'Difficulté difficile', 'Objectifs quotidiens doublés', d.hard),
     ];
@@ -32,6 +33,15 @@ class ProfileTab extends StatelessWidget {
           if (i > 0) const SizedBox(height: 6),
           _TitleRow(title: t, unlocked: d.unlocked.contains(t.id), equipped: d.title == t.id, onTap: () => g.equip(t.id)),
         ],
+        const SizedBox(height: 20),
+        const SectionLabel('DOMAINES'),
+        const SizedBox(height: 6),
+        Text(
+          'Touchez un domaine pour ajouter ou retirer ses objectifs de la quête quotidienne.',
+          style: barlow(12, w: FontWeight.w500, color: C.muted),
+        ),
+        const SizedBox(height: 10),
+        DomainGrid(game: g),
         const SizedBox(height: 20),
         const SectionLabel('RÉGLAGES'),
         const SizedBox(height: 14),

@@ -31,16 +31,25 @@ flutter run --dart-define=ASCEND_DEMO=true --dart-define=ASCEND_SKIP_AWAKENING=t
 ## Comportement
 
 - L'état est sauvegardé sur l'appareil (`shared_preferences`).
+- Objectifs évolutifs : Pompes (FOR), Gainage (AGI) et Lecture (INT) augmentent de 5 % par point au-dessus de 10, à partir du lendemain.
+- Domaines : chaque domaine ajoute ses objectifs à la quête quotidienne (Corps → Pompes, Gainage ; Esprit → Lecture ; Travail → Travail profond ; Habitudes → Eau). Modifiables dans le profil.
+- Pénalité de minuit : quête quotidienne non accomplie → −25 % de l'XP du niveau par jour manqué, gains d'XP divisés par deux jusqu'à la quête de pénalité (45 min de cardio). Le jour de l'éveil est exempté.
+- Notifications : rappels à 20:00 et 23:00 si la quête n'est pas finie, et avis à minuit en cas d'échec (désactivables dans le profil).
 - À minuit : progression des quêtes et écarts du jour remis à zéro. Une altération disparaît après 3 jours sans écart, ou via la quête de purge.
 - Chaque lundi : nouveau donjon (PV à 100 %).
 - Titres : *Lève-tôt* (7 quêtes complètes avant 08:00), *Volonté de fer* (série de 14 jours), *Survivant* (quête de purge), *Inarrêtable* (donjon), *Résistant* (30 jours sans tabac).
 - Réglage « Difficulté difficile » : objectifs doublés.
 
+## APK
+
+GitHub Actions compile l'APK à chaque push sur `main` et le publie dans la release `latest`. Il est signé avec `android/ascend-release.jks` (clé d'installation manuelle, non destinée au Play Store) pour que chaque version s'installe par-dessus la précédente.
+
 ## Structure
 
 ```
 lib/game/data.dart    contenu statique (quêtes, habitudes, rangs, titres)
-lib/game/state.dart   logique de jeu, persistance, remises à zéro
+lib/game/state.dart   logique de jeu, persistance, remises à zéro, pénalité
+lib/services/         notifications locales
 lib/ui/               thème, widgets HUD, écrans et overlays
 assets/fonts/         Chakra Petch, Barlow, JetBrains Mono (OFL)
 design/               export Claude Design d'origine (maquettes + transcription)

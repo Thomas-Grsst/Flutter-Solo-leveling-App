@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'game/state.dart';
+import 'services/reminders.dart';
 import 'ui/shell.dart';
 import 'ui/theme.dart';
 
@@ -22,7 +23,9 @@ Future<void> main() async {
     ),
   );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  final game = Game(demo: _demo, skipAwakening: _skipAwakening);
+  final reminders = Reminders();
+  await reminders.init();
+  final game = Game(demo: _demo, skipAwakening: _skipAwakening, reminders: reminders);
   await game.load();
   runApp(AscendApp(game: game));
 }

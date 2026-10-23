@@ -60,7 +60,7 @@ class HomeTab extends StatelessWidget {
     final g = game, d = g.d;
     final ri = g.rankIndex, rank = ranks[ri];
     final tint = rankTint(ri);
-    final pending = quests.where((q) => !g.isDone(q)).take(3).toList();
+    final pending = g.activeQuests.where((q) => !g.isDone(q)).take(3).toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -130,7 +130,7 @@ class HomeTab extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SectionLabel("AUJOURD'HUI · ${g.doneCount}/${quests.length}", ls: .16),
+            SectionLabel("AUJOURD'HUI · ${g.doneCount}/${g.activeQuests.length}", ls: .16),
             Countdown(clock: () => g.now, size: 11),
           ],
         ),
@@ -170,6 +170,21 @@ class HomeTab extends StatelessWidget {
             child: Text('Quête quotidienne accomplie. Aucune pénalité ce soir.', style: barlow(14, color: C.blueLight)),
           ),
         ],
+        if (d.penaltyPending) ...[
+          const SizedBox(height: 8),
+          RuleRow(
+            rule: C.red,
+            tint: C.redA(.2),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            onTap: () => g.setTab('quests'),
+            child: Row(
+              children: [
+                const Expanded(child: TwoLine('Quête de pénalité', penaltyEffect, subColor: C.redPale)),
+                Text('À FAIRE', style: chakra(11, color: C.redLight, ls: .14)),
+              ],
+            ),
+          ),
+        ],
         for (final id in d.debuffs.keys) ...[
           const SizedBox(height: 8),
           RuleRow(
@@ -195,6 +210,8 @@ String countLine(Game g, QuestDef q) {
   final t = g.targetOf(q);
   return '${g.d.progress[q.id]!.clamp(0, t)}/$t${q.unit}';
 }
+
+const penaltyEffect = '$penaltyQuest · gains d\'XP −50 %';
 
 String debuffEffect(String id) => '${habitById(id).stat} −$debuffStatMalus · XP −${(debuffXpMalus * 100).round()} %';
 

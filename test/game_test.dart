@@ -34,7 +34,9 @@ void main() {
     expect(g.d.level, 12);
     expect(g.effective('VIT'), 19); // 21 − Langueur
     expect(g.doneCount, 3);
-    for (var i = 0; i < 2; i++) {
+    expect(g.targetOf(q('pompes')), 170); // FOR 24
+    expect(g.targetOf(q('gainage')), 7); // AGI 19
+    for (var i = 0; i < 4; i++) {
       g.bump(q('gainage'), 1);
     }
     expect(g.levelUp, isNull); // 2160 + 135 < 2400
@@ -59,7 +61,6 @@ void main() {
     expect(g.debuffShown!.statAfter, before - debuffStatMalus);
     g.purge('reseaux');
     expect(g.d.debuffs, isEmpty);
-    expect(g.d.unlocked, contains('survivor'));
     g.dispose();
   });
 
@@ -103,6 +104,88 @@ void main() {
     expect(g3.d.sessions, 0);
     expect(g3.d.bossHp, 100);
     g3.dispose();
+  });
+
+  test('objectives grow with stats from the next day on', () async {
+    final g = make();
+    await g.load();
+    g.d
+      ..awakened = true
+      ..points = 4;
+    expect(g.targetOf(q('pompes')), 100);
+    for (var i = 0; i < 4; i++) {
+      g.addStat('FOR');
+    }
+    expect(g.targetOf(q('pompes')), 100);
+    expect(g.nextTargetOf(q('pompes')), 120);
+    expect(g.targetOf(q('eau')), 8);
+    g.dispose();
+
+    now = DateTime(2026, 10, 24, 9);
+    final g2 = make();
+    await g2.load();
+    expect(g2.targetOf(q('pompes')), 120);
+    g2.dispose();
+  });
+
+  test('domains choose which quests make up the daily quest', () async {
+    final g = make();
+    await g.load();
+    g.d.awakened = true;
+    g.toggleDomain('travail');
+    g.toggleDomain('habitudes');
+    expect(g.activeQuests.map((x) => x.id), ['pompes', 'gainage', 'lecture']);
+    g.toggleDomain('esprit');
+    g.toggleDomain('corps'); // last one stays on
+    expect(g.d.domains['corps'], isTrue);
+    g.dispose();
+  });
+
+  test('missing the daily quest triggers the midnight penalty', () async {
+    final g = make();
+    await g.load();
+    g.d
+      ..awakened = true
+      ..awakenedOn = '2026-10-20'
+      ..level = 4
+      ..xp = 500;
+    g.bump(q('eau'), 1);
+    g.dispose();
+
+    now = DateTime(2026, 10, 24, 0, 5);
+    final g2 = make();
+    await g2.load();
+    expect(g2.d.penaltyPending, isTrue);
+    expect(g2.penaltyShown!.xpLost, 200); // 25 % of 800
+    expect(g2.d.xp, 300);
+    g2.bump(q('eau'), 1);
+    g2.d.progress['eau'] = 7;
+    g2.bump(q('eau'), 1); // 60 XP halved
+    expect(g2.d.xp, 330);
+    g2.completePenalty();
+    expect(g2.d.penaltyPending, isFalse);
+    expect(g2.d.unlocked, contains('survivor'));
+    g2.dispose();
+
+    now = DateTime(2026, 10, 27, 9); // three days without opening the app
+    final g3 = make();
+    await g3.load();
+    expect(g3.penaltyShown!.missedDays, 3);
+    g3.dispose();
+  });
+
+  test('no penalty on the day of the awakening', () async {
+    final g = make();
+    await g.load();
+    g.nextAwakenStep();
+    g.nextAwakenStep();
+    g.nextAwakenStep();
+    g.dispose();
+    now = DateTime(2026, 10, 24, 9);
+    final g2 = make();
+    await g2.load();
+    expect(g2.d.penaltyPending, isFalse);
+    g2.dispose();
   });
 
   test('ISO week numbers', () {

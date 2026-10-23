@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../game/data.dart';
 import '../game/state.dart';
 import 'awaken_screen.dart' show AlertHeader;
+import 'home_tab.dart' show fmtNum;
 import 'theme.dart';
 import 'widgets.dart';
 
@@ -163,6 +164,81 @@ class _BurstState extends State<_Burst> with SingleTickerProviderStateMixin {
   );
 }
 
+Widget _alertCell(String label, List<Widget> body) => Expanded(
+  child: Container(
+    padding: const EdgeInsets.all(10),
+    decoration: boxed(C.redA(.35)),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: chakra(10, w: FontWeight.w600, color: C.redPale, ls: .16),
+        ),
+        const SizedBox(height: 2),
+        ...body,
+      ],
+    ),
+  ),
+);
+
+/// Red "System" alert window shared by the debuff and penalty notices.
+class _RedAlert extends StatelessWidget {
+  const _RedAlert({required this.header, required this.trigger, required this.children, required this.onClose});
+  final String header;
+  final Object trigger;
+  final List<Widget> children;
+  final VoidCallback onClose;
+
+  @override
+  Widget build(BuildContext context) => _Fade(
+    ms: 150,
+    child: Container(
+      color: const Color(0xFF0A0206).withValues(alpha: .88),
+      padding: const EdgeInsets.symmetric(horizontal: 18),
+      alignment: Alignment.center,
+      child: Rise(
+        duration: const Duration(milliseconds: 300),
+        child: Shake(
+          trigger: trigger,
+          delay: const Duration(milliseconds: 300),
+          child: Container(
+            padding: const EdgeInsets.all(18),
+            decoration: boxed(
+              C.redA(.7),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [const Color(0xFF500A18).withValues(alpha: .75), const Color(0xFF14040A).withValues(alpha: .95)],
+              ),
+              shadow: [BoxShadow(color: C.redA(.3), blurRadius: 30)],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  decoration: BoxDecoration(
+                    border: Border(bottom: BorderSide(color: C.redA(.3))),
+                  ),
+                  child: AlertHeader(text: header, color: C.red, ink: C.redWhite),
+                ),
+                const SizedBox(height: 14),
+                ...children,
+                const SizedBox(height: 14),
+                HudButton(label: 'COMPRIS', onTap: onClose, height: 48, color: C.red, fill: .18, ink: C.redWhite, size: 13, ls: .14, glow: false),
+              ],
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+const _alertBody = Color(0xFFF3D3D7);
+
 class DebuffOverlay extends StatelessWidget {
   const DebuffOverlay({super.key, required this.game});
   final Game game;
@@ -170,94 +246,90 @@ class DebuffOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final n = game.debuffShown!, h = habitById(n.habitId);
-    Widget cell(String label, List<Widget> body) => Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: boxed(C.redA(.35)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: chakra(10, w: FontWeight.w600, color: C.redPale, ls: .16),
-            ),
-            const SizedBox(height: 2),
-            ...body,
-          ],
+    return _RedAlert(
+      header: "ALTÉRATION D'ÉTAT",
+      trigger: n,
+      onClose: game.closeDebuff,
+      children: [
+        Text(h.debuff, textAlign: TextAlign.center, style: chakra(26, ls: .04)),
+        const SizedBox(height: 4),
+        Text(
+          'Écart enregistré\u00A0: ${h.name.toLowerCase()} à ${n.time}.',
+          textAlign: TextAlign.center,
+          style: barlow(14, w: FontWeight.w500, color: C.redPale),
         ),
-      ),
-    );
-    return _Fade(
-      ms: 150,
-      child: Container(
-        color: const Color(0xFF0A0206).withValues(alpha: .88),
-        padding: const EdgeInsets.symmetric(horizontal: 18),
-        alignment: Alignment.center,
-        child: Rise(
-          duration: const Duration(milliseconds: 300),
-          child: Shake(
-            trigger: n,
-            delay: const Duration(milliseconds: 300),
-            child: Container(
-              padding: const EdgeInsets.all(18),
-              decoration: boxed(
-                C.redA(.7),
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [const Color(0xFF500A18).withValues(alpha: .75), const Color(0xFF14040A).withValues(alpha: .95)],
+        const SizedBox(height: 14),
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _alertCell(statNames[h.stat]!, [Text('${n.statBefore} → ${n.statAfter}', style: chakra(20))]),
+              const SizedBox(width: 8),
+              _alertCell('XP', [
+                Text('−$xpPerSlip XP', style: chakra(20, color: C.redMid)),
+                Text(
+                  'Gain −${(debuffXpMalus * 100).round()} %',
+                  style: barlow(12, w: FontWeight.w500, color: C.redPale),
                 ),
-                shadow: [BoxShadow(color: C.redA(.3), blurRadius: 30)],
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: C.redA(.3))),
-                    ),
-                    child: const AlertHeader(text: "ALTÉRATION D'ÉTAT", color: C.red, ink: C.redWhite),
-                  ),
-                  const SizedBox(height: 14),
-                  Text(h.debuff, textAlign: TextAlign.center, style: chakra(26, ls: .04)),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Écart enregistré\u00A0: ${h.name.toLowerCase()} à ${n.time}.',
-                    textAlign: TextAlign.center,
-                    style: barlow(14, w: FontWeight.w500, color: C.redPale),
-                  ),
-                  const SizedBox(height: 14),
-                  IntrinsicHeight(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        cell(statNames[h.stat]!, [Text('${n.statBefore} → ${n.statAfter}', style: chakra(20))]),
-                        const SizedBox(width: 8),
-                        cell('XP', [
-                          Text('−$xpPerSlip XP', style: chakra(20, color: C.redMid)),
-                          Text(
-                            'Gain −${(debuffXpMalus * 100).round()} %',
-                            style: barlow(12, w: FontWeight.w500, color: C.redPale),
-                          ),
-                        ]),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 14),
-                  Text(
-                    'Pour purger\u00A0: tenez $debuffPurgeDays jours sans écart, ou terminez une quête de purge de 30 min de cardio.',
-                    style: barlow(14, w: FontWeight.w500, color: const Color(0xFFF3D3D7), height: 1.4),
-                  ),
-                  const SizedBox(height: 14),
-                  HudButton(label: 'COMPRIS', onTap: game.closeDebuff, height: 48, color: C.red, fill: .18, ink: C.redWhite, size: 13, ls: .14, glow: false),
-                ],
-              ),
-            ),
+              ]),
+            ],
           ),
         ),
-      ),
+        const SizedBox(height: 14),
+        Text(
+          'Pour purger\u00A0: tenez $debuffPurgeDays jours sans écart, ou terminez une quête de purge de 30 min de cardio.',
+          style: barlow(14, w: FontWeight.w500, color: _alertBody, height: 1.4),
+        ),
+      ],
+    );
+  }
+}
+
+class PenaltyOverlay extends StatelessWidget {
+  const PenaltyOverlay({super.key, required this.game});
+  final Game game;
+
+  @override
+  Widget build(BuildContext context) {
+    final n = game.penaltyShown!;
+    final cause = n.missedDays > 1
+        ? 'Quête quotidienne non accomplie pendant ${n.missedDays} jours.'
+        : 'Quête quotidienne non accomplie\u00A0: ${n.done}/${n.total} objectifs.';
+    return _RedAlert(
+      header: 'PÉNALITÉ',
+      trigger: n,
+      onClose: game.closePenalty,
+      children: [
+        Text('ZONE DE PÉNALITÉ', textAlign: TextAlign.center, style: chakra(24, ls: .08)),
+        const SizedBox(height: 4),
+        Text(
+          cause,
+          textAlign: TextAlign.center,
+          style: barlow(14, w: FontWeight.w500, color: C.redPale),
+        ),
+        const SizedBox(height: 14),
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _alertCell('XP PERDUE', [Text('−${fmtNum(n.xpLost)} XP', style: chakra(20, color: C.redMid))]),
+              const SizedBox(width: 8),
+              _alertCell('GAINS', [
+                Text('−${((1 - penaltyGainFactor) * 100).round()} %', style: chakra(20, color: C.redMid)),
+                Text(
+                  'jusqu\'à la purge',
+                  style: barlow(12, w: FontWeight.w500, color: C.redPale),
+                ),
+              ]),
+            ],
+          ),
+        ),
+        const SizedBox(height: 14),
+        Text(
+          'Quête de pénalité\u00A0: survivre à $penaltyQuest. Validez-la dans l\'onglet Quêtes pour lever la pénalité.',
+          style: barlow(14, w: FontWeight.w500, color: _alertBody, height: 1.4),
+        ),
+      ],
     );
   }
 }

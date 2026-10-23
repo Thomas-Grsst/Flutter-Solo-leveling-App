@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../game/data.dart';
 import '../game/state.dart';
 import 'awaken_screen.dart';
 import 'dungeon_tab.dart';
@@ -70,6 +69,7 @@ class Shell extends StatelessWidget {
                   ),
                 if (g.levelUp != null && !g.victory) Positioned.fill(child: LevelUpOverlay(game: g)),
                 if (g.debuffShown != null) Positioned.fill(child: DebuffOverlay(game: g)),
+                if (g.penaltyShown != null && g.debuffShown == null) Positioned.fill(child: PenaltyOverlay(game: g)),
                 if (g.victory) Positioned.fill(child: VictoryOverlay(game: g)),
               ],
             ),
@@ -90,7 +90,7 @@ class _TabBar extends StatelessWidget {
     final g = game;
     final tabs = [
       ('home', 'ACCUEIL', g.d.points, C.blue),
-      ('quests', 'QUÊTES', quests.length - g.doneCount, C.blue),
+      ('quests', 'QUÊTES', g.activeQuests.length - g.doneCount + (g.d.penaltyPending ? 1 : 0), C.blue),
       ('dungeon', 'DONJONS', 0, C.violet),
       ('profile', 'PROFIL', 0, C.blue),
     ];

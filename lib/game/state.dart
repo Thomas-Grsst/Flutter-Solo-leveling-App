@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data.dart';
+import 'data.dart' as data show domains;
 
 String dayKey(DateTime d) => '${d.year}-${_pad(d.month)}-${_pad(d.day)}';
 DateTime parseDay(String k) => DateTime.parse(k);
@@ -28,6 +29,17 @@ class LevelUp {
   final int from, to;
 }
 
+class PenaltyNotice {
+  const PenaltyNotice(this.missedDays, this.xpLost, this.done, this.total);
+  final int missedDays, xpLost, done, total;
+}
+
+/// Schedules the 20:00 / 23:00 reminders. Implemented by the platform layer.
+abstract class ReminderScheduler {
+  Future<void> sync({required bool enabled, required int remainingToday, required int totalToday, required bool penaltyPending, required DateTime now});
+  Future<bool> requestPermission();
+}
+
 class DebuffNotice {
   const DebuffNotice(this.habitId, this.time, this.statBefore, this.statAfter);
   final String habitId, time;
@@ -37,8 +49,9 @@ class DebuffNotice {
 /// Everything that is persisted between launches.
 class GameData {
   bool awakened = false;
+  String awakenedOn = '';
   String playerName = 'Joueur';
-  Map<String, bool> domains = {'corps': true, 'esprit': true, 'travail': true, 'habitudes': false};
+  Map<String, bool> domains = {for (final d in data.domains) d.$1: true};
   Map<String, bool> chosen = {'tabac': true, 'reseaux': true, 'sucre': true, 'coucher': true, 'alcool': false, 'jeux': false};
   int level = 1, xp = 0, points = 0;
   Map<String, int> base = {for (final c in statCodes) c: 10};
@@ -47,6 +60,13 @@ class GameData {
   String day = '';
   Map<String, int> progress = {for (final q in quests) q.id: 0};
   bool rewardGiven = false;
+
+  /// Stats as they were when the day started: today's objectives are computed
+  /// from these, so spending a point raises tomorrow's objectives, not today's.
+  Map<String, int> dayStats = {};
+
+  /// Set at midnight when the daily quest was missed, until the penalty quest is done.
+  bool penaltyPending = false;
 
   /// Today's slips: habit id → time (HH:MM).
   Map<String, String> slips = {};
@@ -70,6 +90,9 @@ class GameData {
 
   Map<String, dynamic> toJson() => {
     'awakened': awakened,
+    'awakenedOn': awakenedOn,
+    'dayStats': dayStats,
+    'penaltyPending': penaltyPending,
     'playerName': playerName,
     'domains': domains,
     'chosen': chosen,
@@ -101,8 +124,11 @@ class GameData {
     Map<String, T> m<T>(String k) => (j[k] as Map? ?? {}).map((a, b) => MapEntry(a as String, b as T));
     return GameData()
       ..awakened = j['awakened'] ?? false
+      ..awakenedOn = j['awakenedOn'] ?? ''
+      ..dayStats = m<int>('dayStats')
+      ..penaltyPending = j['penaltyPending'] ?? false
       ..playerName = j['playerName'] ?? 'Joueur'
-      ..domains = m<bool>('domains')
+      ..domains = {for (final d in data.domains) d.$1: (j['domains']?[d.$1] as bool?) ?? true}
       ..chosen = m<bool>('chosen')
       ..level = j['level'] ?? 1
       ..xp = j['xp'] ?? 0
@@ -139,7 +165,8 @@ class GameData {
       ..points = 3
       ..base = {'FOR': 24, 'AGI': 19, 'VIT': 21, 'INT': 17, 'PER': 15}
       ..day = today
-      ..progress = {'pompes': 100, 'gainage': 3, 'lecture': 30, 'eau': 8, 'travail': 1}
+      ..dayStats = {'FOR': 24, 'AGI': 19, 'VIT': 21, 'INT': 17, 'PER': 15}
+      ..progress = {'pompes': 170, 'gainage': 3, 'lecture': 40, 'eau': 8, 'travail': 1}
       ..slips = {'sucre': '16:20'}
       ..habitSince = {'tabac': ago(23), 'reseaux': ago(2), 'sucre': today, 'coucher': ago(5), 'alcool': ago(11), 'jeux': ago(4)}
       ..debuffs = {'sucre': today}
@@ -155,11 +182,13 @@ class GameData {
 /// so every rule from the prototype is in one place.
 class Game extends ChangeNotifier {
   /// [demo] loads the prototype's sample data and never persists it.
-  Game({DateTime Function()? clock, this.demo = false, this.skipAwakening = false}) : _clock = clock ?? DateTime.now;
+  Game({DateTime Function()? clock, this.demo = false, this.skipAwakening = false, this.reminders}) : _clock = clock ?? DateTime.now;
 
   static const _key = 'ascend.state.v1';
   final DateTime Function() _clock;
   final bool demo, skipAwakening;
+  final ReminderScheduler? reminders;
+  String _reminderKey = '';
   SharedPreferences? _prefs;
   Timer? _tick, _toastTimer;
 
@@ -171,6 +200,7 @@ class Game extends ChangeNotifier {
   String tab = 'home';
   LevelUp? levelUp;
   DebuffNotice? debuffShown;
+  PenaltyNotice? penaltyShown;
   bool victory = false;
   String toast = '';
 
@@ -185,8 +215,12 @@ class Game extends ChangeNotifier {
       d = GameData.fromJson(jsonDecode(raw) as Map<String, dynamic>);
     }
     _rollover(save: false);
+    _syncReminders();
     _tick = Timer.periodic(const Duration(seconds: 15), (_) {
-      if (_rollover()) notifyListeners();
+      if (_rollover()) {
+        _syncReminders();
+        notifyListeners();
+      }
     });
   }
 
@@ -204,7 +238,19 @@ class Game extends ChangeNotifier {
 
   void _commit() {
     _save();
+    _syncReminders();
     notifyListeners();
+  }
+
+  /// Reschedules reminders when anything they depend on changed.
+  void _syncReminders() {
+    final r = reminders;
+    if (r == null || demo) return;
+    final enabled = d.awakened && d.remind, remaining = activeQuests.length - doneCount;
+    final key = '$enabled|$remaining|${d.penaltyPending}|${d.day}|${d.hard}';
+    if (key == _reminderKey) return;
+    _reminderKey = key;
+    r.sync(enabled: enabled, remainingToday: remaining, totalToday: activeQuests.length, penaltyPending: d.penaltyPending, now: now);
   }
 
   /// Applies day and week changes. Returns true when something changed.
@@ -215,8 +261,10 @@ class Game extends ChangeNotifier {
       if (d.day.isNotEmpty) {
         final yesterday = dayKey(DateTime(t.year, t.month, t.day - 1));
         if (d.lastFullDay != yesterday && d.lastFullDay != today) d.streak = 0;
+        _applyMidnightPenalty(t);
       }
       d.day = today;
+      d.dayStats = Map.of(d.base);
       d.progress = {for (final q in quests) q.id: 0};
       d.rewardGiven = false;
       d.slips = {};
@@ -239,6 +287,23 @@ class Game extends ChangeNotifier {
     return changed;
   }
 
+  /// Runs before the day's progress is reset. The day of the awakening is exempt;
+  /// days on which the app was never opened count as missed.
+  void _applyMidnightPenalty(DateTime t) {
+    if (!d.awakened) return;
+    final failedLastDay = d.day != d.awakenedOn && !allDone;
+    final skipped = (daysBetween(d.day, t) - 1).clamp(0, 365);
+    final missed = (failedLastDay ? 1 : 0) + skipped;
+    if (missed == 0) return;
+    final before = d.xp;
+    for (var i = 0; i < missed; i++) {
+      d.xp = (d.xp - (xpMax * penaltyXpShare).round()).clamp(0, xpMax);
+    }
+    d.penaltyPending = true;
+    d.streak = 0;
+    penaltyShown = PenaltyNotice(missed, before - d.xp, failedLastDay ? doneCount : 0, activeQuests.length);
+  }
+
   bool _unlock(String id) {
     if (!d.unlocked.add(id)) return false;
     d.title ??= id;
@@ -250,10 +315,16 @@ class Game extends ChangeNotifier {
   // ---- Derived values ----
 
   int get mult => d.hard ? 2 : 1;
-  int targetOf(QuestDef q) => q.target * mult;
+  int targetOf(QuestDef q) => scaledTarget(q, d.dayStats[q.stat] ?? d.base[q.stat]!) * mult;
+
+  /// Objective [q] will have tomorrow with the current stats.
+  int nextTargetOf(QuestDef q) => scaledTarget(q, d.base[q.stat]!) * mult;
   bool isDone(QuestDef q) => d.progress[q.id]! >= targetOf(q);
-  int get doneCount => quests.where(isDone).length;
-  bool get allDone => doneCount == quests.length;
+
+  /// Quests of the domains the player trains.
+  List<QuestDef> get activeQuests => quests.where((q) => d.domains[q.domain] == true).toList();
+  int get doneCount => activeQuests.where(isDone).length;
+  bool get allDone => doneCount == activeQuests.length;
   int malus(String stat) => d.debuffs.keys.where((id) => habitById(id).stat == stat).length * debuffStatMalus;
   int effective(String stat) => d.base[stat]! - malus(stat);
   int get xpMax => xpForLevel(d.level);
@@ -283,6 +354,8 @@ class Game extends ChangeNotifier {
       awakenStep++;
     } else {
       d.awakened = true;
+      d.awakenedOn = dayKey(now);
+      reminders?.requestPermission();
       d.debuffs.removeWhere((id, _) => d.chosen[id] != true);
       tab = 'home';
     }
@@ -290,8 +363,14 @@ class Game extends ChangeNotifier {
   }
 
   void toggleDomain(String id) {
-    d.domains[id] = !(d.domains[id] ?? false);
-    notifyListeners();
+    final on = d.domains[id] ?? false;
+    if (on && d.domains.values.where((v) => v).length == 1) {
+      flash('Gardez au moins un domaine.');
+      return;
+    }
+    d.domains[id] = !on;
+    _checkAll();
+    _commit();
   }
 
   void toggleHabitChoice(String id) {
@@ -309,6 +388,7 @@ class Game extends ChangeNotifier {
     refusals = 0;
     levelUp = null;
     debuffShown = null;
+    penaltyShown = null;
     victory = false;
     _rollover(save: false);
     _commit();
@@ -334,7 +414,7 @@ class Game extends ChangeNotifier {
 
   /// Adds XP (reduced by active debuffs) and handles level-ups. Returns the amount gained.
   int _gain(int raw) {
-    final factor = (1 - debuffXpMalus * d.debuffs.length).clamp(0.0, 1.0);
+    final factor = (1 - debuffXpMalus * d.debuffs.length).clamp(0.0, 1.0) * (d.penaltyPending ? penaltyGainFactor : 1);
     final amt = (raw * factor).round();
     final from = d.level;
     d.xp += amt;
@@ -366,7 +446,7 @@ class Game extends ChangeNotifier {
   }
 
   void _checkAll() {
-    if (!allDone || d.rewardGiven) return;
+    if (!d.awakened || !allDone || d.rewardGiven) return;
     d.points += dailyBonusPoints;
     d.rewardGiven = true;
     final t = now, today = dayKey(t), yesterday = dayKey(DateTime(t.year, t.month, t.day - 1));
@@ -403,6 +483,8 @@ class Game extends ChangeNotifier {
     if (d.points <= 0) return;
     d.points--;
     d.base[code] = d.base[code]! + 1;
+    final grown = activeQuests.where((q) => q.scales && q.stat == code && nextTargetOf(q) != targetOf(q));
+    flash(['$code ${d.base[code]}', for (final q in grown) '${q.name} demain : ${nextTargetOf(q)}${q.unit}'].join(' · '));
     _commit();
   }
 
@@ -421,8 +503,21 @@ class Game extends ChangeNotifier {
     d.debuffs.remove(id);
     final h = habitById(id);
     flash('${h.debuff} purgée · ${h.stat} restaurée');
+    _commit();
+  }
+
+  void completePenalty() {
+    if (!d.penaltyPending) return;
+    d.penaltyPending = false;
+    _haptic();
+    flash('Pénalité levée · gains d\'XP rétablis');
     _unlock('survivor');
     _commit();
+  }
+
+  void closePenalty() {
+    penaltyShown = null;
+    notifyListeners();
   }
 
   void equip(String id) {
@@ -435,6 +530,7 @@ class Game extends ChangeNotifier {
     switch (key) {
       case 'remind':
         d.remind = !d.remind;
+        if (d.remind) reminders?.requestPermission();
       case 'vibe':
         d.vibe = !d.vibe;
       case 'hard':

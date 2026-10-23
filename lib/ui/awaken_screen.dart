@@ -137,17 +137,14 @@ class AwakenScreen extends StatelessWidget {
   );
 
   List<Widget> _domains() => [
-    _stepHeader('ÉTAPE 2 SUR 3', C.blue, 'Que voulez-vous entraîner\u00A0?', 'Le Système générera vos quêtes quotidiennes à partir de ces domaines.'),
-    const SizedBox(height: 18),
-    GridView.count(
-      crossAxisCount: 2,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      mainAxisSpacing: 8,
-      crossAxisSpacing: 8,
-      childAspectRatio: 2.4,
-      children: [for (final (id, name, sub) in domains) _DomainTile(name: name, sub: sub, on: game.d.domains[id] ?? false, onTap: () => game.toggleDomain(id))],
+    _stepHeader(
+      'ÉTAPE 2 SUR 3',
+      C.blue,
+      'Que voulez-vous entraîner\u00A0?',
+      'Chaque domaine ajoute ses objectifs à votre quête quotidienne. Modifiable plus tard dans le profil.',
     ),
+    const SizedBox(height: 18),
+    DomainGrid(game: game),
     const SizedBox(height: 18),
     HudButton(label: 'CONTINUER', onTap: game.nextAwakenStep),
   ];
@@ -190,6 +187,24 @@ class AlertHeader extends StatelessWidget {
         style: chakra(15, color: ink, ls: ls, shadows: glowText(color.withValues(alpha: .8), 12)),
       ),
     ],
+  );
+}
+
+/// The four training domains; each one adds its quests to the daily quest.
+class DomainGrid extends StatelessWidget {
+  const DomainGrid({super.key, required this.game});
+  final Game game;
+
+  @override
+  Widget build(BuildContext context) => GridView.count(
+    crossAxisCount: 2,
+    shrinkWrap: true,
+    padding: EdgeInsets.zero,
+    physics: const NeverScrollableScrollPhysics(),
+    mainAxisSpacing: 8,
+    crossAxisSpacing: 8,
+    childAspectRatio: 2.4,
+    children: [for (final (id, name, sub) in domains) _DomainTile(name: name, sub: sub, on: game.d.domains[id] ?? false, onTap: () => game.toggleDomain(id))],
   );
 }
 

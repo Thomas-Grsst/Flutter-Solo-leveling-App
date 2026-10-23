@@ -13,7 +13,7 @@ class QuestsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final g = game, d = g.d;
-    final left = quests.length - g.doneCount;
+    final left = g.activeQuests.length - g.doneCount;
     final slipN = g.slipCountToday;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -27,8 +27,9 @@ class QuestsTab extends StatelessWidget {
         ),
         const SizedBox(height: 2),
         Text(left == 0 ? 'Quête accomplie' : '$left objectif${left > 1 ? 's' : ''} restant${left > 1 ? 's' : ''}', style: chakra(22, ls: .02)),
+        if (d.penaltyPending) ...[const SizedBox(height: 14), _PenaltyCard(game: g)],
         const SizedBox(height: 14),
-        for (final (i, q) in quests.indexed) ...[if (i > 0) const SizedBox(height: 8), _QuestCard(game: g, quest: q)],
+        for (final (i, q) in g.activeQuests.indexed) ...[if (i > 0) const SizedBox(height: 8), _QuestCard(game: g, quest: q)],
         const SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -46,6 +47,49 @@ class QuestsTab extends StatelessWidget {
       ],
     );
   }
+}
+
+class _PenaltyCard extends StatelessWidget {
+  const _PenaltyCard({required this.game});
+  final Game game;
+
+  @override
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+    decoration: boxed(
+      C.red,
+      fill: const Color(0xFF320810).withValues(alpha: .6),
+      shadow: [BoxShadow(color: C.redA(.25), blurRadius: 18)],
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          'ZONE DE PÉNALITÉ',
+          style: chakra(11, w: FontWeight.w600, color: C.redLight, ls: .2),
+        ),
+        const SizedBox(height: 4),
+        Text('Survivre : $penaltyQuest', style: chakra(18, ls: .02)),
+        const SizedBox(height: 6),
+        Text(
+          "Vous n'avez pas accompli la quête quotidienne. Vos gains d'XP sont réduits de moitié tant que cette quête n'est pas terminée.",
+          style: barlow(13, w: FontWeight.w500, color: C.redPale, height: 1.4),
+        ),
+        const SizedBox(height: 10),
+        HudButton(
+          label: 'QUÊTE DE PÉNALITÉ TERMINÉE',
+          onTap: game.completePenalty,
+          height: 44,
+          color: C.red,
+          fill: .2,
+          ink: C.redWhite,
+          size: 12,
+          ls: .14,
+          glow: false,
+        ),
+      ],
+    ),
+  );
 }
 
 class _QuestCard extends StatelessWidget {
