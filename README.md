@@ -31,7 +31,7 @@ flutter run --dart-define=ASCEND_DEMO=true --dart-define=ASCEND_SKIP_AWAKENING=t
 ## Comportement
 
 - L'état est sauvegardé sur l'appareil (`shared_preferences`).
-- Objectifs évolutifs : Pompes (FOR), Gainage (AGI) et Lecture (INT) augmentent de 5 % par point au-dessus de 10, à partir du lendemain.
+- Propositions du Système : après 7 jours d'affilée où Pompes, Gainage ou Lecture est accompli, le Système propose d'augmenter l'objectif (+10 pompes, +1 min, +5 min). Accepter rapporte 200 XP et s'applique le lendemain ; « Plus tard » garde l'objectif et le Système redemande après 7 nouveaux jours. Les stats ne modifient pas les objectifs.
 - Domaines : chaque domaine ajoute ses objectifs à la quête quotidienne (Corps → Pompes, Gainage ; Esprit → Lecture ; Travail → Travail profond ; Habitudes → Eau). Modifiables dans le profil.
 - Pénalité de minuit : quête quotidienne non accomplie → −25 % de l'XP du niveau par jour manqué, gains d'XP divisés par deux jusqu'à la quête de pénalité (45 min de cardio). Le jour de l'éveil est exempté.
 - Notifications : rappels à 20:00 et 23:00 si la quête n'est pas finie, et avis à minuit en cas d'échec (désactivables dans le profil).

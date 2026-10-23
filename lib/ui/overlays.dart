@@ -375,7 +375,7 @@ class ProposalOverlay extends StatelessWidget {
                 ),
                 const SizedBox(height: 14),
                 Text(
-                  '${q.name} : objectif accompli $proposalStreak jours de suite. Le Système propose de l\'augmenter.',
+                  '${q.name}\u00A0: objectif accompli $proposalStreak jours de suite. Le Système propose de l\'augmenter.',
                   textAlign: TextAlign.center,
                   style: barlow(17, height: 1.4),
                 ),
@@ -407,7 +407,6 @@ class ProposalOverlay extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Expanded(
-                      flex: 2,
                       child: HudButton(label: 'ACCEPTER', onTap: g.acceptProposal),
                     ),
                   ],
