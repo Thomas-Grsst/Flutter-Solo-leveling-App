@@ -110,7 +110,9 @@ class _QuestCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Expanded(child: TwoLine(q.name, rewardLine(q), titleColor: ink, gap: 1)),
+              Expanded(
+                child: TwoLine(q.name, q.growable ? '${rewardLine(q)} · série ${game.questStreak(q)}/$proposalStreak' : rewardLine(q), titleColor: ink, gap: 1),
+              ),
               const SizedBox(width: 10),
               Text(countLine(game, q), style: mono(13, color: ink)),
             ],

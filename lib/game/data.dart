@@ -6,38 +6,32 @@ const statCodes = ['FOR', 'AGI', 'VIT', 'INT', 'PER'];
 const statNames = {'FOR': 'FORCE', 'AGI': 'AGILITÉ', 'VIT': 'VITALITÉ', 'INT': 'INTELLECT', 'PER': 'PERCEPTION'};
 
 class QuestDef {
-  const QuestDef(this.id, this.name, this.domain, this.target, this.step, this.unit, this.xp, this.stat, {this.session = false, this.scales = false});
+  const QuestDef(this.id, this.name, this.domain, this.target, this.step, this.unit, this.xp, this.stat, {this.session = false, this.growable = false});
   final String id, name, domain, unit, stat;
 
-  /// [target] is the objective at 10 in [stat].
+  /// [target] is the starting objective; [step] is also the size of a proposed raise.
   final int target, step, xp;
 
   /// A deep-work session: completing one also damages the weekly boss.
   final bool session;
 
-  /// The objective grows with [stat] (see [statScaling]).
-  final bool scales;
+  /// The System proposes raising the objective after [proposalStreak] days in a row.
+  final bool growable;
 }
 
 const quests = [
-  QuestDef('pompes', 'Pompes', 'corps', 100, 10, '', 120, 'FOR', scales: true),
-  QuestDef('gainage', 'Gainage', 'corps', 5, 1, ' min', 150, 'AGI', scales: true),
-  QuestDef('lecture', 'Lecture', 'esprit', 30, 5, ' min', 80, 'INT', scales: true),
+  QuestDef('pompes', 'Pompes', 'corps', 100, 10, '', 120, 'FOR', growable: true),
+  QuestDef('gainage', 'Gainage', 'corps', 5, 1, ' min', 150, 'AGI', growable: true),
+  QuestDef('lecture', 'Lecture', 'esprit', 30, 5, ' min', 80, 'INT', growable: true),
   QuestDef('eau', 'Eau', 'habitudes', 8, 1, ' verres', 60, 'VIT'),
   QuestDef('travail', 'Travail profond', 'travail', 2, 1, '', 180, 'INT', session: true),
 ];
 
-const baseStat = 10;
+/// Days in a row an objective must be met before the System proposes raising it.
+const proposalStreak = 7;
 
-/// Each stat point above [baseStat] raises a scaling quest's objective by 5 %.
-const statScaling = 0.05;
-
-/// Objective for [q] given its stat value, rounded to the quest's step.
-int scaledTarget(QuestDef q, int stat) {
-  if (!q.scales) return q.target;
-  final raw = q.target * (1 + statScaling * (stat - baseStat));
-  return ((raw / q.step).round() * q.step).clamp(q.target, 1 << 30);
-}
+/// XP for accepting a raise.
+const proposalBonusXp = 200;
 
 class HabitDef {
   const HabitDef(this.id, this.name, this.debuff, this.stat, this.xp);

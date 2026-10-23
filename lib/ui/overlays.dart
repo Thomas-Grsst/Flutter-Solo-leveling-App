@@ -334,6 +334,93 @@ class PenaltyOverlay extends StatelessWidget {
   }
 }
 
+/// Blue System notification proposing to raise an objective after a streak.
+class ProposalOverlay extends StatelessWidget {
+  const ProposalOverlay({super.key, required this.game});
+  final Game game;
+
+  @override
+  Widget build(BuildContext context) {
+    final g = game, q = g.proposal!;
+    final from = g.baseTargetOf(q), to = from + q.step;
+    return _Fade(
+      child: Container(
+        color: const Color(0xFF03050A).withValues(alpha: .9),
+        padding: const EdgeInsets.symmetric(horizontal: 18),
+        alignment: Alignment.center,
+        child: Rise(
+          key: ValueKey(q.id),
+          duration: const Duration(milliseconds: 400),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 20),
+            decoration: boxed(
+              C.blueA(.7),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [const Color(0xFF122852).withValues(alpha: .85), const Color(0xFF060C1C).withValues(alpha: .95)],
+              ),
+              shadow: [BoxShadow(color: const Color(0xFF3CA0FF).withValues(alpha: .35), blurRadius: 24)],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  decoration: BoxDecoration(
+                    border: Border(bottom: BorderSide(color: C.blueA(.25))),
+                  ),
+                  child: const AlertHeader(text: 'NOTIFICATION', color: C.blue, ink: C.bluePale, ls: .26),
+                ),
+                const SizedBox(height: 14),
+                Text(
+                  '${q.name} : objectif accompli $proposalStreak jours de suite. Le Système propose de l\'augmenter.',
+                  textAlign: TextAlign.center,
+                  style: barlow(17, height: 1.4),
+                ),
+                const SizedBox(height: 14),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  decoration: boxed(C.blueA(.35), fill: const Color(0xFF081226).withValues(alpha: .75)),
+                  child: Column(
+                    children: [
+                      KeyValue('Objectif actuel', '${from * g.mult}${q.unit}'),
+                      const SizedBox(height: 8),
+                      KeyValue('Nouvel objectif', '${to * g.mult}${q.unit}', vStyle: mono(14, color: C.blueLight)),
+                      const SizedBox(height: 8),
+                      KeyValue('Récompense', '+$proposalBonusXp XP', vStyle: mono(14, color: C.gold)),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Le nouvel objectif s\'applique dès demain.',
+                  textAlign: TextAlign.center,
+                  style: barlow(12, w: FontWeight.w500, color: C.muted),
+                ),
+                const SizedBox(height: 14),
+                Row(
+                  children: [
+                    Expanded(
+                      child: HudButton(label: 'PLUS TARD', onTap: g.declineProposal, fill: 0, borderOpacity: .3, ink: C.muted, size: 13, ls: .14, glow: false),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      flex: 2,
+                      child: HudButton(label: 'ACCEPTER', onTap: g.acceptProposal),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class VictoryOverlay extends StatelessWidget {
   const VictoryOverlay({super.key, required this.game});
   final Game game;

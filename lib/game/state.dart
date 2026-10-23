@@ -61,9 +61,18 @@ class GameData {
   Map<String, int> progress = {for (final q in quests) q.id: 0};
   bool rewardGiven = false;
 
-  /// Stats as they were when the day started: today's objectives are computed
-  /// from these, so spending a point raises tomorrow's objectives, not today's.
-  Map<String, int> dayStats = {};
+  /// Objectives chosen by the player (quest id → base objective), raised through proposals.
+  Map<String, int> targets = {};
+
+  /// Objectives in force today, fixed at day start so an accepted raise applies tomorrow.
+  Map<String, int> dayTargets = {};
+
+  /// Per quest: days in a row the objective was met, and the last such day.
+  Map<String, int> questStreaks = {};
+  Map<String, String> questLastDone = {};
+
+  /// Quests the System proposes to raise, waiting for an answer.
+  List<String> proposals = [];
 
   /// Set at midnight when the daily quest was missed, until the penalty quest is done.
   bool penaltyPending = false;
@@ -91,7 +100,11 @@ class GameData {
   Map<String, dynamic> toJson() => {
     'awakened': awakened,
     'awakenedOn': awakenedOn,
-    'dayStats': dayStats,
+    'targets': targets,
+    'dayTargets': dayTargets,
+    'questStreaks': questStreaks,
+    'questLastDone': questLastDone,
+    'proposals': proposals,
     'penaltyPending': penaltyPending,
     'playerName': playerName,
     'domains': domains,
@@ -125,7 +138,11 @@ class GameData {
     return GameData()
       ..awakened = j['awakened'] ?? false
       ..awakenedOn = j['awakenedOn'] ?? ''
-      ..dayStats = m<int>('dayStats')
+      ..targets = m<int>('targets')
+      ..dayTargets = m<int>('dayTargets')
+      ..questStreaks = m<int>('questStreaks')
+      ..questLastDone = m<String>('questLastDone')
+      ..proposals = [...(j['proposals'] as List? ?? []).cast<String>()]
       ..penaltyPending = j['penaltyPending'] ?? false
       ..playerName = j['playerName'] ?? 'Joueur'
       ..domains = {for (final d in data.domains) d.$1: (j['domains']?[d.$1] as bool?) ?? true}
@@ -165,8 +182,9 @@ class GameData {
       ..points = 3
       ..base = {'FOR': 24, 'AGI': 19, 'VIT': 21, 'INT': 17, 'PER': 15}
       ..day = today
-      ..dayStats = {'FOR': 24, 'AGI': 19, 'VIT': 21, 'INT': 17, 'PER': 15}
-      ..progress = {'pompes': 170, 'gainage': 3, 'lecture': 40, 'eau': 8, 'travail': 1}
+      ..progress = {'pompes': 100, 'gainage': 3, 'lecture': 30, 'eau': 8, 'travail': 1}
+      ..questStreaks = {'pompes': 4, 'gainage': 6, 'lecture': 2}
+      ..questLastDone = {'pompes': today, 'gainage': ago(1), 'lecture': today}
       ..slips = {'sucre': '16:20'}
       ..habitSince = {'tabac': ago(23), 'reseaux': ago(2), 'sucre': today, 'coucher': ago(5), 'alcool': ago(11), 'jeux': ago(4)}
       ..debuffs = {'sucre': today}
@@ -264,7 +282,7 @@ class Game extends ChangeNotifier {
         _applyMidnightPenalty(t);
       }
       d.day = today;
-      d.dayStats = Map.of(d.base);
+      d.dayTargets = {for (final q in quests) q.id: baseTargetOf(q)};
       d.progress = {for (final q in quests) q.id: 0};
       d.rewardGiven = false;
       d.slips = {};
@@ -315,10 +333,20 @@ class Game extends ChangeNotifier {
   // ---- Derived values ----
 
   int get mult => d.hard ? 2 : 1;
-  int targetOf(QuestDef q) => scaledTarget(q, d.dayStats[q.stat] ?? d.base[q.stat]!) * mult;
 
-  /// Objective [q] will have tomorrow with the current stats.
-  int nextTargetOf(QuestDef q) => scaledTarget(q, d.base[q.stat]!) * mult;
+  /// Objective the player has set for [q], before the difficulty multiplier.
+  int baseTargetOf(QuestDef q) => d.targets[q.id] ?? q.target;
+  int targetOf(QuestDef q) => (d.dayTargets[q.id] ?? baseTargetOf(q)) * mult;
+
+  /// Days in a row [q] has been met, counting today if it already is.
+  int questStreak(QuestDef q) {
+    final last = d.questLastDone[q.id];
+    if (last == null || daysBetween(last, now) > 1) return 0;
+    return d.questStreaks[q.id] ?? 0;
+  }
+
+  /// The proposal to answer first, if any.
+  QuestDef? get proposal => d.proposals.isEmpty ? null : quests.firstWhere((q) => q.id == d.proposals.first);
   bool isDone(QuestDef q) => d.progress[q.id]! >= targetOf(q);
 
   /// Quests of the domains the player trains.
@@ -440,8 +468,40 @@ class Game extends ChangeNotifier {
       final amt = _gain(q.xp);
       _haptic();
       flash('${q.name} accompli · +$amt XP');
+      _recordStreak(q);
       _checkAll();
     }
+    _commit();
+  }
+
+  /// Counts today towards [q]'s streak once, and queues a raise after [proposalStreak] days.
+  void _recordStreak(QuestDef q) {
+    final today = dayKey(now);
+    if (d.questLastDone[q.id] == today) return;
+    d.questStreaks[q.id] = questStreak(q) + 1;
+    d.questLastDone[q.id] = today;
+    if (q.growable && d.questStreaks[q.id]! >= proposalStreak && !d.proposals.contains(q.id)) d.proposals.add(q.id);
+  }
+
+  /// Raises [proposal]'s objective by one step from tomorrow on, for bonus XP.
+  void acceptProposal() {
+    final q = proposal;
+    if (q == null) return;
+    final next = baseTargetOf(q) + q.step;
+    d.targets[q.id] = next;
+    d.questStreaks[q.id] = 0;
+    d.proposals.remove(q.id);
+    final amt = _gain(proposalBonusXp);
+    flash('${q.name} : $next${q.unit} dès demain · +$amt XP');
+    _commit();
+  }
+
+  /// Keeps the objective; the System asks again after another streak.
+  void declineProposal() {
+    final q = proposal;
+    if (q == null) return;
+    d.questStreaks[q.id] = 0;
+    d.proposals.remove(q.id);
     _commit();
   }
 
@@ -462,6 +522,7 @@ class Game extends ChangeNotifier {
     if (d.bossDead) return;
     final q = quests.firstWhere((x) => x.session);
     d.progress[q.id] = (d.progress[q.id]! + 1).clamp(0, targetOf(q));
+    if (isDone(q)) _recordStreak(q);
     d.bossHp = (d.bossHp - bossDamage).clamp(0, 100);
     d.sessions++;
     _gain(q.xp);
@@ -483,8 +544,6 @@ class Game extends ChangeNotifier {
     if (d.points <= 0) return;
     d.points--;
     d.base[code] = d.base[code]! + 1;
-    final grown = activeQuests.where((q) => q.scales && q.stat == code && nextTargetOf(q) != targetOf(q));
-    flash(['$code ${d.base[code]}', for (final q in grown) '${q.name} demain : ${nextTargetOf(q)}${q.unit}'].join(' · '));
     _commit();
   }
 

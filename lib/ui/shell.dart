@@ -71,6 +71,8 @@ class Shell extends StatelessWidget {
                 if (g.debuffShown != null) Positioned.fill(child: DebuffOverlay(game: g)),
                 if (g.penaltyShown != null && g.debuffShown == null) Positioned.fill(child: PenaltyOverlay(game: g)),
                 if (g.victory) Positioned.fill(child: VictoryOverlay(game: g)),
+                if (g.proposal != null && g.levelUp == null && g.debuffShown == null && g.penaltyShown == null && !g.victory)
+                  Positioned.fill(child: ProposalOverlay(game: g)),
               ],
             ),
           ),

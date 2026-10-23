@@ -34,11 +34,11 @@ void main() {
     expect(g.d.level, 12);
     expect(g.effective('VIT'), 19); // 21 − Langueur
     expect(g.doneCount, 3);
-    expect(g.targetOf(q('pompes')), 170); // FOR 24
-    expect(g.targetOf(q('gainage')), 7); // AGI 19
-    for (var i = 0; i < 4; i++) {
+    expect(g.targetOf(q('pompes')), 100);
+    for (var i = 0; i < 2; i++) {
       g.bump(q('gainage'), 1);
     }
+    expect(g.proposal?.id, 'gainage'); // 7th day in a row
     expect(g.levelUp, isNull); // 2160 + 135 < 2400
     g.doSession();
     expect(g.levelUp?.to, 13);
@@ -106,26 +106,52 @@ void main() {
     g3.dispose();
   });
 
-  test('objectives grow with stats from the next day on', () async {
+  test('after 7 days in a row the System proposes a raise, applied the next day', () async {
+    var g = make();
+    await g.load();
+    g.d.awakened = true;
+    for (var day = 0; day < proposalStreak; day++) {
+      now = DateTime(2026, 10, 23 + day, 9);
+      g.dispose();
+      g = make();
+      await g.load();
+      expect(g.proposal, isNull);
+      g.d.progress['pompes'] = 90;
+      g.bump(q('pompes'), 1);
+    }
+    expect(g.questStreak(q('pompes')), proposalStreak);
+    expect(g.proposal?.id, 'pompes');
+    final xp = g.d.xp;
+    g.acceptProposal();
+    expect(g.d.xp, greaterThan(xp));
+    expect(g.proposal, isNull);
+    expect(g.targetOf(q('pompes')), 100); // still today's objective
+    g.dispose();
+
+    now = DateTime(2026, 10, 30, 9);
+    g = make();
+    await g.load();
+    expect(g.targetOf(q('pompes')), 110);
+    expect(g.questStreak(q('pompes')), 0);
+    g.dispose();
+  });
+
+  test('declining keeps the objective and a missed day breaks the streak', () async {
     final g = make();
     await g.load();
     g.d
       ..awakened = true
-      ..points = 4;
-    expect(g.targetOf(q('pompes')), 100);
-    for (var i = 0; i < 4; i++) {
-      g.addStat('FOR');
-    }
-    expect(g.targetOf(q('pompes')), 100);
-    expect(g.nextTargetOf(q('pompes')), 120);
-    expect(g.targetOf(q('eau')), 8);
+      ..questStreaks = {'lecture': 6}
+      ..questLastDone = {'lecture': '2026-10-22'};
+    g.d.progress['lecture'] = 25;
+    g.bump(q('lecture'), 1);
+    g.declineProposal();
+    expect(g.baseTargetOf(q('lecture')), 30);
+    expect(g.questStreak(q('lecture')), 0);
+    g.d.questLastDone['eau'] = '2026-10-20';
+    g.d.questStreaks['eau'] = 5;
+    expect(g.questStreak(q('eau')), 0);
     g.dispose();
-
-    now = DateTime(2026, 10, 24, 9);
-    final g2 = make();
-    await g2.load();
-    expect(g2.targetOf(q('pompes')), 120);
-    g2.dispose();
   });
 
   test('domains choose which quests make up the daily quest', () async {
