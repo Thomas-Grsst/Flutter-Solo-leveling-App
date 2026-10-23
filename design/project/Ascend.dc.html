@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/skera-console-design-system-b835ab87-9090-4ac0-95c4-57bd7774262a/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/skera-console-design-system-b835ab87-9090-4ac0-95c4-57bd7774262a/tokens/colors.css">
+<link rel="stylesheet" href="_ds/skera-console-design-system-b835ab87-9090-4ac0-95c4-57bd7774262a/tokens/typography.css">
+<link rel="stylesheet" href="_ds/skera-console-design-system-b835ab87-9090-4ac0-95c4-57bd7774262a/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/skera-console-design-system-b835ab87-9090-4ac0-95c4-57bd7774262a/styles.css">
+<script src="_ds/skera-console-design-system-b835ab87-9090-4ac0-95c4-57bd7774262a/_ds_bundle.js"></script>
+<style>
+body{margin:0;background:#D5D8E0;font-family:Manrope,system-ui,sans-serif}
+a{color:#C90500}a:hover{color:#B80500}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.99)}to{opacity:1;transform:none}}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(225,6,0,.45)}100%{box-shadow:0 0 0 28px rgba(225,6,0,0)}}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 16px;box-sizing:border-box">
+<div data-theme="{{ theme }}" style="width:390px;height:844px;border-radius:52px;background:#0E1013;padding:10px;box-shadow:0 26px 60px rgba(8,12,24,.3);flex:none">
+<div style="position:relative;width:100%;height:100%;border-radius:42px;overflow:hidden;background:var(--bg-page);color:var(--ink);font-family:var(--font-ui, Manrope);display:flex;flex-direction:column">
+
+<div style="height:50px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 30px 0 34px;font:700 14px Manrope;font-variant-numeric:tabular-nums;color:var(--ink)">
+<span>{{ clock }}</span>
+<div style="width:110px;height:30px;border-radius:20px;background:#0E1013;position:absolute;left:50%;top:10px;transform:translateX(-50%)"></div>
+<div style="display:flex;gap:6px;align-items:center"><div style="width:18px;height:10px;border-radius:2px;border:1.5px solid currentColor;padding:1px;box-sizing:border-box"><div style="width:70%;height:100%;background:currentColor;border-radius:1px"></div></div></div>
+</div>
+
+<sc-if value="{{ isAwaken }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:24px;gap:24px">
+<div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start">
+<span style="font:700 10px Manrope;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink)">Notification système</span>
+<span style="font:800 30px/1.1 Manrope;letter-spacing:-.02em;text-wrap:pretty">You have met the conditions to become a Player.</span>
+</div>
+<div style="background:var(--surface-card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow-card)">
+<span style="font:700 10px Manrope;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-micro)">Terms of the System</span>
+<div style="display:flex;flex-direction:column;gap:10px;font:500 13.5px/1.45 Manrope;color:var(--ink-2)">
+<div style="display:flex;gap:10px"><span style="font:600 12px JetBrains Mono,monospace;color:var(--accent-ink)">01</span><span>A daily quest is issued every day at 00:00.</span></div>
+<div style="display:flex;gap:10px"><span style="font:600 12px JetBrains Mono,monospace;color:var(--accent-ink)">02</span><span>Completed objectives grant XP and stat growth.</span></div>
+<div style="display:flex;gap:10px"><span style="font:600 12px JetBrains Mono,monospace;color:var(--accent-ink)">03</span><span>Unfinished quests trigger a penalty quest.</span></div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<button onClick="{{ accept }}" style="height:48px;border:0;border-radius:8px;background:var(--accent-solid);color:#fff;font:700 14px Manrope;box-shadow:var(--shadow-cta);cursor:pointer">Accept and become a Player</button>
+<button onClick="{{ accept }}" style="height:44px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--ink-2);font:600 13px Manrope;cursor:pointer">Decline</button>
+</div>
+<span style="font:500 11.5px/1.4 Manrope;color:var(--ink-weak);text-align:center">Declining is not an option. You have 10 seconds.</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ isApp }}" hint-placeholder-val="{{ true }}">
+<div style="flex:1;overflow-y:auto;padding:8px 16px 24px;display:flex;flex-direction:column;gap:12px">
+
+<sc-if value="{{ isStatus }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 4px 4px">
+<div style="display:flex;flex-direction:column;gap:2px">
+<span style="font:700 10px Manrope;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-micro)">Status</span>
+<span style="font:800 22px Manrope;letter-spacing:-.02em">Alex Moreau</span>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+<div style="width:40px;height:40px;border-radius:10px;background:var(--accent-soft);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font:800 20px Manrope">{{ rank }}</div>
+<span style="font:700 9.5px Manrope;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-micro)">Rank</span>
+</div>
+</div>
+
+<div style="background:var(--surface-card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:14px 26px 14px 14px;padding:18px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow-card)">
+<div style="display:flex;justify-content:space-between;align-items:flex-start">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font:700 10px Manrope;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-micro)">Level</span>
+<span style="font:800 56px/1 Manrope;letter-spacing:-.045em;font-variant-numeric:tabular-nums">{{ level }}</span>
+</div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+<x-import component-from-global-scope="SKERAConsoleDesignSystem_b835ab.StatusPill" tone="accent" hint-size="90px,20px">{{ equippedTitle }}</x-import>
+<span style="font:600 11.5px Manrope;color:var(--ink-weak)">Job · Unassigned</span>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="height:6px;border-radius:999px;background:var(--surface-alt);overflow:hidden"><div style="height:100%;width:{{ xpPct }};background:var(--accent);border-radius:999px;transition:width .4s ease-out"></div></div>
+<div style="display:flex;justify-content:space-between;font:600 11.5px Manrope;font-variant-numeric:tabular-nums;color:var(--ink-weak)"><span>{{ xpLabel }}</span><span>{{ xpToGo }}</span></div>
+</div>
+</div>
+
+<div onClick="{{ goQuests }}" style="cursor:pointer;background:var(--surface-card);border:1px solid var(--border);border-left:3px solid {{ questBar }};border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-card)">
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<span style="font:700 10px Manrope;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-micro)">Daily quest</span>
+<span style="font:700 15px Manrope">{{ questSummary }}</span>
+<span style="font:500 12px Manrope;color:var(--ink-weak);font-variant-numeric:tabular-nums">Penalty zone in <span style="font-family:JetBrains Mono,monospace;color:var(--ink-2)">{{ countdown }}</span></span>
+</div>
+<x-import component-from-global-scope="SKERAConsoleDesignSystem_b835ab.Icon" name="chevronRight" size="18" hint-size="18px,18px"></x-import>
+</div>
+
+<div style="background:var(--surface-card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow-card)">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<span style="font:700 10px Manrope;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-micro)">Stats</span>
+<sc-if value="{{ hasPoints }}" hint-placeholder-val="{{ false }}"><span onClick="{{ goStats }}" style="cursor:pointer;font:700 12px Manrope;color:var(--accent-ink)">{{ pointsLabel }}</span></sc-if>
+</div>
+<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px">
+<sc-for list="{{ stats }}" as="s" hint-placeholder-count="5">
+<div style="display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;background:var(--surface-alt);border-radius:10px">
+<span style="font:600 10px JetBrains Mono,monospace;color:var(--ink-micro)">{{ s.code }}</span>
+<span style="font:800 18px Manrope;letter-spacing:-.02em;font-variant-numeric:tabular-nums">{{ s.value }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div style="background:var(--surface-card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;box-shadow:var(--shadow-card)">
+<span style="font:700 10px Manrope;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-micro)">Streak</span>
+<span style="font:800 24px Manrope;letter-spacing:-.02em;font-variant-numeric:tabular-nums">14 days</span>
+<span style="font:500 11.5px Manrope;color:var(--ink-weak)">Best · 21 days</span>
+</div>
+<div style="background:var(--surface-card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;box-shadow:var(--shadow-card)">
+<span style="font:700 10px Manrope;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-micro)">Penalties</span>
+<span style="font:800 24px Manrope;letter-spacing:-.02em;font-variant-numeric:tabular-nums">2</span>
+<span style="font:500 11.5px Manrope;color:var(--ink-weak)">Last · 9 days ago</span>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isQuests }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:6px;padding:4px 4px 4px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<span style="font:700 10px Manrope;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-micro)">Daily quest · {{ difficultyLabel }}</span>
+<x-import component-from-global-scope="SKERAConsoleDesignSystem_b835ab.StatusPill" tone="{{ timerTone }}" hint-size="80px,20px">{{ countdown }}</x-import>
+</div>
+<span style="font:800 22px Manrope;letter-spacing:-.02em">Preparing to become powerful</span>
+<span style="font:500 12.5px/1.45 Manrope;color:var(--ink-weak);text-wrap:pretty">Complete every objective before 00:00. Failure sends you to the penalty zone.</span>
+</div>
+<sc-for list="{{ quests }}" as="q" hint-placeholder-count="5">
+<div style="background:var(--surface-card);border:1px solid var(--border);border-left:3px solid {{ q.bar }};border-radius:14px;padding:14px 14px 14px 16px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow-card)">
+<div style="display:flex;align-items:center;gap:12px">
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+<span style="font:700 15px Manrope">{{ q.name }}</span>
+<span style="font:500 11.5px Manrope;color:var(--ink-weak)">{{ q.reward }}</span>
+</div>
+<span style="font:600 13px JetBrains Mono,monospace;color:var(--ink-2);font-variant-numeric:tabular-nums">{{ q.count }}</span>
+</div>
+<div style="display:flex;align-items:center;gap:10px">
+<div style="flex:1;height:6px;border-radius:999px;background:var(--surface-alt);overflow:hidden"><div style="height:100%;width:{{ q.pct }};background:{{ q.fill }};border-radius:999px;transition:width .25s ease-out"></div></div>
+<sc-if value="{{ q.done }}" hint-placeholder-val="{{ false }}">
+<x-import component-from-global-scope="SKERAConsoleDesignSystem_b835ab.StatusPill" tone="ok" hint-size="80px,20px">Cleared</x-import>
+</sc-if>
+<sc-if value="{{ q.open }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;gap:6px">
+<button onClick="{{ q.dec }}" aria-label="Decrease" style="width:44px;height:36px;border-radius:8px;border:1px solid var(--border);background:var(--surface-card);color:var(--ink);font:700 16px Manrope;cursor:pointer">−</button>
+<button onClick="{{ q.inc }}" style="min-width:64px;height:36px;padding:0 10px;border-radius:8px;border:0;background:var(--accent-solid);color:#fff;font:700 12.5px Manrope;font-variant-numeric:tabular-nums;box-shadow:var(--shadow-cta);cursor:pointer">{{ q.step }}</button>
+</div>
+</sc-if>
+</div>
+</div>
+</sc-for>
+<div style="border:1px dashed var(--border);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:4px">
+<span style="font:700 10px Manrope;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-micro)">Completion reward</span>
+<span style="font:600 13px/1.45 Manrope;color:var(--ink-2)">Full recovery · +3 stat points · 1 random box</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ isStats }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:2px;padding:4px">
+<span style="font:700 10px Manrope;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-micro)">Stats</span>
+<span style="font:800 22px Manrope;letter-spacing:-.02em">Allocate points</span>
+</div>
+<div style="background:var(--surface-card);border:1px solid var(--border);border-left:3px solid {{ pointsBar }};border-radius:14px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow-card)">
+<div style="display:flex;flex-direction:column;gap:2px">
+<span style="font:700 10px Manrope;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-micro)">Available points</span>
+<span style="font:500 12px Manrope;color:var(--ink-weak)">Earned on level up and quest completion</span>
+</div>
+<span style="font:800 32px Manrope;letter-spacing:-.045em;font-variant-numeric:tabular-nums">{{ points }}</span>
+</div>
+<div style="background:var(--surface-card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-card);display:flex;flex-direction:column">
+<sc-for list="{{ stats }}" as="s" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:12px;padding:12px 14px 12px 16px;border-top:1px solid {{ s.divider }}">
+<span style="width:34px;font:600 12px JetBrains Mono,monospace;color:var(--accent-ink)">{{ s.code }}</span>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:700 14px Manrope">{{ s.name }}</span><span style="font:800 16px Manrope;font-variant-numeric:tabular-nums">{{ s.value }}</span></div>
+<div style="height:4px;border-radius:999px;background:var(--surface-alt);overflow:hidden"><div style="height:100%;width:{{ s.pct }};background:var(--ink-2);border-radius:999px;transition:width .25s ease-out"></div></div>
+<span style="font:500 11px Manrope;color:var(--ink-weak)">{{ s.hint }}</span>
+</div>
+<button onClick="{{ s.add }}" disabled="{{ s.locked }}" aria-label="Add point" style="width:44px;height:44px;border-radius:8px;border:1px solid var(--border);background:{{ s.btnBg }};color:{{ s.btnInk }};font:700 18px Manrope;cursor:pointer">+</button>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:2px;padding:4px">
+<span style="font:700 10px Manrope;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-micro)">Profile</span>
+<span style="font:800 22px Manrope;letter-spacing:-.02em">Titles</span>
+</div>
+<div style="background:var(--surface-card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-card);display:flex;flex-direction:column">
+<sc-for list="{{ titles }}" as="t" hint-placeholder-count="4">
+<div onClick="{{ t.equip }}" style="cursor:pointer;display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid {{ t.divider }};background:{{ t.bg }}">
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+<span style="font:700 14px Manrope;color:{{ t.ink }}">{{ t.name }}</span>
+<span style="font:500 11.5px Manrope;color:var(--ink-weak)">{{ t.desc }}</span>
+</div>
+<x-import component-from-global-scope="SKERAConsoleDesignSystem_b835ab.StatusPill" tone="{{ t.tone }}" hint-size="70px,20px">{{ t.state }}</x-import>
+</div>
+</sc-for>
+</div>
+<span style="font:700 10px Manrope;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-micro);padding:8px 4px 0">System</span>
+<div style="background:var(--surface-card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-card);display:flex;flex-direction:column">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px">
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font:700 14px Manrope">Penalty reminders</span><span style="font:500 11.5px Manrope;color:var(--ink-weak)">Alert at 20:00 and 23:00</span></div>
+<div onClick="{{ toggleReminders }}" role="switch" style="cursor:pointer;width:40px;height:24px;border-radius:999px;background:{{ remTrack }};padding:2px;box-sizing:border-box;display:flex;justify-content:{{ remJustify }};transition:background .14s"><div style="width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2)"></div></div>
+</div>
+<div onClick="{{ reset }}" style="cursor:pointer;display:flex;align-items:center;gap:10px;padding:14px 16px;border-top:1px solid var(--border);color:var(--crit);font:700 14px Manrope">
+<x-import component-from-global-scope="SKERAConsoleDesignSystem_b835ab.Icon" name="rotateCw" size="16" hint-size="16px,16px"></x-import>Restart from awakening</div>
+</div>
+</sc-if>
+
+</div>
+
+<div style="flex:none;display:grid;grid-template-columns:repeat(4,1fr);background:var(--surface-chrome);border-top:1px solid var(--border);padding:0 8px 22px">
+<sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+<div onClick="{{ t.go }}" style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0 6px;color:{{ t.ink }};border-top:3px solid {{ t.bar }};margin-top:-1px;position:relative">
+<x-import component-from-global-scope="SKERAConsoleDesignSystem_b835ab.Icon" name="{{ t.icon }}" size="20" hint-size="20px,20px"></x-import>
+<span style="font:700 10.5px Manrope">{{ t.label }}</span>
+<sc-if value="{{ t.badge }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:6px;left:calc(50% + 6px);min-width:16px;height:16px;border-radius:999px;background:var(--accent-solid);color:#fff;font:700 9.5px/16px Manrope;text-align:center;padding:0 4px;box-sizing:border-box">{{ t.badge }}</span></sc-if>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:16px;right:16px;bottom:96px;background:#16181A;color:#fff;border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:10px;font:600 13px Manrope;box-shadow:var(--shadow-pop);animation:pop .14s ease-out">
+<span style="color:#4ADE80;display:flex"><x-import component-from-global-scope="SKERAConsoleDesignSystem_b835ab.Icon" name="checkCircle" size="18" hint-size="18px,18px"></x-import></span>
+<span style="flex:1">{{ toast }}</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ levelUp }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;background:var(--scrim);display:flex;align-items:center;justify-content:center;padding:24px">
+<div style="width:100%;background:var(--surface-card);border:1px solid var(--border);border-radius:14px 26px 14px 14px;padding:28px 20px 20px;display:flex;flex-direction:column;align-items:center;gap:16px;box-shadow:var(--shadow-pop);animation:pop .14s ease-out">
+<div style="width:72px;height:72px;border-radius:50%;background:var(--accent-solid);color:#fff;display:flex;align-items:center;justify-content:center;font:800 30px Manrope;letter-spacing:-.04em;animation:ring 1.2s ease-out 2">{{ level }}</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+<span style="font:700 10px Manrope;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink)">Level up</span>
+<span style="font:800 24px Manrope;letter-spacing:-.02em">You have leveled up.</span>
+<span style="font:500 13px Manrope;color:var(--ink-weak);font-variant-numeric:tabular-nums">{{ levelUpDetail }}</span>
+</div>
+<div style="width:100%;display:flex;flex-direction:column;gap:8px">
+<button onClick="{{ allocateNow }}" style="height:46px;border:0;border-radius:8px;background:var(--accent-solid);color:#fff;font:700 14px Manrope;box-shadow:var(--shadow-cta);cursor:pointer">Allocate stat points</button>
+<button onClick="{{ closeLevelUp }}" style="height:44px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--ink);font:600 13px Manrope;cursor:pointer">Continue quests</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Dark&quot;,&quot;Light&quot;],&quot;default&quot;:&quot;Dark&quot;,&quot;tsType&quot;:&quot;'Dark'|'Light'&quot;},&quot;difficulty&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Normal&quot;,&quot;Hard&quot;],&quot;default&quot;:&quot;Normal&quot;,&quot;tsType&quot;:&quot;'Normal'|'Hard'&quot;},&quot;startAtAwakening&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const STAT_META = {
+  STR: ['Strength', 'Physical power · push-ups, squats'],
+  AGI: ['Agility', 'Speed and reflexes · running'],
+  VIT: ['Vitality', 'Endurance and recovery · sleep'],
+  INT: ['Intelligence', 'Focus · reading, study'],
+  PER: ['Perception', 'Awareness · meditation']
+};
+const QUESTS = [
+  { id: 'push', name: 'Push-ups', unit: '', target: 100, step: 10, xp: 120, stat: 'STR' },
+  { id: 'sit', name: 'Sit-ups', unit: '', target: 100, step: 10, xp: 120, stat: 'VIT' },
+  { id: 'squat', name: 'Squats', unit: '', target: 100, step: 10, xp: 120, stat: 'STR' },
+  { id: 'run', name: 'Run', unit: ' km', target: 10, step: 1, xp: 200, stat: 'AGI' },
+  { id: 'read', name: 'Read', unit: ' min', target: 30, step: 5, xp: 80, stat: 'INT' }
+];
+const TITLES = [
+  { id: 'riser', name: 'Early Riser', desc: 'Clear a daily quest before 08:00, 7 times', unlocked: true },
+  { id: 'iron', name: 'Iron Will', desc: 'Maintain a 14-day streak', unlocked: true },
+  { id: 'escapee', name: 'Penalty Survivor', desc: 'Complete a penalty quest', unlocked: true },
+  { id: 'wolf', name: 'Relentless', desc: 'Reach a 30-day streak', unlocked: false }
+];
+const initial = (hard) => ({
+  progress: { push: 60, sit: 100, squat: 40, run: 7, read: 30 },
+  level: 12, xp: 2160, points: 0,
+  stats: { STR: 24, AGI: 19, VIT: 21, INT: 17, PER: 15 },
+  title: 'riser', rewardGiven: false
+});
+class Component extends DCLogic {
+  state = { screen: null, tab: 'status', ...initial(), levelUp: false, toast: '', reminders: true, now: new Date() };
+  componentDidMount() { this.t = setInterval(() => this.setState({ now: new Date() }), 1000); }
+  componentWillUnmount() { clearInterval(this.t); clearTimeout(this.tt); }
+  mult() { return this.props.difficulty === 'Hard' ? 2 : 1; }
+  xpMax(l) { return 200 * l; }
+  flash(msg) { clearTimeout(this.tt); this.setState({ toast: msg }); this.tt = setTimeout(() => this.setState({ toast: '' }), 2600); }
+  gainXp(s, amt) {
+    let { level, xp, points } = s; xp += amt; let up = false;
+    while (xp >= this.xpMax(level)) { xp -= this.xpMax(level); level++; points += 3; up = true; }
+    return { level, xp, points, up };
+  }
+  bump(q, dir) {
+    this.setState(s => {
+      const target = q.target * this.mult();
+      const cur = s.progress[q.id];
+      const next = Math.max(0, Math.min(target, cur + dir * q.step));
+      const progress = { ...s.progress, [q.id]: next };
+      let patch = { progress };
+      if (cur < target && next >= target) {
+        const g = this.gainXp(s, q.xp);
+        patch = { ...patch, level: g.level, xp: g.xp, points: g.points, levelUp: g.up || s.levelUp, prevLevel: g.up ? s.level : s.prevLevel };
+        setTimeout(() => this.flash(`${q.name} cleared · +${q.xp} XP`), 0);
+        const all = QUESTS.every(x => progress[x.id] >= x.target * this.mult());
+        if (all && !s.rewardGiven) { patch.points = patch.points + 3; patch.rewardGiven = true; setTimeout(() => this.flash('Daily quest cleared · +3 stat points'), 2700); }
+      }
+      return patch;
+    });
+  }
+  renderVals() {
+    const s = this.state;
+    const screen = s.screen ?? (this.props.startAtAwakening ? 'awaken' : 'app');
+    const m = this.mult();
+    const now = s.now;
+    const mid = new Date(now); mid.setHours(24, 0, 0, 0);
+    const diff = Math.max(0, Math.floor((mid - now) / 1000));
+    const pad = n => String(n).padStart(2, '0');
+    const countdown = `${pad(Math.floor(diff / 3600))}:${pad(Math.floor(diff % 3600 / 60))}:${pad(diff % 60)}`;
+    const quests = QUESTS.map(q => {
+      const target = q.target * m, cur = Math.min(s.progress[q.id], target), done = cur >= target;
+      return {
+        name: q.name, count: `${cur}${q.unit} / ${target}${q.unit}`, pct: `${(cur / target) * 100}%`,
+        reward: `+${q.xp} XP · ${q.stat}`, done, open: !done, step: `+${q.step}${q.unit}`,
+        bar: done ? 'var(--ok-bar)' : cur > 0 ? 'var(--accent)' : 'var(--border)',
+        fill: done ? 'var(--ok-bar)' : 'var(--accent)',
+        inc: () => this.bump(q, 1), dec: () => this.bump(q, -1)
+      };
+    });
+    const doneN = quests.filter(q => q.done).length;
+    const ranks = [[30, 'S'], [24, 'A'], [18, 'B'], [14, 'C'], [8, 'D'], [0, 'E']];
+    const rank = ranks.find(([l]) => s.level >= l)[1];
+    const maxStat = 40;
+    const stats = Object.entries(s.stats).map(([code, value], i) => ({
+      code, value, name: STAT_META[code][0], hint: STAT_META[code][1], pct: `${Math.min(100, value / maxStat * 100)}%`,
+      divider: i === 0 ? 'transparent' : 'var(--border)', locked: s.points === 0,
+      btnBg: s.points ? 'var(--accent-soft)' : 'var(--surface-alt)', btnInk: s.points ? 'var(--accent-ink)' : 'var(--ink-3)',
+      add: () => s.points && this.setState(p => ({ points: p.points - 1, stats: { ...p.stats, [code]: p.stats[code] + 1 } }))
+    }));
+    const tabDefs = [['status', 'Status', 'layoutDashboard', 0], ['quests', 'Quests', 'checkCircle', 5 - doneN], ['stats', 'Stats', 'sliders', s.points], ['profile', 'Profile', 'user', 0]];
+    const tabs = tabDefs.map(([id, label, icon, badge]) => ({
+      label, icon, badge: badge || '', ink: s.tab === id ? 'var(--accent-ink)' : 'var(--ink-weak)', bar: s.tab === id ? 'var(--accent)' : 'transparent',
+      go: () => this.setState({ tab: id })
+    }));
+    const titles = TITLES.map((t, i) => {
+      const eq = s.title === t.id;
+      return { name: t.name, desc: t.desc, divider: i === 0 ? 'transparent' : 'var(--border)',
+        state: eq ? 'Equipped' : t.unlocked ? 'Equip' : 'Locked', tone: eq ? 'accent' : t.unlocked ? 'neutral' : 'neutral',
+        bg: eq ? 'var(--accent-soft)' : 'transparent', ink: t.unlocked ? 'var(--ink)' : 'var(--ink-weak)',
+        equip: () => t.unlocked && this.setState({ title: t.id }) };
+    });
+    const xpMax = this.xpMax(s.level);
+    return {
+      theme: this.props.theme === 'Light' ? 'light' : 'dark',
+      clock: `${pad(now.getHours())}:${pad(now.getMinutes())}`,
+      isAwaken: screen === 'awaken', isApp: screen === 'app',
+      accept: () => this.setState({ screen: 'app', tab: 'status' }),
+      isStatus: s.tab === 'status', isQuests: s.tab === 'quests', isStats: s.tab === 'stats', isProfile: s.tab === 'profile',
+      rank, level: s.level, equippedTitle: TITLES.find(t => t.id === s.title).name,
+      xpPct: `${(s.xp / xpMax) * 100}%`, xpLabel: `${s.xp.toLocaleString('en')} / ${xpMax.toLocaleString('en')} XP`,
+      xpToGo: `${(xpMax - s.xp).toLocaleString('en')} to level ${s.level + 1}`,
+      questSummary: doneN === 5 ? 'All objectives cleared' : `${doneN} of 5 objectives cleared`,
+      questBar: doneN === 5 ? 'var(--ok-bar)' : diff < 3 * 3600 ? 'var(--warn-bar)' : 'var(--accent)',
+      timerTone: doneN === 5 ? 'ok' : diff < 3 * 3600 ? 'warn' : 'neutral',
+      countdown, goQuests: () => this.setState({ tab: 'quests' }), goStats: () => this.setState({ tab: 'stats' }),
+      difficultyLabel: m === 2 ? 'Hard' : 'Normal',
+      stats, quests, tabs, titles,
+      points: s.points, hasPoints: s.points > 0, pointsLabel: `${s.points} points to allocate`,
+      pointsBar: s.points ? 'var(--accent)' : 'var(--border)',
+      remTrack: s.reminders ? 'var(--accent-solid)' : 'var(--surface-alt)', remJustify: s.reminders ? 'flex-end' : 'flex-start',
+      toggleReminders: () => this.setState(p => ({ reminders: !p.reminders })),
+      reset: () => this.setState({ screen: 'awaken', tab: 'status', ...initial(), levelUp: false }),
+      toast: s.toast, levelUp: s.levelUp,
+      levelUpDetail: `Level ${s.prevLevel ?? s.level - 1} → ${s.level} · +3 stat points`,
+      allocateNow: () => this.setState({ levelUp: false, tab: 'stats' }),
+      closeLevelUp: () => this.setState({ levelUp: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

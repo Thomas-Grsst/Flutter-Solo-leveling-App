@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&amp;family=Barlow:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+html{background:#0A0D14}body{margin:0;background:#0A0D14;font-family:Barlow,system-ui,sans-serif}
+a{color:#7CC8FF}a:hover{color:#B8E2FF}
+@keyframes glow{0%,100%{box-shadow:0 0 0 1px rgba(79,179,255,.10) inset,0 0 16px rgba(60,160,255,.22)}50%{box-shadow:0 0 0 1px rgba(79,179,255,.18) inset,0 0 28px rgba(60,160,255,.42)}}
+@keyframes fill{from{width:0}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes burst{0%{transform:scale(.6);opacity:.9}100%{transform:scale(1.8);opacity:0}}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes portal{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.04);filter:brightness(1.25)}}
+@keyframes scan{from{transform:translateY(-100%)}to{transform:translateY(760px)}}
+.dv-turn{background:#0A0D14;padding:40px 44px 32px;border-bottom:1px solid rgba(255,255,255,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 8px}.dv-tid{font:600 10px JetBrains Mono,monospace;padding:3px 7px;background:#4FB3FF;color:#04060C;border-radius:3px;text-decoration:none}.dv-tname{font:600 14px Chakra Petch,sans-serif;color:#E8F3FF;letter-spacing:.04em}.dv-opts{display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:12px;scroll-margin-top:16px}.dv-oid{font:600 10.5px JetBrains Mono,monospace;padding:3px 7px;background:rgba(79,179,255,.16);color:#A9DCFF;border-radius:3px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:500 13px/1.3 Barlow,sans-serif;color:#8FA8C9}.dv-card{display:flex;gap:20px;padding:20px;background:#0F131C;border:1px solid rgba(255,255,255,.06);border-radius:10px}.dv-opt:target .dv-oid{background:#4FB3FF;color:#04060C}.dv-next{margin:28px 0 0;font:13px/1.5 Barlow,sans-serif;color:#8FA8C9}
+</style>
+</helmet>
+<section class="dv-turn" id="t3">
+<div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname">MÊME ÉCRAN, QUATRE STYLES</span></div>
+<p style="margin:0 0 28px;max-width:780px;font:500 14px/1.5 Barlow;color:#8FA8C9;text-wrap:pretty">Le même écran d'accueil avec exactement les mêmes données : niveau 12, rang D, stats, quête du jour, interdits. Seul le style change. Choisissez celui que vous préférez, il sera appliqué à tous les écrans de l'app.</p>
+<div class="dv-opts">
+
+<div class="dv-opt" id="3a">
+<div class="dv-olabel"><a class="dv-oid" href="#3a">3a</a>Style « Fenêtre Système » (celui de <a class="dv-oid" href="#1a">1a</a>) : fenêtres bleues, fiche de personnage</div>
+<div class="dv-card">
+<div style="width:360px;height:760px;border-radius:34px;background:#111216;padding:7px;flex:none;box-shadow:0 0 0 1px #24262C">
+<div style="width:100%;height:100%;border-radius:28px;overflow:hidden;position:relative;display:flex;flex-direction:column;color:#E8F3FF;background:radial-gradient(ellipse 90% 45% at 50% 0%,rgba(40,110,220,.28),transparent 70%),#04060C">
+<div style="position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px)"></div>
+<div style="height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font:600 12px Barlow;color:#C9D8EC"><span>21:18</span><div style="width:9px;height:9px;border-radius:50%;background:#000;box-shadow:0 0 0 1.5px #1A1C22"></div><span>87 %</span></div>
+<div style="flex:1;padding:10px 14px;display:flex;flex-direction:column;gap:10px;position:relative">
+<div style="border:1px solid rgba(79,179,255,.6);background:linear-gradient(180deg,rgba(18,40,82,.6),rgba(6,12,28,.82));border-radius:3px;padding:14px 16px;display:flex;flex-direction:column;gap:12px;animation:glow 3.2s ease-in-out infinite">
+<div style="display:flex;align-items:center;justify-content:center;gap:10px;padding-bottom:8px;border-bottom:1px solid rgba(79,179,255,.25)"><span style="width:6px;height:6px;transform:rotate(45deg);background:#4FB3FF"></span><span style="font:700 16px Chakra Petch;letter-spacing:.3em;color:#CFEAFF;text-shadow:0 0 12px rgba(80,180,255,.8)">STATUT</span><span style="width:6px;height:6px;transform:rotate(45deg);background:#4FB3FF"></span></div>
+<div style="display:flex;justify-content:space-between;align-items:flex-end">
+<div style="display:flex;flex-direction:column;gap:5px;font:500 13px Barlow;color:#8FA8C9"><span>NOM : <span style="color:#E8F3FF;font-weight:600">Alex Moreau</span></span><span>RANG : <span style="color:#E8F3FF;font-weight:600">D</span></span><span>TITRE : <span style="color:#E8F3FF;font-weight:600">Lève-tôt</span></span></div>
+<div style="display:flex;flex-direction:column;align-items:center;line-height:1"><span style="font:600 11px Chakra Petch;letter-spacing:.2em;color:#8FA8C9">NIVEAU</span><span style="font:700 52px Chakra Petch;text-shadow:0 0 18px rgba(80,180,255,.7)">12</span></div>
+</div>
+<div style="display:grid;grid-template-columns:30px 1fr 74px;gap:8px;align-items:center;font:600 11px JetBrains Mono,monospace;color:#8FA8C9"><span>XP</span><div style="height:5px;background:rgba(79,179,255,.12)"><div style="height:100%;width:90%;background:#A9DCFF;box-shadow:0 0 8px #A9DCFF;animation:fill 1.3s ease-out"></div></div><span style="text-align:right;color:#E8F3FF">2 160/2 400</span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;padding-top:10px;border-top:1px solid rgba(79,179,255,.25);font:600 13px Barlow">
+<div style="display:flex;justify-content:space-between"><span style="color:#8FA8C9">FORCE</span><span style="font-family:JetBrains Mono,monospace">24</span></div>
+<div style="display:flex;justify-content:space-between"><span style="color:#8FA8C9">AGILITÉ</span><span style="font-family:JetBrains Mono,monospace">19</span></div>
+<div style="display:flex;justify-content:space-between"><span style="color:#8FA8C9">VITALITÉ</span><span style="font-family:JetBrains Mono,monospace;color:#FF8A95">19↓</span></div>
+<div style="display:flex;justify-content:space-between"><span style="color:#8FA8C9">INTELLECT</span><span style="font-family:JetBrains Mono,monospace">17</span></div>
+<div style="display:flex;justify-content:space-between"><span style="color:#8FA8C9">PERCEPTION</span><span style="font-family:JetBrains Mono,monospace">15</span></div>
+<div style="display:flex;justify-content:space-between"><span style="color:#A9DCFF">POINTS</span><span style="font-family:JetBrains Mono,monospace;color:#A9DCFF">3</span></div>
+</div>
+</div>
+<div style="border:1px solid rgba(79,179,255,.4);background:rgba(8,16,34,.7);border-radius:3px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center">
+<div style="display:flex;flex-direction:column;gap:3px"><span style="font:600 11px Chakra Petch;letter-spacing:.18em;color:#8FA8C9">QUÊTE QUOTIDIENNE</span><span style="font:600 15px Barlow">3 objectifs sur 5</span></div>
+<span style="font:600 14px JetBrains Mono,monospace;color:#FF8A95">02:41:52</span>
+</div>
+<div style="border:1px solid rgba(255,77,94,.45);background:rgba(50,8,16,.45);border-radius:3px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center">
+<div style="display:flex;flex-direction:column;gap:3px"><span style="font:600 11px Chakra Petch;letter-spacing:.18em;color:#E5B9BE">INTERDITS</span><span style="font:600 15px Barlow">1 écart · Langueur active</span></div>
+<span style="font:600 13px JetBrains Mono,monospace;color:#FF8A95">VIT −2</span>
+</div>
+<div style="border:1px solid rgba(79,179,255,.25);border-radius:3px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center"><span style="font:600 11px Chakra Petch;letter-spacing:.18em;color:#8FA8C9">SÉRIE</span><span style="font:700 16px Chakra Petch">14 jours</span></div>
+</div>
+<div style="flex:none;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(79,179,255,.2);background:rgba(4,8,18,.9);padding:10px 0 6px">
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;font:600 11px Chakra Petch;letter-spacing:.1em;color:#A9DCFF"><span style="width:8px;height:8px;transform:rotate(45deg);background:#4FB3FF;box-shadow:0 0 8px #4FB3FF"></span>STATUT</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;font:600 11px Chakra Petch;letter-spacing:.1em;color:#5B7090"><span style="width:8px;height:8px;transform:rotate(45deg);border:1px solid #5B7090"></span>QUÊTES</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;font:600 11px Chakra Petch;letter-spacing:.1em;color:#5B7090"><span style="width:8px;height:8px;transform:rotate(45deg);border:1px solid #5B7090"></span>DONJONS</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;font:600 11px Chakra Petch;letter-spacing:.1em;color:#5B7090"><span style="width:8px;height:8px;transform:rotate(45deg);border:1px solid #5B7090"></span>PROFIL</div>
+</div>
+<div style="height:16px;flex:none;display:flex;align-items:center;justify-content:center;background:rgba(4,8,18,.9)"><div style="width:90px;height:4px;border-radius:2px;background:#3A4458"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="3b">
+<div class="dv-olabel"><a class="dv-oid" href="#3b">3b</a>Style « HUD de chasseur » (celui de <a class="dv-oid" href="#1b">1b</a>) : anneau central, jeu mobile moderne</div>
+<div class="dv-card">
+<div style="width:360px;height:760px;border-radius:34px;background:#111216;padding:7px;flex:none;box-shadow:0 0 0 1px #24262C">
+<div style="width:100%;height:100%;border-radius:28px;overflow:hidden;position:relative;display:flex;flex-direction:column;color:#E8F3FF;background:radial-gradient(circle at 50% 28%,rgba(40,110,220,.22),transparent 55%),#04060C">
+<div style="height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font:600 12px Barlow;color:#C9D8EC"><span>21:18</span><div style="width:9px;height:9px;border-radius:50%;background:#000;box-shadow:0 0 0 1.5px #1A1C22"></div><span>87 %</span></div>
+<div style="flex:1;padding:8px 18px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<div style="display:flex;flex-direction:column"><span style="font:500 12px Barlow;color:#8FA8C9">Lève-tôt</span><span style="font:700 18px Chakra Petch;letter-spacing:.04em">Alex Moreau</span></div>
+<div style="width:44px;height:50px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:#4FB3FF;display:flex;align-items:center;justify-content:center"><div style="width:40px;height:46px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:#081226;display:flex;align-items:center;justify-content:center;font:700 22px Chakra Petch;color:#A9DCFF">D</div></div>
+</div>
+<div style="position:relative;width:190px;height:190px;margin:0 auto;display:flex;align-items:center;justify-content:center">
+<div style="position:absolute;inset:-6px;border-radius:50%;border:1px dashed rgba(79,179,255,.3);animation:spin 40s linear infinite"></div>
+<svg width="190" height="190" viewBox="0 0 220 220" style="position:absolute;inset:0;transform:rotate(-90deg)"><circle cx="110" cy="110" r="96" fill="none" stroke="rgba(79,179,255,.12)" stroke-width="8"></circle><circle cx="110" cy="110" r="96" fill="none" stroke="#4FB3FF" stroke-width="8" stroke-dasharray="603" stroke-dashoffset="60" style="filter:drop-shadow(0 0 6px #4FB3FF);animation:draw 1.6s ease-out"></circle></svg>
+<div style="display:flex;flex-direction:column;align-items:center;line-height:1;gap:4px"><span style="font:600 11px Chakra Petch;letter-spacing:.3em;color:#8FA8C9">NIVEAU</span><span style="font:700 64px Chakra Petch;text-shadow:0 0 22px rgba(80,180,255,.7)">12</span><span style="font:600 11px JetBrains Mono,monospace;color:#A9DCFF">2 160/2 400</span></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px">
+<div style="padding:8px 0;border:1px solid rgba(79,179,255,.3);background:rgba(10,22,46,.6);display:flex;flex-direction:column;align-items:center;gap:2px"><span style="font:600 10px Chakra Petch;color:#8FA8C9">FOR</span><span style="font:700 17px Chakra Petch">24</span></div>
+<div style="padding:8px 0;border:1px solid rgba(79,179,255,.3);background:rgba(10,22,46,.6);display:flex;flex-direction:column;align-items:center;gap:2px"><span style="font:600 10px Chakra Petch;color:#8FA8C9">AGI</span><span style="font:700 17px Chakra Petch">19</span></div>
+<div style="padding:8px 0;border:1px solid rgba(255,77,94,.5);background:rgba(50,8,16,.5);display:flex;flex-direction:column;align-items:center;gap:2px"><span style="font:600 10px Chakra Petch;color:#E5B9BE">VIT</span><span style="font:700 17px Chakra Petch;color:#FF8A95">19</span></div>
+<div style="padding:8px 0;border:1px solid rgba(79,179,255,.3);background:rgba(10,22,46,.6);display:flex;flex-direction:column;align-items:center;gap:2px"><span style="font:600 10px Chakra Petch;color:#8FA8C9">INT</span><span style="font:700 17px Chakra Petch">17</span></div>
+<div style="padding:8px 0;border:1px solid rgba(79,179,255,.3);background:rgba(10,22,46,.6);display:flex;flex-direction:column;align-items:center;gap:2px"><span style="font:600 10px Chakra Petch;color:#8FA8C9">PER</span><span style="font:700 17px Chakra Petch">15</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;font:600 11px Chakra Petch;letter-spacing:.16em;color:#8FA8C9"><span>AUJOURD'HUI · 3/5</span><span style="color:#FF8A95;font-family:JetBrains Mono,monospace;letter-spacing:0">02:41:52</span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-left:2px solid #4FB3FF;background:linear-gradient(90deg,rgba(79,179,255,.14),rgba(79,179,255,0))"><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font:600 15px Barlow">Gainage</span><span style="font:500 12px Barlow;color:#8FA8C9">+150 XP · AGI</span></div><span style="font:600 13px JetBrains Mono,monospace">3/5 min</span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-left:2px solid #4FB3FF;background:linear-gradient(90deg,rgba(79,179,255,.14),rgba(79,179,255,0))"><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font:600 15px Barlow">Travail profond</span><span style="font:500 12px Barlow;color:#8FA8C9">+180 XP · INT</span></div><span style="font:600 13px JetBrains Mono,monospace">1/2</span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-left:2px solid #FF4D5E;background:linear-gradient(90deg,rgba(255,77,94,.14),rgba(255,77,94,0))"><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font:600 15px Barlow">Interdits · 1 écart</span><span style="font:500 12px Barlow;color:#E5B9BE">Langueur · VIT −2</span></div><span style="font:600 13px JetBrains Mono,monospace;color:#FF8A95">0/3 j</span></div>
+</div>
+</div>
+<div style="flex:none;display:grid;grid-template-columns:repeat(4,1fr);padding:10px 0 4px;border-top:1px solid rgba(79,179,255,.15)">
+<div style="text-align:center;font:600 11px Chakra Petch;letter-spacing:.1em;color:#A9DCFF;border-top:2px solid #4FB3FF;margin-top:-11px;padding-top:12px">ACCUEIL</div>
+<div style="text-align:center;font:600 11px Chakra Petch;letter-spacing:.1em;color:#5B7090;padding-top:1px">QUÊTES</div>
+<div style="text-align:center;font:600 11px Chakra Petch;letter-spacing:.1em;color:#5B7090;padding-top:1px">DONJONS</div>
+<div style="text-align:center;font:600 11px Chakra Petch;letter-spacing:.1em;color:#5B7090;padding-top:1px">PROFIL</div>
+</div>
+<div style="height:16px;flex:none;display:flex;align-items:center;justify-content:center"><div style="width:90px;height:4px;border-radius:2px;background:#3A4458"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="3c">
+<div class="dv-olabel"><a class="dv-oid" href="#3c">3c</a>Style « Journal » (celui de <a class="dv-oid" href="#1c">1c</a>) : terminal, saisie par commande</div>
+<div class="dv-card">
+<div style="width:360px;height:760px;border-radius:34px;background:#111216;padding:7px;flex:none;box-shadow:0 0 0 1px #24262C">
+<div style="width:100%;height:100%;border-radius:28px;overflow:hidden;position:relative;display:flex;flex-direction:column;color:#E8F3FF;background:#03050A">
+<div style="position:absolute;left:0;right:0;height:120px;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(79,179,255,.06),transparent);animation:scan 6s linear infinite"></div>
+<div style="height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font:600 12px Barlow;color:#C9D8EC"><span>21:18</span><div style="width:9px;height:9px;border-radius:50%;background:#000;box-shadow:0 0 0 1.5px #1A1C22"></div><span>87 %</span></div>
+<div style="flex:1;padding:10px 16px;display:flex;flex-direction:column;gap:14px;font:500 13px/1.5 JetBrains Mono,monospace;color:#8FA8C9">
+<div style="display:flex;flex-direction:column;gap:2px"><span style="color:#5B7090">$ statut</span><span><span style="color:#fff">Alex Moreau</span> · rang <span style="color:#fff">D</span> · niv <span style="color:#fff">12</span></span><span>xp  <span style="color:#4FB3FF">██████████████████</span><span style="color:#1E2B40">██</span> 90 %</span></div>
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:8px 0;border-top:1px dashed rgba(79,179,255,.25);border-bottom:1px dashed rgba(79,179,255,.25)">
+<span>FOR<br><span style="color:#fff">24</span></span><span>AGI<br><span style="color:#fff">19</span></span><span>VIT<br><span style="color:#FF8A95">19↓</span></span><span>INT<br><span style="color:#fff">17</span></span><span>PER<br><span style="color:#fff">15</span></span>
+</div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="color:#5B7090">$ quete --jour</span>
+<span><span style="color:#4FB3FF">[✓]</span> pompes      100/100</span>
+<span><span style="color:#4FB3FF">[✓]</span> lecture     30/30</span>
+<span><span style="color:#4FB3FF">[✓]</span> eau         2/2 L</span>
+<span><span style="color:#E8F3FF">[ ]</span> <span style="color:#E8F3FF">gainage     3/5 min</span></span>
+<span><span style="color:#E8F3FF">[ ]</span> <span style="color:#E8F3FF">travail     1/2</span></span>
+<span style="color:#FF8A95">pénalité dans 02:41:52</span></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="color:#5B7090">$ interdits</span>
+<span><span style="color:#4FB3FF">[OK]</span> tabac       23 j</span>
+<span><span style="color:#FFC857">[..]</span> réseaux     42/60 min</span>
+<span><span style="color:#FF6B78">[!!]</span> <span style="color:#FFB3BA">sucre       écart 16:20</span></span></div>
+<div style="padding:8px 10px;border:1px solid rgba(255,77,94,.5);background:rgba(70,8,18,.35);color:#F3D3D7">Langueur active · VIT −2 · XP −10 %</div>
+</div>
+<div style="flex:none;margin:0 12px 8px;height:48px;border:1px solid #4FB3FF;background:rgba(8,18,38,.9);display:flex;align-items:center;gap:10px;padding:0 14px;box-shadow:0 0 14px rgba(79,179,255,.25)"><span style="font:600 14px JetBrains Mono,monospace;color:#4FB3FF">&gt;</span><span style="flex:1;font:500 14px JetBrains Mono,monospace">gainage 2<span style="display:inline-block;width:8px;height:16px;background:#4FB3FF;vertical-align:-3px;margin-left:2px;animation:blink 1s steps(1) infinite"></span></span><span style="font:700 12px Chakra Petch;letter-spacing:.14em;color:#A9DCFF">ENVOYER</span></div>
+<div style="height:16px;flex:none;display:flex;align-items:center;justify-content:center"><div style="width:90px;height:4px;border-radius:2px;background:#3A4458"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="3d">
+<div class="dv-olabel"><a class="dv-oid" href="#3d">3d</a>Style « Rangs » (celui de <a class="dv-oid" href="#1d">1d</a>) : progression et radar au premier plan</div>
+<div class="dv-card">
+<div style="width:360px;height:760px;border-radius:34px;background:#111216;padding:7px;flex:none;box-shadow:0 0 0 1px #24262C">
+<div style="width:100%;height:100%;border-radius:28px;overflow:hidden;position:relative;display:flex;flex-direction:column;color:#E8F3FF;background:radial-gradient(ellipse 90% 40% at 50% 0%,rgba(40,110,220,.25),transparent 70%),#04060C">
+<div style="height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font:600 12px Barlow;color:#C9D8EC"><span>21:18</span><div style="width:9px;height:9px;border-radius:50%;background:#000;box-shadow:0 0 0 1.5px #1A1C22"></div><span>87 %</span></div>
+<div style="flex:1;padding:8px 18px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:flex-end"><div style="display:flex;flex-direction:column;gap:2px"><span style="font:600 11px Chakra Petch;letter-spacing:.2em;color:#8FA8C9">ALEX MOREAU · LÈVE-TÔT</span><span style="font:700 22px Chakra Petch;letter-spacing:.04em">Rang D · niveau 12</span></div><span style="font:600 12px JetBrains Mono,monospace;color:#A9DCFF">90 %</span></div>
+<div style="display:grid;grid-template-columns:repeat(10,1fr);gap:3px;align-items:end">
+<div style="height:14px;background:rgba(79,179,255,.4)"></div><div style="height:20px;background:#4FB3FF;box-shadow:0 0 10px #4FB3FF"></div><div style="height:26px;border:1px dashed rgba(79,179,255,.4)"></div><div style="height:32px;border:1px dashed rgba(79,179,255,.3)"></div><div style="height:38px;border:1px dashed rgba(79,179,255,.25)"></div><div style="height:44px;border:1px dashed rgba(255,200,87,.35)"></div><div style="height:50px;border:1px dashed rgba(255,200,87,.4)"></div><div style="height:56px;border:1px dashed rgba(255,200,87,.5)"></div><div style="height:62px;border:1px dashed rgba(255,77,94,.5)"></div><div style="height:70px;border:1px solid rgba(160,123,255,.6);box-shadow:0 0 10px rgba(160,123,255,.35)"></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(10,1fr);gap:3px;font:700 9px Chakra Petch;text-align:center;color:#5B7090;margin-top:-6px"><span style="color:#8FA8C9">E</span><span style="color:#fff">D</span><span>C</span><span>B</span><span>A</span><span style="color:#C9A75A">S</span><span style="color:#C9A75A">SS</span><span style="color:#C9A75A">SSS</span><span style="color:#C96B75">NAT</span><span style="color:#A07BFF">MON</span></div>
+<div style="display:flex;justify-content:center">
+<svg width="230" height="206" viewBox="0 0 260 240">
+<g fill="none" stroke="rgba(79,179,255,.18)"><polygon points="130,20 234,96 194,218 66,218 26,96"></polygon><polygon points="130,56 199,107 173,188 87,188 61,107"></polygon><polygon points="130,92 165,118 152,158 108,158 95,118"></polygon></g>
+<polygon points="130,38 201,108 176,184 84,198 70,112" fill="rgba(79,179,255,.22)" stroke="#4FB3FF" stroke-width="1.5" style="filter:drop-shadow(0 0 6px #4FB3FF)"></polygon>
+<g font-family="Chakra Petch" font-size="13" font-weight="700" fill="#A9DCFF" text-anchor="middle"><text x="130" y="12">FOR 24</text><text x="252" y="90" text-anchor="end">AGI 19</text><text x="206" y="236" fill="#FF8A95">VIT 19</text><text x="54" y="236">INT 17</text><text x="8" y="90" text-anchor="start">PER 15</text></g>
+</svg>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="padding:10px 12px;border:1px solid rgba(79,179,255,.35);display:flex;flex-direction:column;gap:2px"><span style="font:600 10px Chakra Petch;letter-spacing:.16em;color:#8FA8C9">QUÊTE · 3/5</span><span style="font:700 18px JetBrains Mono,monospace;color:#FF8A95">02:41:52</span></div>
+<div style="padding:10px 12px;border:1px solid rgba(255,77,94,.45);background:rgba(50,8,16,.4);display:flex;flex-direction:column;gap:2px"><span style="font:600 10px Chakra Petch;letter-spacing:.16em;color:#E5B9BE">INTERDITS</span><span style="font:700 18px Chakra Petch">1 écart</span></div>
+<div style="padding:10px 12px;border:1px solid rgba(79,179,255,.25);display:flex;flex-direction:column;gap:2px"><span style="font:600 10px Chakra Petch;letter-spacing:.16em;color:#8FA8C9">SÉRIE</span><span style="font:700 18px Chakra Petch">14 jours</span></div>
+<div style="padding:10px 12px;border:1px solid rgba(79,179,255,.5);background:rgba(79,179,255,.1);display:flex;flex-direction:column;gap:2px"><span style="font:600 10px Chakra Petch;letter-spacing:.16em;color:#8FA8C9">POINTS</span><span style="font:700 18px Chakra Petch;color:#A9DCFF">3 à répartir</span></div>
+</div>
+</div>
+<div style="flex:none;display:grid;grid-template-columns:repeat(4,1fr);padding:10px 0 4px;border-top:1px solid rgba(79,179,255,.15)">
+<div style="text-align:center;font:600 11px Chakra Petch;letter-spacing:.1em;color:#A9DCFF;border-top:2px solid #4FB3FF;margin-top:-11px;padding-top:12px">RANG</div>
+<div style="text-align:center;font:600 11px Chakra Petch;letter-spacing:.1em;color:#5B7090;padding-top:1px">QUÊTES</div>
+<div style="text-align:center;font:600 11px Chakra Petch;letter-spacing:.1em;color:#5B7090;padding-top:1px">DONJONS</div>
+<div style="text-align:center;font:600 11px Chakra Petch;letter-spacing:.1em;color:#5B7090;padding-top:1px">PROFIL</div>
+</div>
+<div style="height:16px;flex:none;display:flex;align-items:center;justify-content:center"><div style="width:90px;height:4px;border-radius:2px;background:#3A4458"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Répondez simplement : « <a class="dv-oid" href="#3a">3a</a> », « <a class="dv-oid" href="#3b">3b</a> », ou un mélange comme « <a class="dv-oid" href="#3a">3a</a> avec l'anneau de <a class="dv-oid" href="#3b">3b</a> ».</p>
+</section>
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">MAUVAISES HABITUDES + ÉCHELLE COMPLÈTE DES RANGS</span></div>
+<p style="margin:0 0 28px;max-width:780px;font:500 14px/1.5 Barlow;color:#8FA8C9;text-wrap:pretty">Les mauvaises habitudes deviennent des « interdits » : chaque jour sans écart rapporte de l'XP, et un écart déclenche une altération d'état qui réduit une stat jusqu'à ce qu'elle soit purgée. L'échelle des rangs va désormais de E à Monarque, en passant par S, SS, SSS et National.</p>
+<div class="dv-opts">
+
+<div class="dv-opt" id="2a">
+<div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Quête du jour : objectifs et interdits dans la même fenêtre</div>
+<div class="dv-card">
+<div style="width:360px;height:760px;border-radius:34px;background:#111216;padding:7px;flex:none;box-shadow:0 0 0 1px #24262C">
+<div style="width:100%;height:100%;border-radius:28px;overflow:hidden;position:relative;display:flex;flex-direction:column;color:#E8F3FF;background:radial-gradient(ellipse 90% 45% at 50% 0%,rgba(40,110,220,.28),transparent 70%),#04060C">
+<div style="position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px)"></div>
+<div style="height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font:600 12px Barlow;color:#C9D8EC"><span>21:18</span><div style="width:9px;height:9px;border-radius:50%;background:#000;box-shadow:0 0 0 1.5px #1A1C22"></div><span>87 %</span></div>
+<div style="flex:1;padding:10px 14px;display:flex;flex-direction:column;gap:12px;position:relative">
+<div style="border:1px solid rgba(79,179,255,.6);background:linear-gradient(180deg,rgba(18,40,82,.6),rgba(6,12,28,.82));border-radius:3px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;animation:glow 3.2s ease-in-out infinite">
+<div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:8px;border-bottom:1px solid rgba(79,179,255,.25)"><span style="font:700 14px Chakra Petch;letter-spacing:.22em;color:#CFEAFF;text-shadow:0 0 12px rgba(80,180,255,.8)">À ACCOMPLIR</span><span style="font:600 12px JetBrains Mono,monospace;color:#A9DCFF">3/5</span></div>
+<div style="display:grid;grid-template-columns:18px 1fr auto;gap:10px;align-items:center;padding:7px 0"><span style="width:14px;height:14px;background:#4FB3FF;box-shadow:0 0 8px #4FB3FF;display:flex;align-items:center;justify-content:center;color:#04060C;font:700 10px Barlow">✓</span><span style="font:600 15px Barlow;color:#8FA8C9;text-decoration:line-through">Pompes</span><span style="font:600 12px JetBrains Mono,monospace;color:#4FB3FF">100/100</span></div>
+<div style="display:grid;grid-template-columns:18px 1fr auto;gap:10px;align-items:center;padding:7px 0"><span style="width:14px;height:14px;border:1px solid #4FB3FF"></span><span style="font:600 15px Barlow">Gainage</span><span style="font:600 12px JetBrains Mono,monospace">3/5 min</span></div>
+<div style="display:grid;grid-template-columns:18px 1fr auto;gap:10px;align-items:center;padding:7px 0"><span style="width:14px;height:14px;background:#4FB3FF;box-shadow:0 0 8px #4FB3FF;display:flex;align-items:center;justify-content:center;color:#04060C;font:700 10px Barlow">✓</span><span style="font:600 15px Barlow;color:#8FA8C9;text-decoration:line-through">Lecture</span><span style="font:600 12px JetBrains Mono,monospace;color:#4FB3FF">30/30 min</span></div>
+<div style="display:grid;grid-template-columns:18px 1fr auto;gap:10px;align-items:center;padding:7px 0"><span style="width:14px;height:14px;background:#4FB3FF;box-shadow:0 0 8px #4FB3FF;display:flex;align-items:center;justify-content:center;color:#04060C;font:700 10px Barlow">✓</span><span style="font:600 15px Barlow;color:#8FA8C9;text-decoration:line-through">Eau</span><span style="font:600 12px JetBrains Mono,monospace;color:#4FB3FF">2/2 L</span></div>
+<div style="display:grid;grid-template-columns:18px 1fr auto;gap:10px;align-items:center;padding:7px 0"><span style="width:14px;height:14px;border:1px solid #4FB3FF"></span><span style="font:600 15px Barlow">Travail profond</span><span style="font:600 12px JetBrains Mono,monospace">1/2</span></div>
+</div>
+<div style="border:1px solid rgba(255,77,94,.55);background:linear-gradient(180deg,rgba(70,10,22,.5),rgba(20,4,10,.8));border-radius:3px;padding:14px 16px;display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:8px;border-bottom:1px solid rgba(255,77,94,.25)"><span style="font:700 14px Chakra Petch;letter-spacing:.22em;color:#FFB3BA;text-shadow:0 0 12px rgba(255,77,94,.7)">INTERDITS</span><span style="font:600 12px JetBrains Mono,monospace;color:#FF8A95">1 écart</span></div>
+<div style="display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:7px 0"><div style="display:flex;flex-direction:column"><span style="font:600 15px Barlow">Tabac</span><span style="font:500 12px Barlow;color:#A9B6C9">Tenu · 23 jours</span></div><span style="font:600 12px JetBrains Mono,monospace;color:#4FB3FF">+40 XP</span><span style="width:44px;height:30px;border:1px solid rgba(255,77,94,.5);display:flex;align-items:center;justify-content:center;font:700 11px Chakra Petch;color:#FF8A95">ÉCART</span></div>
+<div style="display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:7px 0"><div style="display:flex;flex-direction:column"><span style="font:600 15px Barlow">Réseaux sociaux &gt; 1 h</span><span style="font:500 12px Barlow;color:#A9B6C9">Utilisé aujourd'hui · 42 min</span></div><span style="font:600 12px JetBrains Mono,monospace;color:#FFC857">70 %</span><span style="width:44px;height:30px;border:1px solid rgba(255,77,94,.5);display:flex;align-items:center;justify-content:center;font:700 11px Chakra Petch;color:#FF8A95">ÉCART</span></div>
+<div style="display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:7px 0;background:rgba(255,77,94,.08);margin:0 -8px;padding-left:8px;padding-right:8px"><div style="display:flex;flex-direction:column"><span style="font:600 15px Barlow;color:#FFB3BA">Sucre ajouté</span><span style="font:500 12px Barlow;color:#FF8A95">Écart à 16:20 · VIT −2</span></div><span style="font:600 12px JetBrains Mono,monospace;color:#FF8A95">−60 XP</span><span style="width:44px;height:30px;display:flex;align-items:center;justify-content:center;font:700 11px Chakra Petch;color:#5B7090">—</span></div>
+<div style="display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:7px 0"><div style="display:flex;flex-direction:column"><span style="font:600 15px Barlow">Coucher après 00:30</span><span style="font:500 12px Barlow;color:#A9B6C9">Vérifié demain matin</span></div><span style="font:600 12px JetBrains Mono,monospace;color:#4FB3FF">+30 XP</span><span style="width:44px;height:30px;border:1px solid rgba(255,77,94,.5);display:flex;align-items:center;justify-content:center;font:700 11px Chakra Petch;color:#FF8A95">ÉCART</span></div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding:0 4px;font:500 13px Barlow;color:#8FA8C9"><span>Pénalité à 00:00</span><span style="font:600 15px JetBrains Mono,monospace;color:#FF8A95">02:41:52</span></div>
+</div>
+<div style="height:16px;flex:none;display:flex;align-items:center;justify-content:center"><div style="width:90px;height:4px;border-radius:2px;background:#3A4458"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="2b">
+<div class="dv-olabel"><a class="dv-oid" href="#2b">2b</a>Altérations d'état : une mauvaise habitude agit comme un malus sur les stats</div>
+<div class="dv-card">
+<div style="width:360px;height:760px;border-radius:34px;background:#111216;padding:7px;flex:none;box-shadow:0 0 0 1px #24262C">
+<div style="width:100%;height:100%;border-radius:28px;overflow:hidden;position:relative;display:flex;flex-direction:column;color:#E8F3FF;background:radial-gradient(ellipse 80% 40% at 50% 0%,rgba(200,30,60,.25),transparent 70%),#06040A">
+<div style="height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font:600 12px Barlow;color:#C9D8EC"><span>16:21</span><div style="width:9px;height:9px;border-radius:50%;background:#000;box-shadow:0 0 0 1.5px #1A1C22"></div><span>64 %</span></div>
+<div style="flex:1;padding:10px 14px;display:flex;flex-direction:column;gap:12px">
+<div style="border:1px solid rgba(255,77,94,.7);background:linear-gradient(180deg,rgba(80,10,24,.6),rgba(20,4,10,.85));border-radius:3px;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:0 0 24px rgba(255,77,94,.25);animation:rise .4s ease-out">
+<div style="display:flex;align-items:center;justify-content:center;gap:10px;padding-bottom:10px;border-bottom:1px solid rgba(255,77,94,.3)"><span style="width:20px;height:20px;border:1px solid #FF4D5E;display:flex;align-items:center;justify-content:center;font:700 13px Chakra Petch;color:#FF4D5E">!</span><span style="font:700 15px Chakra Petch;letter-spacing:.24em;color:#FFD0D5;text-shadow:0 0 12px rgba(255,77,94,.8)">ALTÉRATION D'ÉTAT</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center"><span style="font:700 22px Chakra Petch;letter-spacing:.04em">Langueur</span><span style="font:500 13px/1.4 Barlow;color:#E5B9BE">Écart enregistré : sucre ajouté à 16:20.</span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="padding:10px;border:1px solid rgba(255,77,94,.35);display:flex;flex-direction:column;gap:2px"><span style="font:600 10px Chakra Petch;letter-spacing:.16em;color:#E5B9BE">VITALITÉ</span><span style="font:700 20px Chakra Petch">21 → <span style="color:#FF6B78">19</span></span></div>
+<div style="padding:10px;border:1px solid rgba(255,77,94,.35);display:flex;flex-direction:column;gap:2px"><span style="font:600 10px Chakra Petch;letter-spacing:.16em;color:#E5B9BE">GAIN D'XP</span><span style="font:700 20px Chakra Petch;color:#FF6B78">−10 %</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;padding-top:10px;border-top:1px solid rgba(255,77,94,.25)">
+<span style="font:600 11px Chakra Petch;letter-spacing:.18em;color:#E5B9BE">POUR PURGER L'ALTÉRATION</span>
+<span style="font:500 14px/1.4 Barlow">Tenir 3 jours sans écart, ou terminer la quête de purge : 30 min de cardio.</span>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<span style="font:600 11px Chakra Petch;letter-spacing:.2em;color:#8FA8C9;padding:0 4px">ALTÉRATIONS ACTIVES</span>
+<div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-left:2px solid #FF4D5E;background:linear-gradient(90deg,rgba(255,77,94,.14),rgba(255,77,94,0))"><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font:600 15px Barlow">Langueur</span><span style="font:500 12px Barlow;color:#A9B6C9">VIT −2 · XP −10 %</span></div><span style="font:600 12px JetBrains Mono,monospace;color:#FF8A95">0/3 j</span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-left:2px solid #FFC857;background:linear-gradient(90deg,rgba(255,200,87,.12),rgba(255,200,87,0))"><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font:600 15px Barlow">Distraction</span><span style="font:500 12px Barlow;color:#A9B6C9">PER −1 · réseaux sociaux</span></div><span style="font:600 12px JetBrains Mono,monospace;color:#FFC857">2/3 j</span></div>
+</div>
+<div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid rgba(79,179,255,.3);background:rgba(8,18,38,.6)"><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font:600 11px Chakra Petch;letter-spacing:.16em;color:#8FA8C9">RÉSISTANCE · TABAC</span><span style="font:700 18px Chakra Petch">23 jours sans écart</span></div><span style="padding:4px 8px;border:1px solid rgba(255,200,87,.5);font:700 11px Chakra Petch;letter-spacing:.1em;color:#FFC857">TITRE À 30 J</span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto">
+<div style="height:48px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(79,179,255,.3);font:600 13px Chakra Petch;letter-spacing:.14em;color:#8FA8C9">FERMER</div>
+<div style="height:48px;display:flex;align-items:center;justify-content:center;border:1px solid #FF4D5E;background:rgba(255,77,94,.18);font:700 13px Chakra Petch;letter-spacing:.12em;color:#FFD0D5;box-shadow:0 0 18px rgba(255,77,94,.3)">QUÊTE DE PURGE</div>
+</div>
+</div>
+<div style="height:16px;flex:none;display:flex;align-items:center;justify-content:center"><div style="width:90px;height:4px;border-radius:2px;background:#3A4458"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="2c">
+<div class="dv-olabel"><a class="dv-oid" href="#2c">2c</a>Échelle complète : de E à Monarque</div>
+<div class="dv-card">
+<div style="width:360px;height:760px;border-radius:34px;background:#111216;padding:7px;flex:none;box-shadow:0 0 0 1px #24262C">
+<div style="width:100%;height:100%;border-radius:28px;overflow:hidden;position:relative;display:flex;flex-direction:column;color:#E8F3FF;background:linear-gradient(180deg,rgba(110,50,220,.22),transparent 30%),radial-gradient(ellipse 90% 30% at 50% 100%,rgba(40,110,220,.2),transparent 70%),#04050B">
+<div style="height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font:600 12px Barlow;color:#C9D8EC"><span>21:18</span><div style="width:9px;height:9px;border-radius:50%;background:#000;box-shadow:0 0 0 1.5px #1A1C22"></div><span>87 %</span></div>
+<div style="flex:1;padding:8px 16px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;flex-direction:column;gap:2px;padding:0 4px"><span style="font:600 11px Chakra Petch;letter-spacing:.2em;color:#8FA8C9">RANGS</span><span style="font:700 22px Chakra Petch;letter-spacing:.04em">Rang D · 2 sur 10</span></div>
+<div style="display:flex;flex-direction:column;gap:4px">
+<div style="display:grid;grid-template-columns:96px 1fr auto;gap:10px;align-items:center;padding:9px 12px;border:1px solid rgba(160,123,255,.6);background:linear-gradient(90deg,rgba(110,50,220,.35),rgba(10,4,30,.6));box-shadow:0 0 20px rgba(140,90,255,.35)"><span style="font:700 15px Chakra Petch;letter-spacing:.1em;color:#D6C8FF;text-shadow:0 0 10px #A07BFF">MONARQUE</span><span style="font:500 12px Barlow;color:#A99CC9">Au-delà de toute mesure</span><span style="font:600 11px JetBrains Mono,monospace;color:#A99CC9">niv. 150</span></div>
+<div style="display:grid;grid-template-columns:96px 1fr auto;gap:10px;align-items:center;padding:9px 12px;border:1px solid rgba(255,77,94,.5);background:rgba(60,8,18,.45)"><span style="font:700 15px Chakra Petch;letter-spacing:.1em;color:#FF8A95">NATIONAL</span><span style="font:500 12px Barlow;color:#C9A9AE">Élite nationale</span><span style="font:600 11px JetBrains Mono,monospace;color:#C9A9AE">niv. 100</span></div>
+<div style="display:grid;grid-template-columns:96px 1fr auto;gap:10px;align-items:center;padding:9px 12px;border:1px solid rgba(255,200,87,.55);background:rgba(50,36,8,.4)"><span style="font:700 15px Chakra Petch;letter-spacing:.1em;color:#FFD98A">SSS</span><span style="font:500 12px Barlow;color:#C9BC9C">Légende</span><span style="font:600 11px JetBrains Mono,monospace;color:#C9BC9C">niv. 80</span></div>
+<div style="display:grid;grid-template-columns:96px 1fr auto;gap:10px;align-items:center;padding:9px 12px;border:1px solid rgba(255,200,87,.4);background:rgba(50,36,8,.28)"><span style="font:700 15px Chakra Petch;letter-spacing:.1em;color:#FFC857">SS</span><span style="font:500 12px Barlow;color:#C9BC9C">Maître</span><span style="font:600 11px JetBrains Mono,monospace;color:#C9BC9C">niv. 65</span></div>
+<div style="display:grid;grid-template-columns:96px 1fr auto;gap:10px;align-items:center;padding:9px 12px;border:1px solid rgba(255,200,87,.3);background:rgba(50,36,8,.16)"><span style="font:700 15px Chakra Petch;letter-spacing:.1em;color:#E8B64C">S</span><span style="font:500 12px Barlow;color:#A9A08A">Expert</span><span style="font:600 11px JetBrains Mono,monospace;color:#A9A08A">niv. 50</span></div>
+<div style="display:grid;grid-template-columns:96px 1fr auto;gap:10px;align-items:center;padding:9px 12px;border:1px dashed rgba(79,179,255,.3)"><span style="font:700 15px Chakra Petch;letter-spacing:.1em;color:#7F9AC0">A</span><span style="font:500 12px Barlow;color:#7F8FA8">Confirmé</span><span style="font:600 11px JetBrains Mono,monospace;color:#7F8FA8">niv. 36</span></div>
+<div style="display:grid;grid-template-columns:96px 1fr auto;gap:10px;align-items:center;padding:9px 12px;border:1px dashed rgba(79,179,255,.3)"><span style="font:700 15px Chakra Petch;letter-spacing:.1em;color:#7F9AC0">B</span><span style="font:500 12px Barlow;color:#7F8FA8">Avancé</span><span style="font:600 11px JetBrains Mono,monospace;color:#7F8FA8">niv. 24</span></div>
+<div style="display:grid;grid-template-columns:96px 1fr auto;gap:10px;align-items:center;padding:9px 12px;border:1px dashed rgba(79,179,255,.45)"><span style="font:700 15px Chakra Petch;letter-spacing:.1em;color:#A9DCFF">C</span><span style="font:500 12px Barlow;color:#A9B6C9">Prochain · niv. 14 + porte C</span><span style="font:600 11px JetBrains Mono,monospace;color:#A9DCFF">niv. 14</span></div>
+<div style="display:flex;flex-direction:column;gap:8px;padding:10px 12px;border:1px solid #4FB3FF;background:rgba(79,179,255,.16);box-shadow:0 0 18px rgba(79,179,255,.35)">
+<div style="display:grid;grid-template-columns:96px 1fr auto;gap:10px;align-items:center"><span style="font:700 15px Chakra Petch;letter-spacing:.1em;color:#fff;text-shadow:0 0 10px #4FB3FF">D · ACTUEL</span><span style="font:500 12px Barlow;color:#C9D8EC">Niveau 12</span><span style="font:600 11px JetBrains Mono,monospace;color:#A9DCFF">niv. 6</span></div>
+<div style="height:4px;background:rgba(79,179,255,.2)"><div style="height:100%;width:75%;background:#4FB3FF;box-shadow:0 0 8px #4FB3FF;animation:fill 1.2s ease-out"></div></div>
+</div>
+<div style="display:grid;grid-template-columns:96px 1fr auto;gap:10px;align-items:center;padding:9px 12px;border:1px solid rgba(79,179,255,.25);background:rgba(79,179,255,.06)"><span style="font:700 15px Chakra Petch;letter-spacing:.1em;color:#4FB3FF">E ✓</span><span style="font:500 12px Barlow;color:#7F8FA8">Éveillé</span><span style="font:600 11px JetBrains Mono,monospace;color:#7F8FA8">niv. 1</span></div>
+</div>
+<span style="font:500 12px/1.4 Barlow;color:#7F8FA8;padding:0 4px;text-wrap:pretty">À partir du rang S, chaque passage exige aussi une porte de donjon du rang visé.</span>
+</div>
+<div style="height:16px;flex:none;display:flex;align-items:center;justify-content:center"><div style="width:90px;height:4px;border-radius:2px;background:#3A4458"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">À essayer : « fusionner <a class="dv-oid" href="#2a">2a</a> et <a class="dv-oid" href="#2b">2b</a> » · « mettre l'échelle <a class="dv-oid" href="#2c">2c</a> dans le profil de <a class="dv-oid" href="#1a">1a</a> » · « construire le prototype complet »</p>
+</section>
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">QUATRE DIRECTIONS · ANDROID · FR</span></div>
+<p style="margin:0 0 28px;max-width:780px;font:500 14px/1.5 Barlow;color:#8FA8C9;text-wrap:pretty">Palette « Système » : noir bleuté, fenêtres holographiques à liseré lumineux, cyan pour la progression, rouge pour la pénalité, or pour les rangs élevés, violet pour les donjons. Chaque direction propose une métaphore d'interface différente, sur deux écrans, pour couvrir tout le parcours.</p>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Fenêtre Système : des panneaux holographiques fidèles à l'univers · Statut + Quête quotidienne</div>
+<div class="dv-card">
+
+<div style="width:360px;height:760px;border-radius:34px;background:#111216;padding:7px;flex:none;box-shadow:0 0 0 1px #24262C">
+<div style="width:100%;height:100%;border-radius:28px;overflow:hidden;position:relative;display:flex;flex-direction:column;color:#E8F3FF;background:radial-gradient(ellipse 90% 45% at 50% 0%,rgba(40,110,220,.28),transparent 70%),#04060C">
+<div style="position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px)"></div>
+<div style="height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font:600 12px Barlow;font-variant-numeric:tabular-nums;color:#C9D8EC"><span>21:18</span><div style="width:9px;height:9px;border-radius:50%;background:#000;box-shadow:0 0 0 1.5px #1A1C22"></div><span>87 %</span></div>
+<div style="flex:1;padding:10px 14px;display:flex;flex-direction:column;gap:12px;position:relative">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:0 4px"><span style="font:600 11px JetBrains Mono,monospace;color:#5B7090;letter-spacing:.12em">SYSTÈME // V.2.4</span><span style="font:600 11px JetBrains Mono,monospace;color:#4FB3FF;animation:blink 2s infinite">● EN LIGNE</span></div>
+<div style="border:1px solid rgba(79,179,255,.6);background:linear-gradient(180deg,rgba(18,40,82,.6),rgba(6,12,28,.82));border-radius:3px;padding:14px 16px 16px;display:flex;flex-direction:column;gap:14px;animation:glow 3.2s ease-in-out infinite">
+<div style="display:flex;align-items:center;justify-content:center;gap:10px;padding-bottom:10px;border-bottom:1px solid rgba(79,179,255,.25)"><span style="width:6px;height:6px;transform:rotate(45deg);background:#4FB3FF"></span><span style="font:700 17px Chakra Petch;letter-spacing:.3em;color:#CFEAFF;text-shadow:0 0 12px rgba(80,180,255,.8)">STATUT</span><span style="width:6px;height:6px;transform:rotate(45deg);background:#4FB3FF"></span></div>
+<div style="display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:end">
+<div style="display:flex;flex-direction:column;gap:6px;font:500 13px Barlow;color:#8FA8C9">
+<span>NOM : <span style="color:#E8F3FF;font-weight:600">Alex Moreau</span></span>
+<span>CLASSE : <span style="color:#E8F3FF;font-weight:600">Aucune</span></span>
+<span>TITRE : <span style="color:#E8F3FF;font-weight:600">Lève-tôt</span></span>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;line-height:1"><span style="font:600 11px Chakra Petch;letter-spacing:.2em;color:#8FA8C9">NIVEAU</span><span style="font:700 58px Chakra Petch;color:#fff;text-shadow:0 0 18px rgba(80,180,255,.7)">12</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:grid;grid-template-columns:30px 1fr 74px;gap:8px;align-items:center;font:600 11px JetBrains Mono,monospace;color:#8FA8C9"><span>PV</span><div style="height:5px;background:rgba(79,179,255,.12)"><div style="height:100%;width:100%;background:#4FB3FF;box-shadow:0 0 8px #4FB3FF;animation:fill 1s ease-out"></div></div><span style="text-align:right;color:#E8F3FF">1 240/1 240</span></div>
+<div style="display:grid;grid-template-columns:30px 1fr 74px;gap:8px;align-items:center;font:600 11px JetBrains Mono,monospace;color:#8FA8C9"><span>PM</span><div style="height:5px;background:rgba(79,179,255,.12)"><div style="height:100%;width:72%;background:#7C9BFF;box-shadow:0 0 8px #7C9BFF;animation:fill 1.1s ease-out"></div></div><span style="text-align:right;color:#E8F3FF">310/430</span></div>
+<div style="display:grid;grid-template-columns:30px 1fr 74px;gap:8px;align-items:center;font:600 11px JetBrains Mono,monospace;color:#8FA8C9"><span>XP</span><div style="height:5px;background:rgba(79,179,255,.12)"><div style="height:100%;width:90%;background:#A9DCFF;box-shadow:0 0 8px #A9DCFF;animation:fill 1.3s ease-out"></div></div><span style="text-align:right;color:#E8F3FF">2 160/2 400</span></div>
+<div style="display:grid;grid-template-columns:30px 1fr 74px;gap:8px;align-items:center;font:600 11px JetBrains Mono,monospace;color:#8FA8C9"><span>FAT</span><div style="height:5px;background:rgba(255,77,94,.12)"><div style="height:100%;width:12%;background:#FF4D5E;animation:fill 1s ease-out"></div></div><span style="text-align:right;color:#E8F3FF">12 %</span></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;padding-top:12px;border-top:1px solid rgba(79,179,255,.25)">
+<div style="display:flex;justify-content:space-between;align-items:center;font:600 14px Barlow"><span style="color:#8FA8C9">FORCE</span><span style="display:flex;gap:8px;align-items:center;font-family:JetBrains Mono,monospace">24<span style="width:22px;height:22px;border:1px solid #4FB3FF;color:#4FB3FF;display:flex;align-items:center;justify-content:center;font-size:14px">+</span></span></div>
+<div style="display:flex;justify-content:space-between;align-items:center;font:600 14px Barlow"><span style="color:#8FA8C9">AGILITÉ</span><span style="display:flex;gap:8px;align-items:center;font-family:JetBrains Mono,monospace">19<span style="width:22px;height:22px;border:1px solid #4FB3FF;color:#4FB3FF;display:flex;align-items:center;justify-content:center;font-size:14px">+</span></span></div>
+<div style="display:flex;justify-content:space-between;align-items:center;font:600 14px Barlow"><span style="color:#8FA8C9">VITALITÉ</span><span style="display:flex;gap:8px;align-items:center;font-family:JetBrains Mono,monospace">21<span style="width:22px;height:22px;border:1px solid #4FB3FF;color:#4FB3FF;display:flex;align-items:center;justify-content:center;font-size:14px">+</span></span></div>
+<div style="display:flex;justify-content:space-between;align-items:center;font:600 14px Barlow"><span style="color:#8FA8C9">INTELLECT</span><span style="display:flex;gap:8px;align-items:center;font-family:JetBrains Mono,monospace">17<span style="width:22px;height:22px;border:1px solid #4FB3FF;color:#4FB3FF;display:flex;align-items:center;justify-content:center;font-size:14px">+</span></span></div>
+<div style="display:flex;justify-content:space-between;align-items:center;font:600 14px Barlow"><span style="color:#8FA8C9">PERCEPTION</span><span style="display:flex;gap:8px;align-items:center;font-family:JetBrains Mono,monospace">15<span style="width:22px;height:22px;border:1px solid #4FB3FF;color:#4FB3FF;display:flex;align-items:center;justify-content:center;font-size:14px">+</span></span></div>
+<div style="display:flex;justify-content:space-between;align-items:center;font:600 14px Barlow"><span style="color:#A9DCFF">POINTS</span><span style="font-family:JetBrains Mono,monospace;color:#A9DCFF;text-shadow:0 0 10px rgba(120,200,255,.8)">3</span></div>
+</div>
+</div>
+<div style="border:1px solid rgba(79,179,255,.35);background:rgba(8,16,34,.7);border-radius:3px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center">
+<div style="display:flex;flex-direction:column;gap:3px"><span style="font:600 11px Chakra Petch;letter-spacing:.18em;color:#8FA8C9">QUÊTE QUOTIDIENNE</span><span style="font:600 15px Barlow">3 objectifs sur 6 accomplis</span></div>
+<span style="font:600 14px JetBrains Mono,monospace;color:#FF8A95">02:41:52</span>
+</div>
+</div>
+<div style="flex:none;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(79,179,255,.2);background:rgba(4,8,18,.9);padding:10px 0 6px">
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;font:600 11px Chakra Petch;letter-spacing:.1em;color:#A9DCFF"><span style="width:8px;height:8px;transform:rotate(45deg);background:#4FB3FF;box-shadow:0 0 8px #4FB3FF"></span>STATUT</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;font:600 11px Chakra Petch;letter-spacing:.1em;color:#5B7090"><span style="width:8px;height:8px;transform:rotate(45deg);border:1px solid #5B7090"></span>QUÊTES</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;font:600 11px Chakra Petch;letter-spacing:.1em;color:#5B7090"><span style="width:8px;height:8px;transform:rotate(45deg);border:1px solid #5B7090"></span>DONJONS</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:5px;font:600 11px Chakra Petch;letter-spacing:.1em;color:#5B7090"><span style="width:8px;height:8px;transform:rotate(45deg);border:1px solid #5B7090"></span>PROFIL</div>
+</div>
+<div style="height:16px;flex:none;display:flex;align-items:center;justify-content:center;background:rgba(4,8,18,.9)"><div style="width:90px;height:4px;border-radius:2px;background:#3A4458"></div></div>
+</div>
+</div>
+
+<div style="width:360px;height:760px;border-radius:34px;background:#111216;padding:7px;flex:none;box-shadow:0 0 0 1px #24262C">
+<div style="width:100%;height:100%;border-radius:28px;overflow:hidden;position:relative;display:flex;flex-direction:column;color:#E8F3FF;background:radial-gradient(ellipse 90% 45% at 50% 0%,rgba(40,110,220,.28),transparent 70%),#04060C">
+<div style="position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px)"></div>
+<div style="height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font:600 12px Barlow;color:#C9D8EC"><span>21:18</span><div style="width:9px;height:9px;border-radius:50%;background:#000;box-shadow:0 0 0 1.5px #1A1C22"></div><span>87 %</span></div>
+<div style="flex:1;padding:10px 14px;display:flex;flex-direction:column;gap:12px;position:relative">
+<div style="border:1px solid rgba(79,179,255,.6);background:linear-gradient(180deg,rgba(18,40,82,.6),rgba(6,12,28,.82));border-radius:3px;padding:14px 16px 16px;display:flex;flex-direction:column;gap:12px;animation:glow 3.2s ease-in-out infinite">
+<div style="display:flex;align-items:center;justify-content:center;gap:10px;padding-bottom:10px;border-bottom:1px solid rgba(79,179,255,.25)"><span style="width:20px;height:20px;border:1px solid #4FB3FF;display:flex;align-items:center;justify-content:center;font:700 13px Chakra Petch;color:#4FB3FF">!</span><span style="font:700 15px Chakra Petch;letter-spacing:.24em;color:#CFEAFF;text-shadow:0 0 12px rgba(80,180,255,.8)">QUÊTE QUOTIDIENNE</span></div>
+<div style="text-align:center;font:500 13px Barlow;color:#8FA8C9">Entraînement de base · jour 47</div>
+<div style="display:flex;flex-direction:column;gap:2px">
+<div style="display:grid;grid-template-columns:18px 1fr auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(79,179,255,.12)"><span style="width:14px;height:14px;background:#4FB3FF;box-shadow:0 0 8px #4FB3FF;display:flex;align-items:center;justify-content:center;color:#04060C;font:700 10px Barlow">✓</span><span style="font:600 15px Barlow;color:#8FA8C9;text-decoration:line-through">Pompes</span><span style="font:600 13px JetBrains Mono,monospace;color:#4FB3FF">[100/100]</span></div>
+<div style="display:grid;grid-template-columns:18px 1fr auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(79,179,255,.12)"><span style="width:14px;height:14px;background:#4FB3FF;box-shadow:0 0 8px #4FB3FF;display:flex;align-items:center;justify-content:center;color:#04060C;font:700 10px Barlow">✓</span><span style="font:600 15px Barlow;color:#8FA8C9;text-decoration:line-through">Abdominaux</span><span style="font:600 13px JetBrains Mono,monospace;color:#4FB3FF">[100/100]</span></div>
+<div style="display:grid;grid-template-columns:18px 1fr auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(79,179,255,.12)"><span style="width:14px;height:14px;border:1px solid #4FB3FF"></span><span style="font:600 15px Barlow">Squats</span><span style="font:600 13px JetBrains Mono,monospace;color:#E8F3FF">[40/100]</span></div>
+<div style="display:grid;grid-template-columns:18px 1fr auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(79,179,255,.12)"><span style="width:14px;height:14px;border:1px solid #4FB3FF"></span><span style="font:600 15px Barlow">Gainage</span><span style="font:600 13px JetBrains Mono,monospace;color:#E8F3FF">[3/5 min]</span></div>
+<div style="display:grid;grid-template-columns:18px 1fr auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(79,179,255,.12)"><span style="width:14px;height:14px;background:#4FB3FF;box-shadow:0 0 8px #4FB3FF;display:flex;align-items:center;justify-content:center;color:#04060C;font:700 10px Barlow">✓</span><span style="font:600 15px Barlow;color:#8FA8C9;text-decoration:line-through">Lecture</span><span style="font:600 13px JetBrains Mono,monospace;color:#4FB3FF">[30/30 min]</span></div>
+<div style="display:grid;grid-template-columns:18px 1fr auto;gap:10px;align-items:center;padding:9px 0"><span style="width:14px;height:14px;border:1px solid #4FB3FF"></span><span style="font:600 15px Barlow">Travail profond</span><span style="font:600 13px JetBrains Mono,monospace;color:#E8F3FF">[1/2 × 50 min]</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:10px 12px;border:1px solid rgba(255,77,94,.55);background:rgba(80,10,20,.35)">
+<span style="font:700 11px Chakra Petch;letter-spacing:.2em;color:#FF6B78">AVERTISSEMENT</span>
+<span style="font:500 13px/1.4 Barlow;color:#F3D3D7;text-wrap:pretty">Si la quête n'est pas terminée avant 00:00, une quête de pénalité sera déclenchée.</span>
+<span style="font:600 22px JetBrains Mono,monospace;color:#FF8A95;letter-spacing:.04em">02:41:52</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px;font:500 13px Barlow;color:#8FA8C9"><span style="font:600 11px Chakra Petch;letter-spacing:.18em">RÉCOMPENSES</span><span style="color:#E8F3FF">Récupération complète · +3 points de stat · 1 coffre aléatoire</span></div>
+</div>
+<div style="height:48px;display:flex;align-items:center;justify-content:center;border:1px solid #4FB3FF;background:rgba(79,179,255,.14);font:700 14px Chakra Petch;letter-spacing:.16em;color:#CFEAFF;box-shadow:0 0 18px rgba(79,179,255,.3)">ENREGISTRER UNE PROGRESSION</div>
+</div>
+<div style="height:16px;flex:none;display:flex;align-items:center;justify-content:center"><div style="width:90px;height:4px;border-radius:2px;background:#3A4458"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1b">
+<div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>HUD de chasseur : un anneau d'XP central et des donjons hebdomadaires sous forme de boss · Accueil + Donjon</div>
+<div class="dv-card">
+
+<div style="width:360px;height:760px;border-radius:34px;background:#111216;padding:7px;flex:none;box-shadow:0 0 0 1px #24262C">
+<div style="width:100%;height:100%;border-radius:28px;overflow:hidden;position:relative;display:flex;flex-direction:column;color:#E8F3FF;background:radial-gradient(circle at 50% 30%,rgba(40,110,220,.22),transparent 55%),#04060C">
+<div style="height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font:600 12px Barlow;color:#C9D8EC"><span>21:18</span><div style="width:9px;height:9px;border-radius:50%;background:#000;box-shadow:0 0 0 1.5px #1A1C22"></div><span>87 %</span></div>
+<div style="flex:1;padding:8px 18px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<div style="display:flex;flex-direction:column"><span style="font:500 12px Barlow;color:#8FA8C9">Bonsoir,</span><span style="font:700 18px Chakra Petch;letter-spacing:.04em">Alex Moreau</span></div>
+<div style="width:44px;height:50px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:#4FB3FF;display:flex;align-items:center;justify-content:center"><div style="width:40px;height:46px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:#081226;display:flex;align-items:center;justify-content:center;font:700 22px Chakra Petch;color:#A9DCFF">D</div></div>
+</div>
+<div style="position:relative;width:220px;height:220px;margin:0 auto;display:flex;align-items:center;justify-content:center">
+<div style="position:absolute;inset:-6px;border-radius:50%;border:1px dashed rgba(79,179,255,.3);animation:spin 40s linear infinite"></div>
+<svg width="220" height="220" viewBox="0 0 220 220" style="position:absolute;inset:0;transform:rotate(-90deg)"><circle cx="110" cy="110" r="96" fill="none" stroke="rgba(79,179,255,.12)" stroke-width="8"></circle><circle cx="110" cy="110" r="96" fill="none" stroke="#4FB3FF" stroke-width="8" stroke-linecap="butt" stroke-dasharray="603" stroke-dashoffset="60" style="filter:drop-shadow(0 0 6px #4FB3FF);animation:draw 1.6s ease-out"></circle></svg>
+<div style="display:flex;flex-direction:column;align-items:center;line-height:1;gap:4px"><span style="font:600 11px Chakra Petch;letter-spacing:.3em;color:#8FA8C9">NIVEAU</span><span style="font:700 72px Chakra Petch;text-shadow:0 0 22px rgba(80,180,255,.7)">12</span><span style="font:600 12px JetBrains Mono,monospace;color:#A9DCFF">240 XP → 13</span></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+<div style="padding:10px;border:1px solid rgba(79,179,255,.3);background:rgba(10,22,46,.6);display:flex;flex-direction:column;gap:6px"><span style="font:600 10px Chakra Petch;letter-spacing:.16em;color:#8FA8C9">CORPS</span><span style="font:700 20px Chakra Petch">60 %</span><div style="height:3px;background:rgba(79,179,255,.15)"><div style="height:100%;width:60%;background:#4FB3FF"></div></div></div>
+<div style="padding:10px;border:1px solid rgba(79,179,255,.3);background:rgba(10,22,46,.6);display:flex;flex-direction:column;gap:6px"><span style="font:600 10px Chakra Petch;letter-spacing:.16em;color:#8FA8C9">ESPRIT</span><span style="font:700 20px Chakra Petch">100 %</span><div style="height:3px;background:rgba(79,179,255,.15)"><div style="height:100%;width:100%;background:#4FB3FF"></div></div></div>
+<div style="padding:10px;border:1px solid rgba(79,179,255,.3);background:rgba(10,22,46,.6);display:flex;flex-direction:column;gap:6px"><span style="font:600 10px Chakra Petch;letter-spacing:.16em;color:#8FA8C9">TRAVAIL</span><span style="font:700 20px Chakra Petch">50 %</span><div style="height:3px;background:rgba(79,179,255,.15)"><div style="height:100%;width:50%;background:#4FB3FF"></div></div></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;font:600 11px Chakra Petch;letter-spacing:.16em;color:#8FA8C9"><span>EN COURS</span><span style="color:#FF8A95;font-family:JetBrains Mono,monospace;letter-spacing:0">02:41:52</span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-left:2px solid #4FB3FF;background:linear-gradient(90deg,rgba(79,179,255,.14),rgba(79,179,255,0))"><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font:600 15px Barlow">Squats</span><span style="font:500 12px Barlow;color:#8FA8C9">+120 XP · FOR</span></div><span style="font:600 13px JetBrains Mono,monospace">40/100</span><span style="width:36px;height:36px;border:1px solid #4FB3FF;display:flex;align-items:center;justify-content:center;font:700 13px Chakra Petch;color:#A9DCFF">+10</span></div>
+<div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-left:2px solid #4FB3FF;background:linear-gradient(90deg,rgba(79,179,255,.14),rgba(79,179,255,0))"><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font:600 15px Barlow">Gainage</span><span style="font:500 12px Barlow;color:#8FA8C9">+150 XP · AGI</span></div><span style="font:600 13px JetBrains Mono,monospace">3/5 min</span><span style="width:36px;height:36px;border:1px solid #4FB3FF;display:flex;align-items:center;justify-content:center;font:700 13px Chakra Petch;color:#A9DCFF">+1</span></div>
+</div>
+</div>
+<div style="flex:none;display:grid;grid-template-columns:repeat(4,1fr);padding:10px 0 4px;border-top:1px solid rgba(79,179,255,.15)">
+<div style="text-align:center;font:600 11px Chakra Petch;letter-spacing:.1em;color:#A9DCFF;border-top:2px solid #4FB3FF;margin-top:-11px;padding-top:12px">ACCUEIL</div>
+<div style="text-align:center;font:600 11px Chakra Petch;letter-spacing:.1em;color:#5B7090;padding-top:1px">QUÊTES</div>
+<div style="text-align:center;font:600 11px Chakra Petch;letter-spacing:.1em;color:#5B7090;padding-top:1px">DONJONS</div>
+<div style="text-align:center;font:600 11px Chakra Petch;letter-spacing:.1em;color:#5B7090;padding-top:1px">PROFIL</div>
+</div>
+<div style="height:16px;flex:none;display:flex;align-items:center;justify-content:center"><div style="width:90px;height:4px;border-radius:2px;background:#3A4458"></div></div>
+</div>
+</div>
+
+<div style="width:360px;height:760px;border-radius:34px;background:#111216;padding:7px;flex:none;box-shadow:0 0 0 1px #24262C">
+<div style="width:100%;height:100%;border-radius:28px;overflow:hidden;position:relative;display:flex;flex-direction:column;color:#E8F3FF;background:radial-gradient(ellipse 70% 40% at 50% 26%,rgba(120,70,230,.35),transparent 70%),#05040C">
+<div style="height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font:600 12px Barlow;color:#C9D8EC"><span>21:18</span><div style="width:9px;height:9px;border-radius:50%;background:#000;box-shadow:0 0 0 1.5px #1A1C22"></div><span>87 %</span></div>
+<div style="flex:1;padding:8px 18px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;justify-content:space-between;align-items:center;font:600 11px Chakra Petch;letter-spacing:.16em;color:#B9A4FF"><span>← DONJONS</span><span>SEMAINE 43</span></div>
+<div style="height:220px;display:flex;align-items:center;justify-content:center;position:relative">
+<div style="width:150px;height:200px;border-radius:50%;background:radial-gradient(ellipse at 50% 50%,#05040C 0 30%,rgba(110,60,230,.9) 55%,rgba(160,123,255,.5) 70%,transparent 72%);box-shadow:0 0 60px rgba(140,90,255,.55);animation:portal 4s ease-in-out infinite"></div>
+<div style="position:absolute;bottom:4px;padding:4px 12px;border:1px solid #A07BFF;background:rgba(20,10,40,.85);font:700 12px Chakra Petch;letter-spacing:.24em;color:#D6C8FF">PORTE DE RANG C</div>
+</div>
+<div style="text-align:center;display:flex;flex-direction:column;gap:4px"><span style="font:700 22px Chakra Petch;letter-spacing:.04em">Gardien de la procrastination</span><span style="font:500 13px Barlow;color:#A99CC9">Chaque séance de travail profond inflige 15 % de dégâts.</span></div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;justify-content:space-between;font:600 11px JetBrains Mono,monospace;color:#A99CC9"><span>PV DU BOSS</span><span style="color:#E8F3FF">55 %</span></div>
+<div style="height:8px;background:rgba(160,123,255,.15);border:1px solid rgba(160,123,255,.4)"><div style="height:100%;width:55%;background:linear-gradient(90deg,#FF4D5E,#A07BFF);box-shadow:0 0 10px rgba(160,123,255,.7)"></div></div>
+</div>
+<div style="border:1px solid rgba(160,123,255,.35);background:rgba(20,12,40,.6);padding:12px 14px;display:flex;flex-direction:column;gap:8px;font:500 13px Barlow">
+<div style="display:flex;justify-content:space-between"><span style="color:#A99CC9">Séances réalisées</span><span style="font-family:JetBrains Mono,monospace">3 / 7</span></div>
+<div style="display:flex;justify-content:space-between"><span style="color:#A99CC9">Temps restant</span><span style="font-family:JetBrains Mono,monospace;color:#FF8A95">3 j 14 h</span></div>
+<div style="display:flex;justify-content:space-between"><span style="color:#A99CC9">Récompense</span><span style="color:#FFC857">Titre « Inarrêtable » · 1 500 XP</span></div>
+</div>
+<div style="height:48px;display:flex;align-items:center;justify-content:center;border:1px solid #A07BFF;background:rgba(160,123,255,.2);font:700 14px Chakra Petch;letter-spacing:.16em;color:#EDE6FF;box-shadow:0 0 22px rgba(160,123,255,.4)">LANCER UNE SÉANCE · 50 MIN</div>
+</div>
+<div style="height:16px;flex:none;display:flex;align-items:center;justify-content:center"><div style="width:90px;height:4px;border-radius:2px;background:#3A4458"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1c">
+<div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Journal du Système : un fil de messages, une saisie rapide par commande · Journal + Niveau supérieur</div>
+<div class="dv-card">
+
+<div style="width:360px;height:760px;border-radius:34px;background:#111216;padding:7px;flex:none;box-shadow:0 0 0 1px #24262C">
+<div style="width:100%;height:100%;border-radius:28px;overflow:hidden;position:relative;display:flex;flex-direction:column;color:#E8F3FF;background:#03050A">
+<div style="position:absolute;left:0;right:0;height:120px;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(79,179,255,.06),transparent);animation:scan 6s linear infinite"></div>
+<div style="height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font:600 12px Barlow;color:#C9D8EC"><span>21:18</span><div style="width:9px;height:9px;border-radius:50%;background:#000;box-shadow:0 0 0 1.5px #1A1C22"></div><span>87 %</span></div>
+<div style="flex:none;padding:8px 16px 12px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(79,179,255,.18);font:600 12px JetBrains Mono,monospace;color:#8FA8C9"><span>NIV <span style="color:#fff">12</span> · RANG <span style="color:#fff">D</span></span><span>XP <span style="color:#A9DCFF">90 %</span></span><span style="color:#FF8A95">02:41</span></div>
+<div style="flex:1;padding:14px 16px;display:flex;flex-direction:column;gap:12px;font:500 13.5px/1.45 JetBrains Mono,monospace;overflow:hidden">
+<div style="display:flex;flex-direction:column;gap:2px;color:#5B7090"><span>07:48</span><span style="color:#8FA8C9">Nouvelle quête quotidienne disponible. 6 objectifs.</span></div>
+<div style="display:flex;flex-direction:column;gap:2px;color:#5B7090"><span>08:02</span><span style="color:#E8F3FF">Titre obtenu : <span style="color:#FFC857">Lève-tôt</span>.</span></div>
+<div style="display:flex;flex-direction:column;gap:2px;color:#5B7090"><span>12:30</span><span style="color:#E8F3FF">Lecture terminée. <span style="color:#4FB3FF">+80 XP · INT +1</span></span></div>
+<div style="display:flex;flex-direction:column;gap:2px;color:#5B7090"><span>18:15</span><span style="color:#E8F3FF">Pompes 100/100. <span style="color:#4FB3FF">+120 XP</span></span></div>
+<div style="display:flex;flex-direction:column;gap:2px;color:#5B7090"><span>19:40</span><span style="color:#E8F3FF">Séance de travail profond 1/2. Gardien de rang C : <span style="color:#B9A4FF">−15 % PV</span>.</span></div>
+<div style="display:flex;flex-direction:column;gap:2px;color:#5B7090"><span>21:02</span><span style="color:#E8F3FF">Série maintenue : <span style="color:#A9DCFF">14 jours</span>.</span></div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:10px 12px;border:1px solid rgba(255,77,94,.5);background:rgba(70,8,18,.35);animation:rise .4s ease-out"><span style="color:#FF6B78">21:18 · AVERTISSEMENT</span><span style="color:#F3D3D7">3 objectifs restants. Pénalité à 00:00.</span></div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;font:600 12px Barlow">
+<span style="padding:6px 10px;border:1px solid rgba(79,179,255,.4);color:#A9DCFF">Squats +20</span>
+<span style="padding:6px 10px;border:1px solid rgba(79,179,255,.4);color:#A9DCFF">Gainage +1 min</span>
+<span style="padding:6px 10px;border:1px solid rgba(79,179,255,.4);color:#A9DCFF">Séance 50 min</span>
+</div>
+</div>
+<div style="flex:none;margin:0 12px 8px;height:48px;border:1px solid #4FB3FF;background:rgba(8,18,38,.9);display:flex;align-items:center;gap:10px;padding:0 14px;box-shadow:0 0 14px rgba(79,179,255,.25)"><span style="font:600 14px JetBrains Mono,monospace;color:#4FB3FF">&gt;</span><span style="flex:1;font:500 14px JetBrains Mono,monospace;color:#E8F3FF">squats 60<span style="display:inline-block;width:8px;height:16px;background:#4FB3FF;vertical-align:-3px;margin-left:2px;animation:blink 1s steps(1) infinite"></span></span><span style="font:700 12px Chakra Petch;letter-spacing:.14em;color:#A9DCFF">ENVOYER</span></div>
+<div style="height:16px;flex:none;display:flex;align-items:center;justify-content:center"><div style="width:90px;height:4px;border-radius:2px;background:#3A4458"></div></div>
+</div>
+</div>
+
+<div style="width:360px;height:760px;border-radius:34px;background:#111216;padding:7px;flex:none;box-shadow:0 0 0 1px #24262C">
+<div style="width:100%;height:100%;border-radius:28px;overflow:hidden;position:relative;display:flex;flex-direction:column;color:#E8F3FF;background:radial-gradient(circle at 50% 36%,rgba(60,150,255,.4),transparent 50%),#03050A">
+<div style="height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font:600 12px Barlow;color:#C9D8EC"><span>21:24</span><div style="width:9px;height:9px;border-radius:50%;background:#000;box-shadow:0 0 0 1.5px #1A1C22"></div><span>86 %</span></div>
+<div style="flex:1;padding:24px 22px;display:flex;flex-direction:column;align-items:center;gap:22px">
+<div style="position:relative;width:200px;height:200px;margin-top:20px;display:flex;align-items:center;justify-content:center">
+<div style="position:absolute;inset:0;border-radius:50%;border:2px solid #4FB3FF;animation:burst 1.8s ease-out infinite"></div>
+<div style="position:absolute;inset:0;border-radius:50%;border:2px solid #A9DCFF;animation:burst 1.8s ease-out .6s infinite"></div>
+<div style="position:absolute;inset:30px;transform:rotate(45deg);border:1px solid rgba(169,220,255,.6);box-shadow:0 0 30px rgba(79,179,255,.5)"></div>
+<span style="font:700 84px Chakra Petch;color:#fff;text-shadow:0 0 30px #4FB3FF;animation:rise .5s ease-out">13</span>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center"><span style="font:700 26px Chakra Petch;letter-spacing:.24em;text-shadow:0 0 16px rgba(80,180,255,.9)">NIVEAU SUPÉRIEUR</span><span style="font:500 14px Barlow;color:#8FA8C9">Vous êtes passé du niveau 12 au niveau 13.</span></div>
+<div style="width:100%;border:1px solid rgba(79,179,255,.45);background:rgba(8,18,38,.75);padding:12px 16px;display:flex;flex-direction:column;gap:8px;font:600 14px Barlow">
+<div style="display:flex;justify-content:space-between;animation:rise .4s ease-out .2s both"><span style="color:#8FA8C9">PV max</span><span style="font-family:JetBrains Mono,monospace">1 240 → <span style="color:#4FB3FF">1 310</span></span></div>
+<div style="display:flex;justify-content:space-between;animation:rise .4s ease-out .35s both"><span style="color:#8FA8C9">PM max</span><span style="font-family:JetBrains Mono,monospace">430 → <span style="color:#4FB3FF">455</span></span></div>
+<div style="display:flex;justify-content:space-between;animation:rise .4s ease-out .5s both"><span style="color:#8FA8C9">Points de stat</span><span style="font-family:JetBrains Mono,monospace;color:#A9DCFF">+3</span></div>
+<div style="display:flex;justify-content:space-between;animation:rise .4s ease-out .65s both"><span style="color:#8FA8C9">Prochain rang</span><span style="font-family:JetBrains Mono,monospace">C · niveau 14</span></div>
+</div>
+<div style="width:100%;display:flex;flex-direction:column;gap:8px;margin-top:auto">
+<div style="height:48px;display:flex;align-items:center;justify-content:center;border:1px solid #4FB3FF;background:rgba(79,179,255,.18);font:700 14px Chakra Petch;letter-spacing:.16em;color:#CFEAFF;box-shadow:0 0 18px rgba(79,179,255,.35)">RÉPARTIR LES POINTS</div>
+<div style="height:44px;display:flex;align-items:center;justify-content:center;font:600 13px Chakra Petch;letter-spacing:.16em;color:#8FA8C9">FERMER</div>
+</div>
+</div>
+<div style="height:16px;flex:none;display:flex;align-items:center;justify-content:center"><div style="width:90px;height:4px;border-radius:2px;background:#3A4458"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1d">
+<div class="dv-olabel"><a class="dv-oid" href="#1d">1d</a>Échelle des rangs : la progression E → S comme fil conducteur, avec un radar des stats · Éveil + Rangs</div>
+<div class="dv-card">
+
+<div style="width:360px;height:760px;border-radius:34px;background:#111216;padding:7px;flex:none;box-shadow:0 0 0 1px #24262C">
+<div style="width:100%;height:100%;border-radius:28px;overflow:hidden;position:relative;display:flex;flex-direction:column;color:#E8F3FF;background:radial-gradient(ellipse 80% 50% at 50% 50%,rgba(40,110,220,.22),transparent 70%),#020308">
+<div style="height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font:600 12px Barlow;color:#C9D8EC"><span>07:02</span><div style="width:9px;height:9px;border-radius:50%;background:#000;box-shadow:0 0 0 1.5px #1A1C22"></div><span>100 %</span></div>
+<div style="flex:1;padding:24px 20px;display:flex;flex-direction:column;justify-content:center;gap:20px">
+<div style="border:1px solid rgba(79,179,255,.7);background:linear-gradient(180deg,rgba(18,40,82,.65),rgba(6,12,28,.85));padding:18px;display:flex;flex-direction:column;gap:14px;animation:glow 3s ease-in-out infinite,rise .5s ease-out">
+<div style="display:flex;align-items:center;justify-content:center;gap:10px;padding-bottom:10px;border-bottom:1px solid rgba(79,179,255,.25)"><span style="width:20px;height:20px;border:1px solid #4FB3FF;display:flex;align-items:center;justify-content:center;font:700 13px Chakra Petch;color:#4FB3FF">!</span><span style="font:700 15px Chakra Petch;letter-spacing:.26em;color:#CFEAFF;text-shadow:0 0 12px rgba(80,180,255,.8)">NOTIFICATION</span></div>
+<span style="font:600 18px/1.4 Barlow;text-align:center;text-wrap:pretty">Vous avez rempli les conditions pour devenir un Joueur. Acceptez-vous ?</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font:600 11px Chakra Petch;letter-spacing:.18em;color:#8FA8C9">DOMAINES À ENTRAÎNER</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="padding:12px;border:1px solid #4FB3FF;background:rgba(79,179,255,.14);display:flex;flex-direction:column;gap:2px"><span style="font:700 14px Chakra Petch;letter-spacing:.08em">CORPS</span><span style="font:500 12px Barlow;color:#8FA8C9">FOR · AGI · VIT</span></div>
+<div style="padding:12px;border:1px solid #4FB3FF;background:rgba(79,179,255,.14);display:flex;flex-direction:column;gap:2px"><span style="font:700 14px Chakra Petch;letter-spacing:.08em">ESPRIT</span><span style="font:500 12px Barlow;color:#8FA8C9">INT · PER</span></div>
+<div style="padding:12px;border:1px solid #4FB3FF;background:rgba(79,179,255,.14);display:flex;flex-direction:column;gap:2px"><span style="font:700 14px Chakra Petch;letter-spacing:.08em">TRAVAIL</span><span style="font:500 12px Barlow;color:#8FA8C9">Concentration</span></div>
+<div style="padding:12px;border:1px solid rgba(79,179,255,.25);display:flex;flex-direction:column;gap:2px"><span style="font:700 14px Chakra Petch;letter-spacing:.08em;color:#8FA8C9">HABITUDES</span><span style="font:500 12px Barlow;color:#5B7090">Sommeil, hydratation</span></div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 2fr;gap:8px">
+<div style="height:48px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(79,179,255,.3);font:600 13px Chakra Petch;letter-spacing:.14em;color:#8FA8C9">REFUSER</div>
+<div style="height:48px;display:flex;align-items:center;justify-content:center;border:1px solid #4FB3FF;background:rgba(79,179,255,.2);font:700 14px Chakra Petch;letter-spacing:.16em;color:#CFEAFF;box-shadow:0 0 18px rgba(79,179,255,.35)">ACCEPTER</div>
+</div>
+<span style="text-align:center;font:500 12px Barlow;color:#5B7090">Étape 1 sur 3 · Vous pourrez modifier ces domaines plus tard.</span>
+</div>
+<div style="height:16px;flex:none;display:flex;align-items:center;justify-content:center"><div style="width:90px;height:4px;border-radius:2px;background:#3A4458"></div></div>
+</div>
+</div>
+
+<div style="width:360px;height:760px;border-radius:34px;background:#111216;padding:7px;flex:none;box-shadow:0 0 0 1px #24262C">
+<div style="width:100%;height:100%;border-radius:28px;overflow:hidden;position:relative;display:flex;flex-direction:column;color:#E8F3FF;background:radial-gradient(ellipse 90% 40% at 50% 0%,rgba(40,110,220,.25),transparent 70%),#04060C">
+<div style="height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font:600 12px Barlow;color:#C9D8EC"><span>21:18</span><div style="width:9px;height:9px;border-radius:50%;background:#000;box-shadow:0 0 0 1.5px #1A1C22"></div><span>87 %</span></div>
+<div style="flex:1;padding:8px 18px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font:600 11px Chakra Petch;letter-spacing:.2em;color:#8FA8C9">PROGRESSION</span><span style="font:700 22px Chakra Petch;letter-spacing:.04em">Rang D · niveau 12</span></div>
+<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:4px;align-items:end">
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:100%;height:26px;background:rgba(79,179,255,.35)"></div><span style="font:700 14px Chakra Petch;color:#8FA8C9">E</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:100%;height:40px;background:#4FB3FF;box-shadow:0 0 14px #4FB3FF"></div><span style="font:700 14px Chakra Petch;color:#fff">D</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:100%;height:54px;border:1px dashed rgba(79,179,255,.5)"></div><span style="font:700 14px Chakra Petch;color:#5B7090">C</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:100%;height:68px;border:1px dashed rgba(79,179,255,.3)"></div><span style="font:700 14px Chakra Petch;color:#5B7090">B</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:100%;height:82px;border:1px dashed rgba(79,179,255,.2)"></div><span style="font:700 14px Chakra Petch;color:#5B7090">A</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:100%;height:96px;border:1px dashed rgba(255,200,87,.45)"></div><span style="font:700 14px Chakra Petch;color:#FFC857">S</span></div>
+</div>
+<div style="padding:10px 12px;border:1px solid rgba(79,179,255,.3);background:rgba(8,18,38,.6);font:500 13px/1.4 Barlow;color:#C9D8EC">Rang C : atteindre le niveau 14 et vaincre une porte de rang C.</div>
+<div style="display:flex;justify-content:center;position:relative">
+<svg width="260" height="240" viewBox="0 0 260 240">
+<g fill="none" stroke="rgba(79,179,255,.18)"><polygon points="130,20 234,96 194,218 66,218 26,96"></polygon><polygon points="130,56 199,107 173,188 87,188 61,107"></polygon><polygon points="130,92 165,118 152,158 108,158 95,118"></polygon></g>
+<polygon points="130,38 201,108 180,190 84,198 70,112" fill="rgba(79,179,255,.22)" stroke="#4FB3FF" stroke-width="1.5" style="filter:drop-shadow(0 0 6px #4FB3FF)"></polygon>
+<g font-family="Chakra Petch" font-size="12" font-weight="700" fill="#A9DCFF" text-anchor="middle"><text x="130" y="12">FOR 24</text><text x="246" y="92" text-anchor="end">AGI 19</text><text x="206" y="236">VIT 21</text><text x="54" y="236">INT 17</text><text x="14" y="92" text-anchor="start">PER 15</text></g>
+</svg>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="padding:10px 12px;border:1px solid rgba(79,179,255,.25);display:flex;flex-direction:column;gap:2px"><span style="font:600 10px Chakra Petch;letter-spacing:.16em;color:#8FA8C9">SÉRIE</span><span style="font:700 20px Chakra Petch">14 jours</span></div>
+<div style="padding:10px 12px;border:1px solid rgba(255,200,87,.35);display:flex;flex-direction:column;gap:2px"><span style="font:600 10px Chakra Petch;letter-spacing:.16em;color:#8FA8C9">TITRES</span><span style="font:700 20px Chakra Petch;color:#FFC857">3 / 12</span></div>
+</div>
+</div>
+<div style="height:16px;flex:none;display:flex;align-items:center;justify-content:center"><div style="width:90px;height:4px;border-radius:2px;background:#3A4458"></div></div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">À essayer : « <a class="dv-oid" href="#1a">1a</a> pour le statut, avec les donjons de <a class="dv-oid" href="#1b">1b</a> » · « garder la montée de niveau de <a class="dv-oid" href="#1c">1c</a> » · « construire le prototype complet à partir de <a class="dv-oid" href="#1a">1a</a> »</p>
+</section>
+</x-dc>
+</body>
+</html>

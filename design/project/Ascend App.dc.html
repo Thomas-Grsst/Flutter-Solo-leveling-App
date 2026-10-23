@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&amp;family=Barlow:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#0A0D14;font-family:Barlow,system-ui,sans-serif}
+a{color:#7CC8FF}a:hover{color:#B8E2FF}
+button{font-family:inherit}::-webkit-scrollbar{display:none}
+@keyframes glow{0%,100%{box-shadow:0 0 0 1px rgba(79,179,255,.10) inset,0 0 16px rgba(60,160,255,.22)}50%{box-shadow:0 0 0 1px rgba(79,179,255,.18) inset,0 0 28px rgba(60,160,255,.42)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes burst{0%{transform:scale(.6);opacity:.9}100%{transform:scale(1.8);opacity:0}}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes portal{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.04);filter:brightness(1.25)}}
+@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px 16px;box-sizing:border-box">
+<div style="width:380px;height:800px;border-radius:36px;background:#111216;padding:7px;flex:none;box-shadow:0 0 0 1px #24262C,0 30px 80px rgba(0,0,0,.6)">
+<div style="width:100%;height:100%;border-radius:30px;overflow:hidden;position:relative;display:flex;flex-direction:column;color:#E8F3FF;background:radial-gradient(circle at 50% 26%,rgba(40,110,220,.22),transparent 55%),#04060C">
+
+<div style="height:30px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font:600 12px Barlow;font-variant-numeric:tabular-nums;color:#C9D8EC;position:relative;z-index:2"><span>{{ clock }}</span><div style="width:9px;height:9px;border-radius:50%;background:#000;box-shadow:0 0 0 1.5px #1A1C22"></div><span>87 %</span></div>
+
+<sc-if value="{{ isAwaken }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;padding:20px 20px 12px;display:flex;flex-direction:column;justify-content:center;gap:18px;background:radial-gradient(ellipse 80% 50% at 50% 50%,rgba(40,110,220,.18),transparent 70%)">
+
+<sc-if value="{{ awakenStep0 }}" hint-placeholder-val="{{ true }}">
+<div style="border:1px solid rgba(79,179,255,.7);background:linear-gradient(180deg,rgba(18,40,82,.65),rgba(6,12,28,.85));padding:20px 18px;display:flex;flex-direction:column;gap:14px;animation:glow 3s ease-in-out infinite,rise .5s ease-out">
+<div style="display:flex;align-items:center;justify-content:center;gap:10px;padding-bottom:10px;border-bottom:1px solid rgba(79,179,255,.25)"><span style="width:20px;height:20px;border:1px solid #4FB3FF;display:flex;align-items:center;justify-content:center;font:700 13px Chakra Petch;color:#4FB3FF">!</span><span style="font:700 15px Chakra Petch;letter-spacing:.26em;color:#CFEAFF;text-shadow:0 0 12px rgba(80,180,255,.8)">NOTIFICATION</span></div>
+<span style="font:600 19px/1.4 Barlow;text-align:center;text-wrap:pretty">Vous avez rempli les conditions pour devenir un Joueur. Acceptez-vous ?</span>
+<sc-if value="{{ refused }}" hint-placeholder-val="{{ false }}"><span style="font:600 13px Barlow;text-align:center;color:#FF8A95;animation:shake .4s ease-out">Refus impossible. Le Système vous a déjà choisi.</span></sc-if>
+</div>
+<div style="display:grid;grid-template-columns:1fr 2fr;gap:8px">
+<button onClick="{{ refuse }}" style="height:50px;border:1px solid rgba(79,179,255,.3);background:transparent;font:600 13px Chakra Petch;letter-spacing:.14em;color:#8FA8C9;cursor:pointer">REFUSER</button>
+<button onClick="{{ nextStep }}" style="height:50px;border:1px solid #4FB3FF;background:rgba(79,179,255,.2);font:700 14px Chakra Petch;letter-spacing:.16em;color:#CFEAFF;box-shadow:0 0 18px rgba(79,179,255,.35);cursor:pointer">ACCEPTER</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ awakenStep1 }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:6px;animation:rise .3s ease-out"><span style="font:600 11px Chakra Petch;letter-spacing:.2em;color:#4FB3FF">ÉTAPE 2 SUR 3</span><span style="font:700 24px Chakra Petch;letter-spacing:.02em">Que voulez-vous entraîner ?</span><span style="font:500 14px Barlow;color:#8FA8C9">Le Système générera vos quêtes quotidiennes à partir de ces domaines.</span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<sc-for list="{{ domains }}" as="d" hint-placeholder-count="4">
+<button onClick="{{ d.toggle }}" style="text-align:left;padding:14px 12px;border:1px solid {{ d.border }};background:{{ d.bg }};display:flex;flex-direction:column;gap:3px;cursor:pointer;color:#E8F3FF;transition:all .14s"><span style="font:700 15px Chakra Petch;letter-spacing:.08em;color:{{ d.ink }}">{{ d.name }}</span><span style="font:500 12px Barlow;color:#8FA8C9">{{ d.sub }}</span></button>
+</sc-for>
+</div>
+<button onClick="{{ nextStep }}" style="height:50px;border:1px solid #4FB3FF;background:rgba(79,179,255,.2);font:700 14px Chakra Petch;letter-spacing:.16em;color:#CFEAFF;box-shadow:0 0 18px rgba(79,179,255,.35);cursor:pointer">CONTINUER</button>
+</sc-if>
+
+<sc-if value="{{ awakenStep2 }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:6px;animation:rise .3s ease-out"><span style="font:600 11px Chakra Petch;letter-spacing:.2em;color:#FF6B78">ÉTAPE 3 SUR 3</span><span style="font:700 24px Chakra Petch;letter-spacing:.02em">Quelles habitudes voulez-vous éliminer ?</span><span style="font:500 14px Barlow;color:#8FA8C9">Chaque jour sans écart rapporte de l'XP. Un écart applique une altération d'état.</span></div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ habitChoices }}" as="h" hint-placeholder-count="6">
+<button onClick="{{ h.toggle }}" style="display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid {{ h.border }};background:{{ h.bg }};cursor:pointer;color:#E8F3FF;text-align:left;transition:all .14s"><span style="width:16px;height:16px;flex:none;border:1px solid #FF4D5E;background:{{ h.check }};display:flex;align-items:center;justify-content:center;color:#04060C;font:700 11px Barlow">{{ h.mark }}</span><span style="flex:1;font:600 15px Barlow">{{ h.name }}</span><span style="font:600 11px JetBrains Mono,monospace;color:#E5B9BE">{{ h.effect }}</span></button>
+</sc-for>
+</div>
+<button onClick="{{ nextStep }}" style="height:50px;border:1px solid #4FB3FF;background:rgba(79,179,255,.2);font:700 14px Chakra Petch;letter-spacing:.16em;color:#CFEAFF;box-shadow:0 0 18px rgba(79,179,255,.35);cursor:pointer">DEVENIR UN JOUEUR</button>
+</sc-if>
+
+<div style="display:flex;justify-content:center;gap:6px"><sc-for list="{{ stepDots }}" as="s" hint-placeholder-count="3"><span style="width:{{ s.w }};height:4px;background:{{ s.c }};transition:all .2s"></span></sc-for></div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isApp }}" hint-placeholder-val="{{ true }}">
+<div style="flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;padding:8px 18px 16px;display:flex;flex-direction:column;gap:14px">
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<div style="display:flex;flex-direction:column"><span style="font:500 12px Barlow;color:#8FA8C9">{{ equippedTitle }}</span><span style="font:700 19px Chakra Petch;letter-spacing:.04em">Alex Moreau</span></div>
+<div onClick="{{ goProfile }}" style="cursor:pointer;width:46px;height:52px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:{{ rankColor }};display:flex;align-items:center;justify-content:center"><div style="width:42px;height:48px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:#081226;display:flex;align-items:center;justify-content:center;font:700 {{ rankSize }} Chakra Petch;color:{{ rankColor }}">{{ rankShort }}</div></div>
+</div>
+<div style="position:relative;width:196px;height:196px;margin:0 auto;display:flex;align-items:center;justify-content:center;flex:none">
+<div style="position:absolute;inset:-6px;border-radius:50%;border:1px dashed rgba(79,179,255,.3);animation:spin 40s linear infinite"></div>
+<svg width="196" height="196" viewBox="0 0 220 220" style="position:absolute;inset:0;transform:rotate(-90deg)"><circle cx="110" cy="110" r="96" fill="none" stroke="rgba(79,179,255,.12)" stroke-width="8"></circle><circle cx="110" cy="110" r="96" fill="none" stroke="#4FB3FF" stroke-width="8" stroke-dasharray="603" style="stroke-dashoffset:{{ ringOffset }};transition:stroke-dashoffset .7s ease-out;filter:drop-shadow(0 0 6px #4FB3FF)"></circle></svg>
+<div style="display:flex;flex-direction:column;align-items:center;line-height:1;gap:4px"><span style="font:600 11px Chakra Petch;letter-spacing:.3em;color:#8FA8C9">NIVEAU</span><span style="font:700 66px Chakra Petch;font-variant-numeric:tabular-nums;text-shadow:0 0 22px rgba(80,180,255,.7)">{{ level }}</span><span style="font:600 11px JetBrains Mono,monospace;color:#A9DCFF">{{ xpLabel }}</span></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px">
+<sc-for list="{{ stats }}" as="s" hint-placeholder-count="5">
+<button onClick="{{ s.add }}" style="position:relative;padding:8px 0;border:1px solid {{ s.border }};background:{{ s.bg }};display:flex;flex-direction:column;align-items:center;gap:2px;cursor:{{ s.cursor }};color:#E8F3FF"><span style="font:600 10px Chakra Petch;color:{{ s.labelInk }}">{{ s.code }}</span><span style="font:700 17px Chakra Petch;font-variant-numeric:tabular-nums;color:{{ s.ink }}">{{ s.value }}</span><sc-if value="{{ s.canAdd }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-7px;right:-5px;width:16px;height:16px;background:#4FB3FF;color:#04060C;font:700 12px/16px Barlow;box-shadow:0 0 8px #4FB3FF">+</span></sc-if></button>
+</sc-for>
+</div>
+<sc-if value="{{ hasPoints }}" hint-placeholder-val="{{ false }}"><span style="font:600 12px Barlow;color:#A9DCFF;text-align:center">{{ pointsLabel }}</span></sc-if>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;font:600 11px Chakra Petch;letter-spacing:.16em;color:#8FA8C9"><span>{{ todayLabel }}</span><span style="color:#FF8A95;font-family:JetBrains Mono,monospace;letter-spacing:0">{{ countdown }}</span></div>
+<sc-for list="{{ pendingQuests }}" as="q" hint-placeholder-count="2">
+<div style="display:flex;align-items:center;gap:12px;padding:10px 10px 10px 14px;border-left:2px solid #4FB3FF;background:linear-gradient(90deg,rgba(79,179,255,.14),rgba(79,179,255,0))"><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font:600 15px Barlow">{{ q.name }}</span><span style="font:500 12px Barlow;color:#8FA8C9">{{ q.reward }}</span></div><span style="font:600 13px JetBrains Mono,monospace">{{ q.count }}</span><button onClick="{{ q.inc }}" style="min-width:48px;height:40px;padding:0 8px;border:1px solid #4FB3FF;background:rgba(79,179,255,.1);font:700 13px Chakra Petch;color:#A9DCFF;cursor:pointer">{{ q.stepLabel }}</button></div>
+</sc-for>
+<sc-if value="{{ allDone }}" hint-placeholder-val="{{ false }}"><div style="padding:12px 14px;border-left:2px solid #4FB3FF;background:rgba(79,179,255,.08);font:600 14px Barlow;color:#A9DCFF">Quête quotidienne accomplie. Aucune pénalité ce soir.</div></sc-if>
+<sc-for list="{{ debuffRows }}" as="d" hint-placeholder-count="1">
+<div onClick="{{ goQuests }}" style="cursor:pointer;display:flex;align-items:center;gap:12px;padding:10px 14px;border-left:2px solid #FF4D5E;background:linear-gradient(90deg,rgba(255,77,94,.14),rgba(255,77,94,0))"><div style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font:600 15px Barlow">{{ d.name }}</span><span style="font:500 12px Barlow;color:#E5B9BE">{{ d.effect }}</span></div><span style="font:600 12px JetBrains Mono,monospace;color:#FF8A95">{{ d.days }}</span></div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isQuests }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:2px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font:600 11px Chakra Petch;letter-spacing:.2em;color:#8FA8C9">QUÊTE QUOTIDIENNE</span><span style="font:600 13px JetBrains Mono,monospace;color:#FF8A95">{{ countdown }}</span></div><span style="font:700 22px Chakra Petch;letter-spacing:.02em">{{ questTitle }}</span></div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ quests }}" as="q" hint-placeholder-count="5">
+<div style="padding:11px 10px 11px 14px;border-left:2px solid {{ q.border }};background:linear-gradient(90deg,{{ q.bg }},rgba(79,179,255,0));display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;align-items:center;gap:10px"><div style="flex:1;display:flex;flex-direction:column;gap:1px"><span style="font:600 15px Barlow;color:{{ q.ink }}">{{ q.name }}</span><span style="font:500 12px Barlow;color:#8FA8C9">{{ q.reward }}</span></div><span style="font:600 13px JetBrains Mono,monospace;color:{{ q.ink }}">{{ q.count }}</span></div>
+<div style="display:flex;align-items:center;gap:8px">
+<div style="flex:1;height:4px;background:rgba(79,179,255,.14)"><div style="height:100%;width:{{ q.pct }};background:#4FB3FF;box-shadow:0 0 8px #4FB3FF;transition:width .3s ease-out"></div></div>
+<sc-if value="{{ q.done }}" hint-placeholder-val="{{ false }}"><span style="font:700 11px Chakra Petch;letter-spacing:.16em;color:#4FB3FF">ACCOMPLI</span></sc-if>
+<sc-if value="{{ q.open }}" hint-placeholder-val="{{ true }}"><div style="display:flex;gap:6px"><button onClick="{{ q.dec }}" aria-label="Retirer" style="width:40px;height:38px;border:1px solid rgba(79,179,255,.3);background:transparent;color:#8FA8C9;font:700 16px Barlow;cursor:pointer">−</button><button onClick="{{ q.inc }}" style="min-width:56px;height:38px;padding:0 8px;border:1px solid #4FB3FF;background:rgba(79,179,255,.14);font:700 13px Chakra Petch;color:#CFEAFF;cursor:pointer">{{ q.stepLabel }}</button></div></sc-if>
+</div>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding-top:6px"><span style="font:600 11px Chakra Petch;letter-spacing:.2em;color:#FF8A95">INTERDITS</span><span style="font:600 12px JetBrains Mono,monospace;color:#E5B9BE">{{ slipCount }}</span></div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ habits }}" as="h" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:10px;padding:10px 10px 10px 14px;border-left:2px solid {{ h.border }};background:linear-gradient(90deg,{{ h.bg }},rgba(255,77,94,0))"><div style="flex:1;display:flex;flex-direction:column;gap:1px"><span style="font:600 15px Barlow">{{ h.name }}</span><span style="font:500 12px Barlow;color:{{ h.subInk }}">{{ h.sub }}</span></div><span style="font:600 12px JetBrains Mono,monospace;color:{{ h.rewardInk }}">{{ h.reward }}</span>
+<sc-if value="{{ h.open }}" hint-placeholder-val="{{ true }}"><button onClick="{{ h.slip }}" style="width:62px;height:38px;border:1px solid rgba(255,77,94,.55);background:transparent;font:700 11px Chakra Petch;letter-spacing:.1em;color:#FF8A95;cursor:pointer">ÉCART</button></sc-if>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ hasDebuffs }}" hint-placeholder-val="{{ false }}">
+<span style="font:600 11px Chakra Petch;letter-spacing:.2em;color:#8FA8C9;padding-top:6px">ALTÉRATIONS ACTIVES</span>
+<sc-for list="{{ debuffRows }}" as="d" hint-placeholder-count="1">
+<div style="display:flex;flex-direction:column;gap:10px;padding:12px 14px;border:1px solid rgba(255,77,94,.45);background:rgba(50,8,16,.45)">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:700 16px Chakra Petch;letter-spacing:.04em">{{ d.name }}</span><span style="font:600 12px JetBrains Mono,monospace;color:#FF8A95">{{ d.effect }}</span></div>
+<span style="font:500 13px/1.4 Barlow;color:#E5B9BE">Tenez 3 jours sans écart ({{ d.days }}) ou terminez la quête de purge.</span>
+<button onClick="{{ d.purge }}" style="height:42px;border:1px solid #FF4D5E;background:rgba(255,77,94,.16);font:700 12px Chakra Petch;letter-spacing:.14em;color:#FFD0D5;cursor:pointer">QUÊTE DE PURGE · 30 MIN DE CARDIO</button>
+</div>
+</sc-for>
+</sc-if>
+</sc-if>
+
+<sc-if value="{{ isDungeon }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;justify-content:space-between;align-items:center;font:600 11px Chakra Petch;letter-spacing:.16em;color:#B9A4FF"><span>DONJON DE LA SEMAINE</span><span>SEMAINE 43</span></div>
+<div style="height:200px;display:flex;align-items:center;justify-content:center;position:relative;flex:none">
+<div style="width:140px;height:186px;border-radius:50%;background:radial-gradient(ellipse at 50% 50%,#05040C 0 30%,rgba(110,60,230,.9) 55%,rgba(160,123,255,.5) 70%,transparent 72%);box-shadow:0 0 60px rgba(140,90,255,.55);animation:portal 4s ease-in-out infinite;opacity:{{ portalOpacity }};transition:opacity .4s"></div>
+<div style="position:absolute;bottom:2px;padding:4px 12px;border:1px solid #A07BFF;background:rgba(20,10,40,.85);font:700 12px Chakra Petch;letter-spacing:.24em;color:#D6C8FF">{{ gateLabel }}</div>
+</div>
+<div style="text-align:center;display:flex;flex-direction:column;gap:4px"><span style="font:700 22px Chakra Petch;letter-spacing:.04em">Gardien de la procrastination</span><span style="font:500 13px Barlow;color:#A99CC9">Chaque séance de travail profond inflige 15 % de dégâts.</span></div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;justify-content:space-between;font:600 11px JetBrains Mono,monospace;color:#A99CC9"><span>PV DU BOSS</span><span style="color:#E8F3FF">{{ bossHpLabel }}</span></div>
+<div style="height:8px;background:rgba(160,123,255,.15);border:1px solid rgba(160,123,255,.4)"><div style="height:100%;width:{{ bossHpPct }};background:linear-gradient(90deg,#FF4D5E,#A07BFF);box-shadow:0 0 10px rgba(160,123,255,.7);transition:width .5s ease-out"></div></div>
+</div>
+<div style="border:1px solid rgba(160,123,255,.35);background:rgba(20,12,40,.6);padding:12px 14px;display:flex;flex-direction:column;gap:8px;font:500 13px Barlow">
+<div style="display:flex;justify-content:space-between"><span style="color:#A99CC9">Séances réalisées</span><span style="font-family:JetBrains Mono,monospace">{{ sessionsLabel }}</span></div>
+<div style="display:flex;justify-content:space-between"><span style="color:#A99CC9">Temps restant</span><span style="font-family:JetBrains Mono,monospace;color:#FF8A95">3 j 2 h</span></div>
+<div style="display:flex;justify-content:space-between"><span style="color:#A99CC9">Récompense</span><span style="color:#FFC857">Titre « Inarrêtable » · 1 500 XP</span></div>
+</div>
+<sc-if value="{{ bossAlive }}" hint-placeholder-val="{{ true }}"><button onClick="{{ doSession }}" style="height:50px;border:1px solid #A07BFF;background:rgba(160,123,255,.2);font:700 14px Chakra Petch;letter-spacing:.14em;color:#EDE6FF;box-shadow:0 0 22px rgba(160,123,255,.4);cursor:pointer">TERMINER UNE SÉANCE · 50 MIN</button></sc-if>
+<sc-if value="{{ bossDead }}" hint-placeholder-val="{{ false }}"><div style="padding:14px;border:1px solid #FFC857;background:rgba(60,44,10,.4);text-align:center;font:700 13px Chakra Petch;letter-spacing:.14em;color:#FFD98A">PORTE NETTOYÉE · PROCHAINE PORTE LUNDI</div></sc-if>
+</sc-if>
+
+<sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font:600 11px Chakra Petch;letter-spacing:.2em;color:#8FA8C9">PROFIL</span><span style="font:700 22px Chakra Petch;letter-spacing:.02em">{{ rankHeadline }}</span></div>
+<div style="display:flex;flex-direction:column;gap:4px">
+<sc-for list="{{ ladder }}" as="r" hint-placeholder-count="10">
+<div style="display:grid;grid-template-columns:92px 1fr auto;gap:10px;align-items:center;padding:8px 12px;border:1px {{ r.borderStyle }} {{ r.border }};background:{{ r.bg }};box-shadow:{{ r.shadow }}"><span style="font:700 14px Chakra Petch;letter-spacing:.1em;color:{{ r.ink }}">{{ r.name }}</span><span style="font:500 12px Barlow;color:{{ r.subInk }}">{{ r.sub }}</span><span style="font:600 11px JetBrains Mono,monospace;color:{{ r.subInk }}">{{ r.req }}</span></div>
+</sc-for>
+</div>
+<span style="font:600 11px Chakra Petch;letter-spacing:.2em;color:#8FA8C9;padding-top:6px">TITRES</span>
+<div style="display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ titles }}" as="t" hint-placeholder-count="5">
+<button onClick="{{ t.equip }}" style="display:flex;align-items:center;gap:12px;padding:10px 14px;border:1px solid {{ t.border }};background:{{ t.bg }};color:#E8F3FF;text-align:left;cursor:{{ t.cursor }}"><div style="flex:1;display:flex;flex-direction:column;gap:1px"><span style="font:600 15px Barlow;color:{{ t.ink }}">{{ t.name }}</span><span style="font:500 12px Barlow;color:#8FA8C9">{{ t.desc }}</span></div><span style="font:700 11px Chakra Petch;letter-spacing:.12em;color:{{ t.stateInk }}">{{ t.state }}</span></button>
+</sc-for>
+</div>
+<span style="font:600 11px Chakra Petch;letter-spacing:.2em;color:#8FA8C9;padding-top:6px">RÉGLAGES</span>
+<div style="display:flex;flex-direction:column;border:1px solid rgba(79,179,255,.2)">
+<sc-for list="{{ settings }}" as="o" hint-placeholder-count="2">
+<div onClick="{{ o.toggle }}" style="cursor:pointer;display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid rgba(79,179,255,.12)"><div style="flex:1;display:flex;flex-direction:column;gap:1px"><span style="font:600 15px Barlow">{{ o.name }}</span><span style="font:500 12px Barlow;color:#8FA8C9">{{ o.sub }}</span></div><div style="width:40px;height:22px;border:1px solid {{ o.track }};padding:2px;box-sizing:border-box;display:flex;justify-content:{{ o.justify }}"><div style="width:16px;height:16px;background:{{ o.knob }};box-shadow:{{ o.glow }}"></div></div></div>
+</sc-for>
+<div onClick="{{ restart }}" style="cursor:pointer;padding:12px 14px;font:600 14px Barlow;color:#FF8A95">Recommencer depuis l'éveil</div>
+</div>
+</sc-if>
+
+</div>
+
+<div style="flex:none;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(79,179,255,.15);background:rgba(4,6,12,.92)">
+<sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+<button onClick="{{ t.go }}" style="position:relative;height:52px;border:0;border-top:2px solid {{ t.bar }};margin-top:-1px;background:transparent;font:600 11px Chakra Petch;letter-spacing:.1em;color:{{ t.ink }};cursor:pointer;transition:color .14s">{{ t.label }}<sc-if value="{{ t.badge }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:8px;right:14px;min-width:15px;height:15px;padding:0 3px;box-sizing:border-box;background:{{ t.badgeBg }};color:#04060C;font:700 10px/15px Barlow">{{ t.badge }}</span></sc-if></button>
+</sc-for>
+</div>
+</sc-if>
+
+<div style="height:16px;flex:none;display:flex;align-items:center;justify-content:center;background:rgba(4,6,12,.92)"><div style="width:96px;height:4px;border-radius:2px;background:#3A4458"></div></div>
+
+<sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:16px;right:16px;bottom:82px;padding:12px 14px;border:1px solid #4FB3FF;background:rgba(6,14,30,.96);box-shadow:0 0 22px rgba(79,179,255,.35);font:600 14px Barlow;color:#CFEAFF;animation:rise .2s ease-out;z-index:5">{{ toast }}</div>
+</sc-if>
+
+<sc-if value="{{ showLevelUp }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;align-items:center;padding:60px 22px 34px;gap:22px;background:radial-gradient(circle at 50% 30%,rgba(60,150,255,.42),transparent 50%),rgba(3,5,10,.97);animation:fade .2s ease-out">
+<div style="position:relative;width:200px;height:200px;display:flex;align-items:center;justify-content:center">
+<div style="position:absolute;inset:0;border-radius:50%;border:2px solid #4FB3FF;animation:burst 1.8s ease-out infinite"></div>
+<div style="position:absolute;inset:0;border-radius:50%;border:2px solid #A9DCFF;animation:burst 1.8s ease-out .6s infinite"></div>
+<div style="position:absolute;inset:30px;transform:rotate(45deg);border:1px solid rgba(169,220,255,.6);box-shadow:0 0 30px rgba(79,179,255,.5)"></div>
+<span style="font:700 84px Chakra Petch;color:#fff;text-shadow:0 0 30px #4FB3FF;animation:rise .5s ease-out">{{ level }}</span>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center"><span style="font:700 26px Chakra Petch;letter-spacing:.22em;text-shadow:0 0 16px rgba(80,180,255,.9)">NIVEAU SUPÉRIEUR</span><span style="font:500 14px Barlow;color:#8FA8C9">{{ levelUpLine }}</span></div>
+<div style="width:100%;border:1px solid rgba(79,179,255,.45);background:rgba(8,18,38,.75);padding:12px 16px;display:flex;flex-direction:column;gap:8px;font:600 14px Barlow;box-sizing:border-box">
+<div style="display:flex;justify-content:space-between;animation:rise .4s ease-out .2s both"><span style="color:#8FA8C9">Points de stat</span><span style="font-family:JetBrains Mono,monospace;color:#A9DCFF">{{ levelUpPoints }}</span></div>
+<div style="display:flex;justify-content:space-between;animation:rise .4s ease-out .35s both"><span style="color:#8FA8C9">Rang actuel</span><span style="font-family:JetBrains Mono,monospace">{{ rankName }}</span></div>
+<div style="display:flex;justify-content:space-between;animation:rise .4s ease-out .5s both"><span style="color:#8FA8C9">Prochain rang</span><span style="font-family:JetBrains Mono,monospace">{{ nextRankLabel }}</span></div>
+</div>
+<div style="width:100%;display:flex;flex-direction:column;gap:8px;margin-top:auto">
+<button onClick="{{ allocateNow }}" style="height:50px;border:1px solid #4FB3FF;background:rgba(79,179,255,.18);font:700 14px Chakra Petch;letter-spacing:.16em;color:#CFEAFF;box-shadow:0 0 18px rgba(79,179,255,.35);cursor:pointer">RÉPARTIR LES POINTS</button>
+<button onClick="{{ closeLevelUp }}" style="height:44px;border:0;background:transparent;font:600 13px Chakra Petch;letter-spacing:.16em;color:#8FA8C9;cursor:pointer">FERMER</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showDebuff }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:11;display:flex;align-items:center;padding:0 18px;background:rgba(10,2,6,.88);animation:fade .15s ease-out">
+<div style="width:100%;border:1px solid rgba(255,77,94,.7);background:linear-gradient(180deg,rgba(80,10,24,.75),rgba(20,4,10,.95));padding:18px;display:flex;flex-direction:column;gap:14px;box-shadow:0 0 30px rgba(255,77,94,.3);animation:rise .3s ease-out,shake .4s ease-out .3s">
+<div style="display:flex;align-items:center;justify-content:center;gap:10px;padding-bottom:10px;border-bottom:1px solid rgba(255,77,94,.3)"><span style="width:20px;height:20px;border:1px solid #FF4D5E;display:flex;align-items:center;justify-content:center;font:700 13px Chakra Petch;color:#FF4D5E">!</span><span style="font:700 15px Chakra Petch;letter-spacing:.24em;color:#FFD0D5;text-shadow:0 0 12px rgba(255,77,94,.8)">ALTÉRATION D'ÉTAT</span></div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center"><span style="font:700 26px Chakra Petch;letter-spacing:.04em">{{ debuffName }}</span><span style="font:500 14px Barlow;color:#E5B9BE">{{ debuffCause }}</span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<div style="padding:10px;border:1px solid rgba(255,77,94,.35);display:flex;flex-direction:column;gap:2px"><span style="font:600 10px Chakra Petch;letter-spacing:.16em;color:#E5B9BE">{{ debuffStatName }}</span><span style="font:700 20px Chakra Petch">{{ debuffStatChange }}</span></div>
+<div style="padding:10px;border:1px solid rgba(255,77,94,.35);display:flex;flex-direction:column;gap:2px"><span style="font:600 10px Chakra Petch;letter-spacing:.16em;color:#E5B9BE">XP</span><span style="font:700 20px Chakra Petch;color:#FF6B78">−60 XP</span><span style="font:500 12px Barlow;color:#E5B9BE">Gain −10 %</span></div>
+</div>
+<span style="font:500 14px/1.4 Barlow;color:#F3D3D7;text-wrap:pretty">Pour purger : tenez 3 jours sans écart, ou terminez une quête de purge de 30 min de cardio.</span>
+<button onClick="{{ closeDebuff }}" style="height:48px;border:1px solid #FF4D5E;background:rgba(255,77,94,.18);font:700 13px Chakra Petch;letter-spacing:.14em;color:#FFD0D5;cursor:pointer">COMPRIS</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showVictory }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:12;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 22px;gap:20px;background:radial-gradient(circle at 50% 40%,rgba(140,90,255,.4),transparent 55%),rgba(5,4,12,.97);animation:fade .2s ease-out">
+<span style="font:600 12px Chakra Petch;letter-spacing:.3em;color:#B9A4FF;animation:rise .3s ease-out">PORTE DE RANG C</span>
+<span style="font:700 30px/1.15 Chakra Petch;letter-spacing:.1em;text-align:center;text-shadow:0 0 20px rgba(160,123,255,.9);animation:rise .4s ease-out .1s both">DONJON NETTOYÉ</span>
+<div style="width:100%;border:1px solid rgba(255,200,87,.55);background:rgba(50,36,8,.4);padding:14px 16px;display:flex;flex-direction:column;gap:8px;font:600 14px Barlow;box-sizing:border-box;animation:rise .4s ease-out .25s both">
+<div style="display:flex;justify-content:space-between"><span style="color:#C9BC9C">Titre obtenu</span><span style="color:#FFD98A">Inarrêtable</span></div>
+<div style="display:flex;justify-content:space-between"><span style="color:#C9BC9C">Expérience</span><span style="font-family:JetBrains Mono,monospace;color:#FFD98A">+1 500 XP</span></div>
+</div>
+<button onClick="{{ closeVictory }}" style="width:100%;height:50px;border:1px solid #FFC857;background:rgba(255,200,87,.16);font:700 14px Chakra Petch;letter-spacing:.16em;color:#FFE7B0;box-shadow:0 0 20px rgba(255,200,87,.3);cursor:pointer">RÉCUPÉRER LES RÉCOMPENSES</button>
+</div>
+</sc-if>
+
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startAtAwakening&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;difficulty&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Normale&quot;,&quot;Difficile&quot;],&quot;default&quot;:&quot;Normale&quot;,&quot;tsType&quot;:&quot;'Normale'|'Difficile'&quot;}}">
+const STAT_NAMES = { FOR: 'FORCE', AGI: 'AGILITÉ', VIT: 'VITALITÉ', INT: 'INTELLECT', PER: 'PERCEPTION' };
+const QUESTS = [
+  { id: 'pompes', name: 'Pompes', target: 100, step: 10, unit: '', xp: 120, stat: 'FOR' },
+  { id: 'gainage', name: 'Gainage', target: 5, step: 1, unit: ' min', xp: 150, stat: 'AGI' },
+  { id: 'lecture', name: 'Lecture', target: 30, step: 5, unit: ' min', xp: 80, stat: 'INT' },
+  { id: 'eau', name: 'Eau', target: 8, step: 1, unit: ' verres', xp: 60, stat: 'VIT' },
+  { id: 'travail', name: 'Travail profond', target: 2, step: 1, unit: '', xp: 180, stat: 'INT', session: true }
+];
+const HABITS = {
+  tabac: { name: 'Tabac', debuff: 'Manque', stat: 'PER', xp: 40, days: 23 },
+  reseaux: { name: 'Réseaux sociaux > 1 h', debuff: 'Distraction', stat: 'INT', xp: 30, days: 2 },
+  sucre: { name: 'Sucre ajouté', debuff: 'Langueur', stat: 'VIT', xp: 30, days: 0 },
+  coucher: { name: 'Coucher après 00:30', debuff: 'Fatigue', stat: 'AGI', xp: 30, days: 5 },
+  alcool: { name: 'Alcool', debuff: 'Ivresse', stat: 'AGI', xp: 40, days: 11 },
+  jeux: { name: 'Jeux vidéo > 2 h', debuff: 'Apathie', stat: 'PER', xp: 30, days: 4 }
+};
+const DOMAINS = [['corps', 'CORPS', 'FOR · AGI · VIT'], ['esprit', 'ESPRIT', 'INT · PER'], ['travail', 'TRAVAIL', 'Concentration'], ['habitudes', 'HABITUDES', 'Sommeil, hydratation']];
+const RANKS = [
+  ['E', 'Éveillé', 1], ['D', 'Initié', 6], ['C', 'Aguerri', 14], ['B', 'Avancé', 24], ['A', 'Confirmé', 36],
+  ['S', 'Expert', 50], ['SS', 'Maître', 65], ['SSS', 'Légende', 80], ['NATIONAL', 'Élite nationale', 100], ['MONARQUE', 'Au-delà de toute mesure', 150]
+];
+const rankTint = i => i >= 9 ? '#A07BFF' : i === 8 ? '#FF6B78' : i >= 5 ? '#FFC857' : '#4FB3FF';
+const TITLES = [
+  { id: 'riser', name: 'Lève-tôt', desc: 'Accomplir la quête avant 08:00, 7 fois' },
+  { id: 'iron', name: 'Volonté de fer', desc: 'Maintenir une série de 14 jours' },
+  { id: 'survivor', name: 'Survivant', desc: 'Terminer une quête de pénalité' },
+  { id: 'unstoppable', name: 'Inarrêtable', desc: 'Nettoyer une porte de rang C' },
+  { id: 'resist', name: 'Résistant', desc: '30 jours sans tabac' }
+];
+const pad = n => String(n).padStart(2, '0');
+const fmt = n => n.toLocaleString('fr-FR').replace(/\u202f|\u00a0/g, ' ');
+const fresh = () => ({
+  awakenStep: 0, refused: false, tab: 'home',
+  domains: { corps: true, esprit: true, travail: true, habitudes: false },
+  chosen: { tabac: true, reseaux: true, sucre: true, coucher: true, alcool: false, jeux: false },
+  level: 12, xp: 2160, points: 3, base: { FOR: 24, AGI: 19, VIT: 21, INT: 17, PER: 15 },
+  progress: { pompes: 100, gainage: 3, lecture: 30, eau: 8, travail: 1 },
+  slips: { sucre: '16:20' }, debuffs: ['sucre'],
+  bossHp: 55, sessions: 3, bossDead: false,
+  unlocked: { riser: true, iron: true, survivor: true, unstoppable: false, resist: false },
+  title: 'riser', levelUp: null, debuffShown: null, victory: false, toast: '', rewardGiven: false
+});
+class Component extends DCLogic {
+  state = { screen: null, ...fresh(), settings: { remind: true, vibe: true }, now: new Date() };
+  componentDidMount() { this.iv = setInterval(() => this.setState({ now: new Date() }), 1000); }
+  componentWillUnmount() { clearInterval(this.iv); clearTimeout(this.tt); }
+  mult() { return this.props.difficulty === 'Difficile' ? 2 : 1; }
+  xpMax(l) { return 200 * l; }
+  flash(msg) { clearTimeout(this.tt); this.setState({ toast: msg }); this.tt = setTimeout(() => this.setState({ toast: '' }), 2400); }
+  gain(s, raw) {
+    const amt = Math.round(raw * (1 - 0.1 * s.debuffs.length));
+    let { level, xp, points } = s; xp += amt; const from = level;
+    while (xp >= this.xpMax(level)) { xp -= this.xpMax(level); level++; points += 3; }
+    return { level, xp, points, amt, levelUp: level > from ? { from: s.levelUp ? s.levelUp.from : from, to: level } : s.levelUp };
+  }
+  bump(q, dir) {
+    if (q.session && dir > 0) return this.doSession();
+    this.setState(s => {
+      const target = q.target * this.mult(), cur = s.progress[q.id];
+      const next = Math.max(0, Math.min(target, cur + dir * q.step));
+      const progress = { ...s.progress, [q.id]: next };
+      let patch = { progress };
+      if (cur < target && next >= target) {
+        const g = this.gain(s, q.xp);
+        patch = { ...patch, level: g.level, xp: g.xp, points: g.points, levelUp: g.levelUp };
+        setTimeout(() => this.flash(`${q.name} accompli · +${g.amt} XP`), 0);
+        patch = this.checkAll(s, patch);
+      }
+      return patch;
+    });
+  }
+  checkAll(s, patch) {
+    const all = QUESTS.every(x => patch.progress[x.id] >= x.target * this.mult());
+    if (all && !s.rewardGiven) { patch.points = (patch.points ?? s.points) + 3; patch.rewardGiven = true; setTimeout(() => this.flash('Quête quotidienne accomplie · +3 points de stat'), 2500); }
+    return patch;
+  }
+  doSession = () => {
+    this.setState(s => {
+      if (s.bossDead) return null;
+      const q = QUESTS.find(x => x.id === 'travail');
+      const target = q.target * this.mult();
+      const progress = { ...s.progress, travail: Math.min(target, s.progress.travail + 1) };
+      const bossHp = Math.max(0, s.bossHp - 15), dead = bossHp === 0;
+      let g = this.gain(s, q.xp);
+      let patch = { progress, bossHp, sessions: s.sessions + 1, level: g.level, xp: g.xp, points: g.points, levelUp: g.levelUp };
+      if (dead) {
+        g = this.gain({ ...s, ...patch }, 1500);
+        patch = { ...patch, bossDead: true, victory: true, level: g.level, xp: g.xp, points: g.points, levelUp: g.levelUp, unlocked: { ...s.unlocked, unstoppable: true } };
+      } else setTimeout(() => this.flash(`Séance terminée · Gardien −15 % PV`), 0);
+      return this.checkAll(s, patch);
+    });
+  };
+  slip(id) {
+    const now = this.state.now;
+    this.setState(s => ({
+      slips: { ...s.slips, [id]: `${pad(now.getHours())}:${pad(now.getMinutes())}` },
+      debuffs: s.debuffs.includes(id) ? s.debuffs : [...s.debuffs, id],
+      xp: Math.max(0, s.xp - 60), debuffShown: id
+    }));
+  }
+  renderVals() {
+    const s = this.state, m = this.mult(), now = s.now;
+    const screen = s.screen ?? (this.props.startAtAwakening === false ? 'app' : 'awaken');
+    const mid = new Date(now); mid.setHours(24, 0, 0, 0);
+    const diff = Math.max(0, Math.floor((mid - now) / 1000));
+    const countdown = `${pad(Math.floor(diff / 3600))}:${pad(Math.floor(diff % 3600 / 60))}:${pad(diff % 60)}`;
+    const malus = c => s.debuffs.filter(id => HABITS[id].stat === c).length * 2;
+    const eff = c => s.base[c] - malus(c);
+    const rankIdx = RANKS.reduce((a, r, i) => s.level >= r[2] ? i : a, 0);
+    const rank = RANKS[rankIdx], next = RANKS[rankIdx + 1];
+    const xpMax = this.xpMax(s.level);
+
+    const quests = QUESTS.map(q => {
+      const target = q.target * m, cur = Math.min(s.progress[q.id], target), done = cur >= target;
+      return { name: q.name, reward: `+${q.xp} XP · ${q.stat}${q.session ? ' · −15 % boss' : ''}`, count: `${cur}/${target}${q.unit}`,
+        pct: `${cur / target * 100}%`, done, open: !done, stepLabel: q.session ? '+1' : `+${q.step}`,
+        border: done ? 'rgba(79,179,255,.35)' : '#4FB3FF', bg: done ? 'rgba(79,179,255,.05)' : 'rgba(79,179,255,.14)', ink: done ? '#8FA8C9' : '#E8F3FF',
+        inc: () => this.bump(q, 1), dec: () => this.bump(q, -1) };
+    });
+    const doneN = quests.filter(q => q.done).length;
+    const habitIds = Object.keys(HABITS).filter(id => s.chosen[id]);
+    const habits = habitIds.map(id => {
+      const h = HABITS[id], slipped = !!s.slips[id];
+      return { name: h.name, open: !slipped,
+        sub: slipped ? `Écart à ${s.slips[id]} · ${h.stat} −2` : h.days ? `Tenu · ${h.days} jour${h.days > 1 ? 's' : ''}` : 'Premier jour',
+        subInk: slipped ? '#FF8A95' : '#A9B6C9', reward: slipped ? '−60 XP' : `+${h.xp} XP`, rewardInk: slipped ? '#FF8A95' : '#4FB3FF',
+        border: slipped ? '#FF4D5E' : 'rgba(255,77,94,.35)', bg: slipped ? 'rgba(255,77,94,.16)' : 'rgba(255,77,94,.06)',
+        slip: () => this.slip(id) };
+    });
+    const debuffRows = s.debuffs.map(id => ({ name: HABITS[id].debuff, effect: `${HABITS[id].stat} −2 · XP −10 %`, days: '0/3 j',
+      purge: () => { this.setState(p => ({ debuffs: p.debuffs.filter(x => x !== id) })); this.flash(`${HABITS[id].debuff} purgée · ${HABITS[id].stat} restaurée`); } }));
+    const slipN = Object.keys(s.slips).filter(id => s.chosen[id]).length;
+
+    const stats = Object.keys(s.base).map(c => {
+      const deb = malus(c) > 0, can = s.points > 0;
+      return { code: c, value: eff(c), canAdd: can, cursor: can ? 'pointer' : 'default',
+        border: deb ? 'rgba(255,77,94,.5)' : can ? 'rgba(79,179,255,.6)' : 'rgba(79,179,255,.3)', bg: deb ? 'rgba(50,8,16,.5)' : 'rgba(10,22,46,.6)',
+        ink: deb ? '#FF8A95' : '#E8F3FF', labelInk: deb ? '#E5B9BE' : '#8FA8C9',
+        add: () => can && this.setState(p => p.points > 0 ? ({ points: p.points - 1, base: { ...p.base, [c]: p.base[c] + 1 } }) : null) };
+    });
+
+    const tabsDef = [['home', 'ACCUEIL', s.points, '#4FB3FF'], ['quests', 'QUÊTES', 5 - doneN, '#4FB3FF'], ['dungeon', 'DONJONS', 0, '#A07BFF'], ['profile', 'PROFIL', 0, '#4FB3FF']];
+    const tabs = tabsDef.map(([id, label, badge, col]) => ({ label, badge: badge || '', badgeBg: id === 'quests' ? '#FF8A95' : '#4FB3FF',
+      ink: s.tab === id ? (id === 'dungeon' ? '#D6C8FF' : '#A9DCFF') : '#5B7090', bar: s.tab === id ? col : 'transparent', go: () => this.setState({ tab: id }) }));
+
+    const ladder = RANKS.map((r, i) => {
+      const cur = i === rankIdx, passed = i < rankIdx, tint = rankTint(i);
+      return { name: cur ? `${r[0]} · ACTUEL` : passed ? `${r[0]} ✓` : r[0], sub: cur ? `Niveau ${s.level}` : r[1], req: `niv. ${r[2]}`,
+        ink: cur ? '#fff' : passed ? '#4FB3FF' : tint, subInk: cur ? '#C9D8EC' : '#7F8FA8',
+        border: cur ? '#4FB3FF' : passed ? 'rgba(79,179,255,.25)' : tint + '66', borderStyle: passed || cur || i >= 5 ? 'solid' : 'dashed',
+        bg: cur ? 'rgba(79,179,255,.16)' : i >= 9 ? 'linear-gradient(90deg,rgba(110,50,220,.3),rgba(10,4,30,.5))' : i === 8 ? 'rgba(60,8,18,.4)' : i >= 5 ? 'rgba(50,36,8,.25)' : passed ? 'rgba(79,179,255,.05)' : 'transparent',
+        shadow: cur ? '0 0 16px rgba(79,179,255,.35)' : i >= 9 ? '0 0 16px rgba(140,90,255,.3)' : 'none' };
+    }).reverse();
+    const titles = TITLES.map(t => {
+      const un = s.unlocked[t.id], eq = s.title === t.id;
+      return { name: t.name, desc: t.desc, state: eq ? 'ÉQUIPÉ' : un ? 'ÉQUIPER' : 'VERROUILLÉ', stateInk: eq ? '#FFC857' : un ? '#A9DCFF' : '#5B7090',
+        ink: un ? '#E8F3FF' : '#7F8FA8', border: eq ? 'rgba(255,200,87,.55)' : 'rgba(79,179,255,.2)', bg: eq ? 'rgba(50,36,8,.35)' : 'transparent', cursor: un ? 'pointer' : 'default',
+        equip: () => un && this.setState({ title: t.id }) };
+    });
+    const settings = [['remind', 'Rappels de pénalité', 'Alerte à 20:00 et 23:00'], ['vibe', 'Vibrations', 'À chaque objectif accompli']].map(([k, name, sub]) => {
+      const on = s.settings[k];
+      return { name, sub, track: on ? '#4FB3FF' : 'rgba(79,179,255,.3)', justify: on ? 'flex-end' : 'flex-start', knob: on ? '#4FB3FF' : '#3A4458', glow: on ? '0 0 8px #4FB3FF' : 'none',
+        toggle: () => this.setState(p => ({ settings: { ...p.settings, [k]: !p.settings[k] } })) };
+    });
+    const db = s.debuffShown && HABITS[s.debuffShown];
+
+    return {
+      clock: `${pad(now.getHours())}:${pad(now.getMinutes())}`,
+      isAwaken: screen === 'awaken', isApp: screen === 'app',
+      awakenStep0: s.awakenStep === 0, awakenStep1: s.awakenStep === 1, awakenStep2: s.awakenStep === 2, refused: s.refused,
+      refuse: () => this.setState({ refused: false }, () => this.setState({ refused: true })),
+      nextStep: () => s.awakenStep < 2 ? this.setState({ awakenStep: s.awakenStep + 1 }) : this.setState(p => ({ screen: 'app', tab: 'home', debuffs: p.debuffs.filter(id => p.chosen[id]) })),
+      stepDots: [0, 1, 2].map(i => ({ w: i === s.awakenStep ? '24px' : '8px', c: i <= s.awakenStep ? '#4FB3FF' : 'rgba(79,179,255,.25)' })),
+      domains: DOMAINS.map(([id, name, sub]) => { const on = s.domains[id]; return { name, sub, border: on ? '#4FB3FF' : 'rgba(79,179,255,.25)', bg: on ? 'rgba(79,179,255,.14)' : 'transparent', ink: on ? '#E8F3FF' : '#8FA8C9', toggle: () => this.setState(p => ({ domains: { ...p.domains, [id]: !p.domains[id] } })) }; }),
+      habitChoices: Object.entries(HABITS).map(([id, h]) => { const on = s.chosen[id]; return { name: h.name, effect: `${h.debuff} · ${h.stat} −2`, border: on ? 'rgba(255,77,94,.6)' : 'rgba(255,77,94,.2)', bg: on ? 'rgba(255,77,94,.1)' : 'transparent', check: on ? '#FF4D5E' : 'transparent', mark: on ? '✓' : '', toggle: () => this.setState(p => ({ chosen: { ...p.chosen, [id]: !p.chosen[id] } })) }; }),
+      isHome: s.tab === 'home', isQuests: s.tab === 'quests', isDungeon: s.tab === 'dungeon', isProfile: s.tab === 'profile',
+      goQuests: () => this.setState({ tab: 'quests' }), goProfile: () => this.setState({ tab: 'profile' }),
+      equippedTitle: TITLES.find(t => t.id === s.title).name,
+      rankShort: rank[0] === 'NATIONAL' ? 'NAT' : rank[0] === 'MONARQUE' ? 'MON' : rank[0], rankSize: rank[0].length > 2 ? '13px' : '22px', rankColor: rankTint(rankIdx) === '#4FB3FF' ? '#A9DCFF' : rankTint(rankIdx),
+      rankName: rank[0], rankHeadline: `Rang ${rank[0]} · ${rankIdx + 1} sur 10`,
+      nextRankLabel: next ? `${next[0]} · niveau ${next[2]}` : 'Rang maximal',
+      level: s.level, ringOffset: 603 * (1 - s.xp / xpMax), xpLabel: `${fmt(s.xp)}/${fmt(xpMax)}`,
+      stats, hasPoints: s.points > 0, pointsLabel: `${s.points} point${s.points > 1 ? 's' : ''} à répartir · touchez une stat`,
+      todayLabel: `AUJOURD'HUI · ${doneN}/5`, countdown,
+      pendingQuests: quests.filter(q => q.open).slice(0, 3), allDone: doneN === 5,
+      quests, questTitle: doneN === 5 ? 'Quête accomplie' : `${5 - doneN} objectif${5 - doneN > 1 ? 's' : ''} restant${5 - doneN > 1 ? 's' : ''}`,
+      habits, slipCount: slipN ? `${slipN} écart${slipN > 1 ? 's' : ''} aujourd'hui` : 'Aucun écart', debuffRows, hasDebuffs: s.debuffs.length > 0,
+      bossAlive: !s.bossDead, bossDead: s.bossDead, bossHpPct: `${s.bossHp}%`, bossHpLabel: `${s.bossHp} %`, sessionsLabel: `${s.sessions} / 7`,
+      gateLabel: s.bossDead ? 'PORTE FERMÉE' : 'PORTE DE RANG C', portalOpacity: s.bossDead ? 0.25 : 1, doSession: this.doSession,
+      ladder, titles, settings, tabs,
+      restart: () => this.setState({ screen: 'awaken', ...fresh() }),
+      toast: s.toast,
+      showLevelUp: !!s.levelUp && !s.victory, levelUpLine: s.levelUp ? `Vous êtes passé du niveau ${s.levelUp.from} au niveau ${s.levelUp.to}.` : '',
+      levelUpPoints: s.levelUp ? `+${(s.levelUp.to - s.levelUp.from) * 3}` : '',
+      allocateNow: () => this.setState({ levelUp: null, tab: 'home' }), closeLevelUp: () => this.setState({ levelUp: null }),
+      showDebuff: !!db, debuffName: db ? db.debuff : '', debuffCause: db ? `Écart enregistré : ${db.name.toLowerCase()} à ${s.slips[s.debuffShown]}.` : '',
+      debuffStatName: db ? STAT_NAMES[db.stat] : '', debuffStatChange: db ? `${s.base[db.stat] - malus(db.stat) + 2} → ${eff(db.stat)}` : '',
+      closeDebuff: () => this.setState({ debuffShown: null }),
+      showVictory: s.victory, closeVictory: () => this.setState({ victory: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

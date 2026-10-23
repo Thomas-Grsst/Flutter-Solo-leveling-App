@@ -1,0 +1,59 @@
+/* SKERA — couleurs. Thème clair canonique sur :root ; thème sombre sous [data-theme="dark"]. */
+:root{
+  /* neutres */
+  --bg-page:#EDEFF3;
+  --surface-card:#FFFFFF;
+  --surface-alt:#E7E9EF;
+  --surface-chrome:#FFFFFF; /* sidebar / topbar */
+  --border:#DBDEE6;
+  --ink:#2C2C2C;
+  --ink-2:#5A5A6A;
+  --ink-3:#A0A0B2;           /* décoratif & placeholders (valeur de spec) */
+  --ink-weak:#66667A;        /* texte faible lisible — AA sur page/carte/surface alternée */
+  --ink-micro:#5A5A6A;       /* micro-labels & en-têtes de tableau (10px uppercase) */
+  /* marque — #E10600 réservé : CTA, actif, marque. Jamais en aplat décoratif. */
+  --accent:#E10600;
+  --accent-hover:#B80500;
+  --accent-solid:#E10600;    /* aplat CTA — couleur de marque */
+  --accent-ink:#C90500;      /* accent en texte/icône (AA sur accent doux) */
+  --accent-soft:#FFF0EF;
+  --accent-mist:rgba(225,6,0,.12);
+  /* destructif ≠ marque */
+  --crit:#C42121;          /* destructif EN TEXTE/ICÔNE */
+  --crit-solid:#C42121;    /* aplat destructif portant du texte blanc (5,9:1) */
+  --crit-soft:#FBECEC;
+  /* sémantique */
+  --ok:#1A7040;         --ok-soft:rgba(61,214,140,.15);  --ok-bar:#3DD68C;
+  --info:#1D4ED8;       --info-soft:#EEF5FF;             --info-bar:#2563EB;
+  --warn:#854D0E;       --warn-soft:rgba(234,179,8,.16); --warn-bar:#EAB308;
+  --err:#B42318;        --err-soft:#FDECEA;              --err-bar:#D92D20;
+  --neutral:#5A5A6A;    --neutral-soft:#F0F0F6;
+  --scrim:rgba(30,30,60,.45);
+  /* chrome sombre fixe (bandeau d'impersonation) */
+  --chrome-dark:#16181A;
+}
+[data-theme="dark"]{
+  --bg-page:#1B1E24;
+  --surface-card:#252932;
+  --surface-alt:#2D323D;
+  --surface-chrome:#20242C;
+  --border:#343A47;
+  --ink:#F2F2F6;
+  --ink-2:#9A9AAB;
+  --ink-3:#616170;
+  --ink-weak:#A8A8B8;
+  --ink-micro:#B4B4C2;
+  --accent-solid:#E10600;
+  --accent-ink:#FF6B60;
+  --accent-soft:rgba(225,6,0,.16);
+  --accent-mist:rgba(225,6,0,.22);
+  --crit:#FF8177;          /* texte destructif sur surface sombre */
+  --crit-solid:#C42121;    /* aplat destructif : garde le rouge plein, texte blanc lisible */
+  --crit-soft:rgba(255,99,88,.15);
+  --ok:#4ADE80;   --ok-soft:rgba(74,222,128,.13);
+  --info:#8AB0FF; --info-soft:rgba(96,140,255,.14);
+  --warn:#FBBF24; --warn-soft:rgba(251,191,36,.13);
+  --err:#FF8177;  --err-soft:rgba(255,99,88,.15);
+  --neutral:#B4B4C2; --neutral-soft:rgba(255,255,255,.07);
+  --scrim:rgba(0,0,0,.6);
+}
