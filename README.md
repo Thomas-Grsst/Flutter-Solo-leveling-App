@@ -37,7 +37,7 @@ flutter run --dart-define=ASCEND_DEMO=true --dart-define=ASCEND_SKIP_AWAKENING=t
 - Notifications : rappels à 20:00 et 23:00 si la quête n'est pas finie, et avis à minuit en cas d'échec (désactivables dans le profil).
 - À minuit : progression des quêtes et écarts du jour remis à zéro. Une altération disparaît après 3 jours sans écart, ou via la quête de purge.
 - Chaque lundi : nouveau donjon (PV à 100 %).
-- Titres : *Lève-tôt* (7 quêtes complètes avant 08:00), *Volonté de fer* (série de 14 jours), *Survivant* (quête de purge), *Inarrêtable* (donjon), *Résistant* (30 jours sans tabac).
+- Titres : *Lève-tôt* (7 quêtes complètes avant 08:00), *Volonté de fer* (série de 14 jours), *Survivant* (quête de pénalité), *Inarrêtable* (donjon), *Résistant* (30 jours sans tabac).
 - Réglage « Difficulté difficile » : objectifs doublés.
 
 ## APK
